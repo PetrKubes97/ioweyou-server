@@ -1,0 +1,93 @@
+Model
+#####
+
+Model is central manager for repositories. It holds references to them and manages their loading. Model requires repository loader. Orm comes with predefined loader for "Nette\DI":http://doc.nette.org/en/dependency-injection component. This loader uses dependency injection container for lazy loading of your repositories.
+
+To define model repositories use php doc `@property-read` annotations.
+
+/--php
+namespace MyApp;
+
+/**
+ * @property-read PostsRepository $posts
+ * @property-read UsersRepository $users
+ * @property-read TagsRepository $tags
+ */
+class Orm extends \Nextras\Orm\Model\Model
+{
+}
+\--
+
+Then add Orm extension into your application `config.neon`:
+
+/--neon
+extensions:
+	orm: Nextras\Orm\Bridges\NetteDI\OrmExtension
+
+orm:
+	model: MyApp\Orm
+	metadataParserFactory: MyApp\MyMetadataParserFactory
+\--
+
+The key `model` accepts class name of your project's model. Optionally, you may define your metadata parser factory, in which you will be able to customize metadata parsing (add support to new modifiers, etc.). You can easily inject Orm class into your presenters / services / classes and use property access to get needed repositories:
+
+/--php
+namespace MyApp;
+
+class MyService
+{
+	/** @var Orm */
+	private $orm;
+
+	public function __construct(Orm $orm)
+	{
+		$this->orm = $orm;
+	}
+
+	public function doSomething($postId)
+	{
+		$post = $this->orm->posts->getById($postId);
+		// ...
+	}
+}
+\--
+
+
+Persistence & removal
+---------------------
+
+Model itlsef ensures the cascade peristance or removal behavior. However, you can also use its method to do non-cascade action. Call `persist()` or `remove()` method to process the passed entity in proper repository. At the end of your work, you should confirm your changes by flushing them. Flushing is internally implemented as a commiting of a transaction; transactions are automatically opened with your first persistence or removal call. Not only newly created entities, but also **already persisted entities must be persisted again to promote its changes to the storage**. This bahavior differs to Doctrine, which automatically saves all changes in attached entities.
+
+/--php
+$user = $model->users->getById(1);
+$user->isEmailSubscribed = false;
+
+$model->persist($user);
+$model->flush();
+// or
+$model->persistAndFlush($user);
+\--
+
+
+-----
+
+Model with simple loader
+========================
+
+If you do not use Nette\DI, you can use predefined SimpleRepositoryLoader. This loader requires already instantiated array of repositories. For creating the stack easily, you can use SimpleLoaderFactory. You have to create instances of repositories and mappers on your own.
+
+/--php
+$cache = new Nette\Caching\Cache(...);
+$connection = new Nextras\Dbal\Connection(...);
+$metadataParserFactory = new Nextras\Orm\Entity\Reflection\MetadataParserFactory();
+
+$simpleModelFactory = new SimpleModelFactory([
+	'posts' => new MyApp\PostsRepository(new MyApp\PostsMapper($connection, $cache)),
+	'users' => new MyApp\UsersRepository(new MyApp\UsersMapper($connection, $cache)),
+	'tags' => new MyApp\TagsRepository(new MyApp\TagsMapper($connection, $cache)),
+], $cache, $metadataParserFactory);
+
+$model = $simpleModelFactory->create();
+\--
+
+Of course, you can create your own repository loader by implementing `Nextras\Orm\Model\IRepositoryLoader` interface. Metadata parser factory optional dependency.
