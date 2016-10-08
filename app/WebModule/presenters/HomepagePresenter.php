@@ -16,7 +16,7 @@ class HomepagePresenter extends Nette\Application\UI\Presenter
 	}
 
 	public function renderDefault() {
-		$this->template->test = $this->database->table('user')->get(9)->email;
+		$this->template->test = 'It is alive!';
 	}
 
 }
