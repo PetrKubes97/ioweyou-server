@@ -10,20 +10,52 @@ class ComposerStaticInit091ed5d24b4127ffc48411e34be2086f
         '7745382c92b7799bf1294b1f43023ba2' => __DIR__ . '/..' . '/tracy/tracy/src/shortcuts.php',
         'a1d067aa2e53d6b47171c03cfc0ea5be' => __DIR__ . '/..' . '/nette/safe-stream/src/loader.php',
         'e7a6fd2e7a869bb207158e9416bdd9b0' => __DIR__ . '/..' . '/nette/application/src/compatibility.php',
+        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
     );
 
     public static $prefixLengthsPsr4 = array (
+        'S' => 
+        array (
+            'Symfony\\Polyfill\\Mbstring\\' => 26,
+            'Symfony\\Component\\Debug\\' => 24,
+            'Symfony\\Component\\Console\\' => 26,
+        ),
+        'P' => 
+        array (
+            'Psr\\Log\\' => 8,
+        ),
         'N' => 
         array (
             'Nextras\\Orm\\' => 12,
+            'Nextras\\Migrations\\' => 19,
             'Nextras\\Dbal\\' => 13,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
+        'Symfony\\Polyfill\\Mbstring\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
+        ),
+        'Symfony\\Component\\Debug\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/debug',
+        ),
+        'Symfony\\Component\\Console\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/console',
+        ),
+        'Psr\\Log\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
+        ),
         'Nextras\\Orm\\' => 
         array (
             0 => __DIR__ . '/..' . '/nextras/orm/src',
+        ),
+        'Nextras\\Migrations\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/nextras/migrations/src',
         ),
         'Nextras\\Dbal\\' => 
         array (
@@ -31,7 +63,23 @@ class ComposerStaticInit091ed5d24b4127ffc48411e34be2086f
         ),
     );
 
+    public static $prefixesPsr0 = array (
+        'K' => 
+        array (
+            'Kdyby\\Console\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/kdyby/console/src',
+            ),
+        ),
+    );
+
     public static $classMap = array (
+        'KdybyModule\\CliPresenter' => __DIR__ . '/..' . '/kdyby/console/src/Kdyby/Console/CliPresenter.php',
+        'Kdyby\\Console\\Exception' => __DIR__ . '/..' . '/kdyby/console/src/Kdyby/Console/exceptions.php',
+        'Kdyby\\Console\\InvalidApplicationModeException' => __DIR__ . '/..' . '/kdyby/console/src/Kdyby/Console/exceptions.php',
+        'Kdyby\\Console\\InvalidArgumentException' => __DIR__ . '/..' . '/kdyby/console/src/Kdyby/Console/exceptions.php',
+        'Kdyby\\Console\\InvalidStateException' => __DIR__ . '/..' . '/kdyby/console/src/Kdyby/Console/exceptions.php',
+        'Kdyby\\Console\\UnknownCommandException' => __DIR__ . '/..' . '/kdyby/console/src/Kdyby/Console/exceptions.php',
         'Latte\\CompileException' => __DIR__ . '/..' . '/latte/latte/src/Latte/exceptions.php',
         'Latte\\Compiler' => __DIR__ . '/..' . '/latte/latte/src/Latte/Compiler/Compiler.php',
         'Latte\\Engine' => __DIR__ . '/..' . '/latte/latte/src/Latte/Engine.php',
@@ -356,6 +404,17 @@ class ComposerStaticInit091ed5d24b4127ffc48411e34be2086f
         'Nextras\\Dbal\\NotSupportedException' => __DIR__ . '/..' . '/nextras/dbal/src/exceptions.php',
         'Nextras\\Dbal\\QueryException' => __DIR__ . '/..' . '/nextras/dbal/src/exceptions.php',
         'Nextras\\Dbal\\UniqueConstraintViolationException' => __DIR__ . '/..' . '/nextras/dbal/src/exceptions.php',
+        'Nextras\\Migrations\\Drivers\\MySqlNetteDbDriver' => __DIR__ . '/..' . '/nextras/migrations/src/deprecated/MySqlNetteDbDriver.php',
+        'Nextras\\Migrations\\Drivers\\PgSqlNetteDbDriver' => __DIR__ . '/..' . '/nextras/migrations/src/deprecated/PgSqlNetteDbDriver.php',
+        'Nextras\\Migrations\\Exception' => __DIR__ . '/..' . '/nextras/migrations/src/exceptions.php',
+        'Nextras\\Migrations\\ExecutionException' => __DIR__ . '/..' . '/nextras/migrations/src/exceptions.php',
+        'Nextras\\Migrations\\Extensions\\DbPhp' => __DIR__ . '/..' . '/nextras/migrations/src/deprecated/DbPhp.php',
+        'Nextras\\Migrations\\Extensions\\NetteDbSql' => __DIR__ . '/..' . '/nextras/migrations/src/deprecated/NetteDbSql.php',
+        'Nextras\\Migrations\\Extensions\\SimplePhp' => __DIR__ . '/..' . '/nextras/migrations/src/deprecated/SimplePhp.php',
+        'Nextras\\Migrations\\IOException' => __DIR__ . '/..' . '/nextras/migrations/src/exceptions.php',
+        'Nextras\\Migrations\\LockException' => __DIR__ . '/..' . '/nextras/migrations/src/exceptions.php',
+        'Nextras\\Migrations\\LogicException' => __DIR__ . '/..' . '/nextras/migrations/src/exceptions.php',
+        'Nextras\\Migrations\\RuntimeException' => __DIR__ . '/..' . '/nextras/migrations/src/exceptions.php',
         'Nextras\\Orm\\IOException' => __DIR__ . '/..' . '/nextras/orm/src/exceptions.php',
         'Nextras\\Orm\\InvalidArgumentException' => __DIR__ . '/..' . '/nextras/orm/src/exceptions.php',
         'Nextras\\Orm\\InvalidModifierDefinitionException' => __DIR__ . '/..' . '/nextras/orm/src/exceptions.php',
@@ -415,6 +474,7 @@ class ComposerStaticInit091ed5d24b4127ffc48411e34be2086f
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit091ed5d24b4127ffc48411e34be2086f::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit091ed5d24b4127ffc48411e34be2086f::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit091ed5d24b4127ffc48411e34be2086f::$prefixesPsr0;
             $loader->classMap = ComposerStaticInit091ed5d24b4127ffc48411e34be2086f::$classMap;
 
         }, null, ClassLoader::class);

@@ -6,4 +6,5 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Kdyby\\Console\\' => array($vendorDir . '/kdyby/console/src'),
 );
