@@ -9,9 +9,7 @@ use Nette\Database\Connection;
 require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/../app/bootstrap.php';
 
-//$conn = $container->getByType(Nette\Database\Connection::class);
-
-$conn = new Nette\Database\Connection('mysql:host=127.0.0.1;dbname=payuback','root');
+$conn = $container->getByType(Nette\Database\Connection::class);
 
 $dbal = new Bridges\NetteDatabase\NetteAdapter($conn);
 // or	new Bridges\NextrasDbal\NextrasAdapter($conn);
