@@ -22,7 +22,8 @@
 		"tracy/tracy": "^2.4",
 		"nextras/orm": "^2.1",
 		"nextras/migrations": "^3.0",
-		"kdyby/console": "^2.6"
+		"kdyby/console": "^2.6",
+		"nextras/dbal": "^2.0"
 	},
 	"require-dev": {
 		"nette/tester": "^1.6"

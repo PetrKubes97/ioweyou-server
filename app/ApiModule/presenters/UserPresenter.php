@@ -2,10 +2,12 @@
 
 namespace App\ApiModule\Presenters;
 
-
 class UserPresenter extends BaseApiPresenter
 {
 	public function actionMe() {
-		$this->sendResponso(array('name' => 'test', 'id' => 5));
+
+		$user = $this->orm->users->getById(1);
+
+		$this->sendResponso(array('name' => $user->email));
 	}
 }
