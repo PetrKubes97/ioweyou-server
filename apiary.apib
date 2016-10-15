@@ -1,0 +1,35 @@
+FORMAT: 1A
+
+# payuback
+
+Api for PayUBack Android app
+
+## Questions Collection [/user]
+
+### Login [POST]
+
++ Request (application/json)
+
+        {
+            "facebookId": "168143764",
+            "facebookToken": "3584asd6f81a6fg846as8d4fadga6sd8f4gsa8dfg" 
+        }
+
++ Response 201 (application/json)
+
+        {
+            "id": 1648,
+            "email": "test@example.com",
+            "name": "John Smith"
+            "friends": [
+                {
+                    "id": 243,
+                    "email": "foo@example.com",
+                    "name": "Will Smith"
+                }, {
+                    "id": 1648,
+                    "email": "bar@example.com",
+                    "name": "Bill Smith"
+                }
+            ]
+        }
