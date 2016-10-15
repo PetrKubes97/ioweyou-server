@@ -66,6 +66,10 @@ class ComposerStaticInit091ed5d24b4127ffc48411e34be2086f
     public static $prefixesPsr0 = array (
         'K' => 
         array (
+            'Kdyby\\Facebook\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/kdyby/facebook/src',
+            ),
             'Kdyby\\Console\\' => 
             array (
                 0 => __DIR__ . '/..' . '/kdyby/console/src',
@@ -80,6 +84,10 @@ class ComposerStaticInit091ed5d24b4127ffc48411e34be2086f
         'Kdyby\\Console\\InvalidArgumentException' => __DIR__ . '/..' . '/kdyby/console/src/Kdyby/Console/exceptions.php',
         'Kdyby\\Console\\InvalidStateException' => __DIR__ . '/..' . '/kdyby/console/src/Kdyby/Console/exceptions.php',
         'Kdyby\\Console\\UnknownCommandException' => __DIR__ . '/..' . '/kdyby/console/src/Kdyby/Console/exceptions.php',
+        'Kdyby\\CurlCaBundle\\CertificateHelper' => __DIR__ . '/..' . '/kdyby/curl-ca-bundle/src/CertificateHelper.php',
+        'Kdyby\\Facebook\\Exception' => __DIR__ . '/..' . '/kdyby/facebook/src/Kdyby/Facebook/exceptions.php',
+        'Kdyby\\Facebook\\FacebookApiException' => __DIR__ . '/..' . '/kdyby/facebook/src/Kdyby/Facebook/exceptions.php',
+        'Kdyby\\Facebook\\InvalidArgumentException' => __DIR__ . '/..' . '/kdyby/facebook/src/Kdyby/Facebook/exceptions.php',
         'Latte\\CompileException' => __DIR__ . '/..' . '/latte/latte/src/Latte/exceptions.php',
         'Latte\\Compiler' => __DIR__ . '/..' . '/latte/latte/src/Latte/Compiler/Compiler.php',
         'Latte\\Engine' => __DIR__ . '/..' . '/latte/latte/src/Latte/Engine.php',
