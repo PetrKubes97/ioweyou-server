@@ -8,6 +8,17 @@ class UserPresenter extends BaseApiPresenter
 
 		$user = $this->orm->users->getById(1);
 
-		$this->sendResponso(array('name' => $user->email));
+		$this->sendSuccessResponse(array('email'=>$user->email));
+	}
+
+	public function actionLogin() {
+
+		if (isset($this->data['facebookId']) && isset($this->data['facebookToken'])) {
+			
+			$this->sendSuccessResponse($this->data, 201);
+
+		} else {
+			$this->sendErrorResponse('You have to provide facebookId and facebookToken.', 400);
+		}
 	}
 }

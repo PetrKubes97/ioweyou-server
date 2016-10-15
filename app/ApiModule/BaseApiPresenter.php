@@ -7,11 +7,25 @@ use Nette;
 
 class BaseApiPresenter extends Nette\Application\UI\Presenter
 {
-	/** @inject @var App\Model\Orm */
-	public $orm;
+	protected $orm;
+	protected $data;
+	protected $request;
 
-	public function sendResponso($response)
+	public function __construct(App\Model\Orm $orm, Nette\Http\Request $request)
 	{
-		$this->sendResponse(new Nette\Application\Responses\JsonResponse($response, "application/json;charset=utf-8" ));
+		parent::__construct();
+		$this->orm = $orm;
+		$this->data = $request->getPost();
+	}
+
+	public function sendSuccessResponse($responseData, $code = 200)
+	{
+		$this->getHttpResponse()->setCode($code);
+		$this->sendJson($responseData);
+	}
+
+	public function sendErrorResponse($message, $code = 400) {
+		$this->getHttpResponse()->setCode($code);
+		$this->sendJson(array('message' => $message));
 	}
 }
