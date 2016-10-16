@@ -8,8 +8,7 @@ class UserPresenter extends BaseApiPresenter
 	public $fb;
 
 	public function actionMe() {
-		$user = $this->orm->users->getById(1);
-		$this->sendSuccessResponse(array('email'=>$user->email));
+		$this->sendSuccessResponse(array('email'=>'test'));
 	}
 
 	public function actionLogin() {
@@ -18,10 +17,17 @@ class UserPresenter extends BaseApiPresenter
 
 			$user = $this->fb->getUser($this->data['facebookId'], $this->data['facebookToken']);
 
+			// user has successfully logged in
 			if ($user) {
-				$this->sendSuccessResponse($user, 201);
+
+				$this->sendSuccessResponse([
+					'email' => $user->email,
+					'facebookId' => $user->facebookId,
+					'id' => $user->id
+					], 201);
+
 			} else {
-				$this->sendErrorResponse('Facebook token does not match facebook id', 401);
+				$this->sendErrorResponse('facebookId does not match facebookToken', 401);
 			}
 
 		} else {

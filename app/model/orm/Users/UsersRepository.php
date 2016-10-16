@@ -10,4 +10,8 @@ class UsersRepository extends Repository
 	{
 		return [User::class];
 	}
+
+	public function getByFacebookId($facebookId) {
+		return $this->getBy(['facebookId' => $facebookId]);
+	}
 }
