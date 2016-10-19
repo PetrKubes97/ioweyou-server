@@ -15,15 +15,13 @@ class UserPresenter extends BaseApiPresenter
 
 		if (isset($this->data['facebookId']) && isset($this->data['facebookToken'])) {
 
-			$user = $this->fb->getUser($this->data['facebookId'], $this->data['facebookToken']);
+			$user = $this->fb->login($this->data['facebookId'], $this->data['facebookToken']);
 
 			// user has successfully logged in
 			if ($user) {
 
 				$this->sendSuccessResponse([
-					'email' => $user->email,
-					'facebookId' => $user->facebookId,
-					'id' => $user->id
+					'email' => $user->friendships->countStored()
 					], 201);
 
 			} else {

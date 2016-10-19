@@ -7,8 +7,8 @@ use Nextras\Orm\Entity\Entity;
  * Friendship
  *
  * @property int                $id 		{primary}
- * @property User  				$user     	{m:1 User::$myFriendships}
- * @property User  				$friend		{m:1 User::$otherFriendships}
+ * @property User  				$user1    	{m:1 User::$lowerFriendships}
+ * @property User  				$user2		{m:1 User::$higherFriendships}
  * @property DateTime			$createdAt 	{default now}
  */
 class Friendship extends Entity
