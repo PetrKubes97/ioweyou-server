@@ -1,7 +1,7 @@
-INSERT INTO `users` (`email`, `facebook_id`, `facebook_token`)
-VALUES ('petrkubes1997@gmail.com', '', '');
-INSERT INTO `users` (`email`, `facebook_id`, `facebook_token`)
-VALUES ('test@gmail.com', '', '');
+INSERT INTO `users` (`email`, `facebook_id`, `facebook_token`, `registration_type`)
+VALUES ('petrkubes1997@gmail.com', '', '','self');
+INSERT INTO `users` (`email`, `facebook_id`, `facebook_token`, `registration_type`)
+VALUES ('test@gmail.com', '', '', 'self');
 
 
 INSERT INTO `currencies` (`symbol`)

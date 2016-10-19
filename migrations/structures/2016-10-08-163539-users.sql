@@ -1,8 +1,11 @@
 CREATE TABLE IF NOT EXISTS  `users` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `email` varchar(255) NOT NULL UNIQUE ,
+  `email` varchar(255) NULL UNIQUE,
+  `name` varchar(255),
   `facebook_id` varchar(128) NULL,
-  `facebook_token` text NULL
+  `facebook_token` text NULL,
+  `registration_type` ENUM('self', 'auto'),
+  `registered_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE='InnoDB';
 
 CREATE TABLE IF NOT EXISTS `currencies` (
@@ -28,11 +31,11 @@ CREATE TABLE IF NOT EXISTS `loans` (
 
 CREATE TABLE IF NOT EXISTS `friendships` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY ,
-  `user_id` int(11) unsigned NOT NULL,
-  `friend_id` int(11) unsigned NOT NULL,
+  `user1_id` int(11) unsigned NOT NULL,
+  `user2_id` int(11) unsigned NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  CONSTRAINT `friendships_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `friendships_ibfk_2` FOREIGN KEY (`friend_id`) REFERENCES `users` (`id`)
+  CONSTRAINT `friendships_ibfk_1` FOREIGN KEY (`user1_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `friendships_ibfk_2` FOREIGN KEY (`user2_id`) REFERENCES `users` (`id`)
 ) ENGINE='InnoDB' DEFAULT CHARSET=utf8;
 
 
