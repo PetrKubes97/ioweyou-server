@@ -6,7 +6,8 @@ use Kdyby\Facebook\Facebook;
 use Kdyby\Facebook\FacebookApiException;
 use Nette\Object;
 
-class FacebookModel extends Object {
+class UserModel extends Object
+{
 
 	private $fb;
 	private $orm;
@@ -17,14 +18,10 @@ class FacebookModel extends Object {
 		$this->orm = $orm;
 	}
 
-	public function login($id, $token) {
-
-		try {
-			$this->fb->setAccessToken($token);
-			$userData = $this->fb->api('/' . $id . '?fields=email,friends');
-		} catch (FacebookApiException $e) {
-			return $e->getMessage();
-		}
+	public function login($id, $token)
+	{
+		$this->fb->setAccessToken($token);
+		$userData = $this->fb->api('/' . $id . '?fields=email,friends,name');
 
 		$user = $this->orm->users->getByFacebookId($userData->id);
 		// User doesn't exist, let's register him
@@ -33,6 +30,7 @@ class FacebookModel extends Object {
 		}
 
 		$user->email = $userData->email;
+		$user->name = $userData->name;
 		$user->facebookId = $userData->id;
 		$user->facebookToken = $token;
 
@@ -47,7 +45,7 @@ class FacebookModel extends Object {
 				$friend->registrationType = User::REGISTRATION_TYPE_AUTO;
 			}
 			$friend->facebookId = $fbFriend->id;
-			$friend->name =$fbFriend->name;
+			$friend->name = $fbFriend->name;
 
 			$friend = $this->orm->users->persistAndFlush($friend);
 

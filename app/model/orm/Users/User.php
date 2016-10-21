@@ -21,14 +21,22 @@ use Nextras\Orm\Relationships\OneHasMany;
  * @property OneHasMany|Friendship[]  	$lowerFriendships 	{1:m Friendship::$user1}
  * @property OneHasMany|Friendship[]  	$higherFriendships 	{1:m Friendship::$user2}
  * @property DateTime					$registeredAt {default now}
- * @property-read ICollection|Friendship[]	$friendships {virtual}
+ * @property-read ICollection|User[]	$friends {virtual}
  */
 class User extends Entity
 {
 	CONST REGISTRATION_TYPE_SELF = 'self';
 	CONST REGISTRATION_TYPE_AUTO = 'auto';
 
-	protected function getterFriendships() {
-		return $this->getModel()->getRepository('App\Model\FriendshipsRepository')->findFriendshipsOfUser($this);
+	protected function getterFriends() {
+		$friendships = $this->getModel()->getRepository('App\Model\FriendshipsRepository')->findFriendshipsOfUser($this);
+
+		$friends = [];
+		foreach ($friendships as $friendship) {
+			$friend = ($friendship->user1 === $this) ? $friendship->user2 : $friendship->user1;
+			$friends[] = $friend;
+		}
+
+		return $friends;
 	}
 }

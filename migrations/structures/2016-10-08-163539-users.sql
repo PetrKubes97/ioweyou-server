@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS  `users` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `email` varchar(255) NULL UNIQUE,
+  `email` varchar(255) NULL,
   `name` varchar(255),
   `facebook_id` varchar(128) NULL,
   `facebook_token` text NULL,

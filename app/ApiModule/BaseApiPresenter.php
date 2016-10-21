@@ -4,12 +4,15 @@ namespace App\ApiModule\Presenters;
 
 use App;
 use Nette;
+use Tracy\Debugger;
 
 class BaseApiPresenter extends Nette\Application\UI\Presenter
 {
 	protected $orm;
 	protected $data;
 	protected $request;
+
+
 
 	public function __construct(App\Model\Orm $orm, Nette\Http\Request $request)
 	{
