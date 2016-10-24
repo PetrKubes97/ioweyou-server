@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS `currencies` (
   `symbol` varchar(15) NOT NULL UNIQUE
 ) ENGINE='InnoDB';
 
-CREATE TABLE IF NOT EXISTS `loans` (
+CREATE TABLE IF NOT EXISTS `debts` (
   `id` int(11)  unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `creditor_id` int(11) unsigned NOT NULL,
   `debtor_id` int(11) unsigned NOT NULL,

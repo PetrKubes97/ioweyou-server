@@ -4,11 +4,11 @@ namespace App\Model;
 
 use Nextras\Orm\Repository\Repository;
 
-class LoansRepository extends Repository
+class DebtsRepository extends Repository
 {
 	static function getEntityClassNames()
 	{
-		return [Loan::class];
+		return [Debt::class];
 	}
 
 }

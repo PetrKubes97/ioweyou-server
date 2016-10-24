@@ -16,8 +16,8 @@ use Nextras\Orm\Relationships\OneHasMany;
  * @property string|NULL 				$facebookId
  * @property string|NULL 				$facebookToken
  * @property string 					$registrationType	{Default self}
- * @property OneHasMany|Loan[]			$loansToGet 		{1:m Loan::$creditor}
- * @property OneHasMany|Loan[]			$loansToPay 		{1:m Loan::$debtor}
+ * @property OneHasMany|Debt[]			$loansToGet 		{1:m Debt::$creditor}
+ * @property OneHasMany|Debt[]			$loansToPay 		{1:m Debt::$debtor}
  * @property OneHasMany|Friendship[]  	$lowerFriendships 	{1:m Friendship::$user1}
  * @property OneHasMany|Friendship[]  	$higherFriendships 	{1:m Friendship::$user2}
  * @property DateTime					$registeredAt {default now}

@@ -3,7 +3,7 @@
 namespace App\Model;
 
 /**
- * @property-read LoansRepository $loans
+ * @property-read DebtsRepository $loans
  * @property-read UsersRepository $users
  * @property-read CurrenciesRepository $currencies
  * @property-read FriendshipsRepository $friendships
