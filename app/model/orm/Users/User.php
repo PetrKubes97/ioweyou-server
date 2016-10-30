@@ -11,13 +11,14 @@ use Nextras\Orm\Relationships\OneHasMany;
  * User
  *
  * @property int 						$id {primary}
+ * @property string|NULL 				$apiKey
  * @property string|NULL 				$email
  * @property string|NULL 				$name
  * @property string|NULL 				$facebookId
  * @property string|NULL 				$facebookToken
  * @property string 					$registrationType	{Default self}
- * @property OneHasMany|Debt[]			$loansToGet 		{1:m Debt::$creditor}
- * @property OneHasMany|Debt[]			$loansToPay 		{1:m Debt::$debtor}
+ * @property OneHasMany|Debt[]			$debtsToGet 		{1:m Debt::$creditor}
+ * @property OneHasMany|Debt[]			$debtsToPay 		{1:m Debt::$debtor}
  * @property OneHasMany|Friendship[]  	$lowerFriendships 	{1:m Friendship::$user1}
  * @property OneHasMany|Friendship[]  	$higherFriendships 	{1:m Friendship::$user2}
  * @property DateTime					$registeredAt {default now}
@@ -25,6 +26,7 @@ use Nextras\Orm\Relationships\OneHasMany;
  */
 class User extends Entity
 {
+	// These types are used mainly for testing purposes and should not play a role in production
 	CONST REGISTRATION_TYPE_SELF = 'self';
 	CONST REGISTRATION_TYPE_AUTO = 'auto';
 

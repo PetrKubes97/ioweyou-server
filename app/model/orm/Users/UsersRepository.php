@@ -14,4 +14,12 @@ class UsersRepository extends Repository
 	public function getByFacebookId($facebookId) {
 		return $this->getBy(['facebookId' => $facebookId]);
 	}
+
+	public function getByApiKey($apiKey) {
+		return $this->getBy(['apiKey' => $apiKey]);
+	}
+
+	public function getByIdAndApiKey($id, $apiKey) {
+		return $this->getBy(['apiKey' => $apiKey, 'id' => $id]);
+	}
 }

@@ -3,8 +3,8 @@
 namespace App\Model;
 
 use Kdyby\Facebook\Facebook;
-use Kdyby\Facebook\FacebookApiException;
 use Nette\Object;
+use Nette\Utils\Random;
 
 class UserModel extends Object
 {
@@ -18,10 +18,18 @@ class UserModel extends Object
 		$this->orm = $orm;
 	}
 
-	public function login($id, $token)
+	public function login($fbId, $fbToken) {
+		return $this->updateFromFb($fbId, $fbToken, true);
+	}
+
+	public function refresh(User $user) {
+		return $this->updateFromFb($user->facebookId, $user->facebookToken);
+	}
+
+	private function updateFromFb($fbId, $fbToken, $generateApiKey = false)
 	{
-		$this->fb->setAccessToken($token);
-		$userData = $this->fb->api('/' . $id . '?fields=email,friends,name');
+		$this->fb->setAccessToken($fbToken);
+		$userData = $this->fb->api('/' . $fbId . '?fields=email,friends,name');
 
 		$user = $this->orm->users->getByFacebookId($userData->id);
 		// User doesn't exist, let's register him
@@ -29,12 +37,16 @@ class UserModel extends Object
 			$user = new User();
 		}
 
+		// update his data
 		$user->email = $userData->email;
 		$user->name = $userData->name;
 		$user->facebookId = $userData->id;
-		$user->facebookToken = $token;
+		$user->facebookToken = $fbToken;
 
-		$this->orm->users->persist($user); // it is neccessary to persist user before any friends
+		// create a new unique api key
+		if ($generateApiKey) {$user->apiKey = $this->generateApiKey();};
+
+		$this->orm->users->persist($user); // it is neccessary to persist the user before any friends
 
 		foreach ($userData->friends->data as $fbFriend) {
 
@@ -73,4 +85,20 @@ class UserModel extends Object
 		return $user;
 	}
 
+	public function authenticate($apiKey) {
+		$user = $this->orm->users->getByApiKey($apiKey);
+		if ($user) {
+			return $user;
+		} else {
+			return false;
+		}
+	}
+
+	private function generateApiKey() {
+		$apiKey = Random::generate(63,'a-zA-Z0-9');
+		if ($this->orm->users->getByApiKey($apiKey)) {
+			$apiKey = $this->generateApiKey();
+		}
+		return $apiKey;
+	}
 }

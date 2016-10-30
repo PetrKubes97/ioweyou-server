@@ -1,5 +1,6 @@
 CREATE TABLE IF NOT EXISTS  `users` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `api_key` varchar(255) NULL,
   `email` varchar(255) NULL,
   `name` varchar(255),
   `facebook_id` varchar(128) NULL,
@@ -23,6 +24,7 @@ CREATE TABLE IF NOT EXISTS `debts` (
   `paid` tinyint(1) NOT NULL,
   `deleted` tinyint(1) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `custom_friend_name` varchar(255) NULL,
   CONSTRAINT `loans_ibfk_1` FOREIGN KEY (`creditor_id`) REFERENCES `users` (`id`),
   CONSTRAINT `loans_ibfk_2` FOREIGN KEY (`debtor_id`) REFERENCES `users` (`id`),
   CONSTRAINT `loans_ibfk_3` FOREIGN KEY (`currency_id`) REFERENCES `currencies` (`id`)

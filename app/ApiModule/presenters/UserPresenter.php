@@ -6,8 +6,6 @@ use Kdyby\Facebook\FacebookApiException;
 
 class UserPresenter extends BaseApiPresenter
 {
-	/** @var \App\Model\UserModel @inject */
-	public $userModel;
 
 	public function actionMe() {
 		$this->sendSuccessResponse(array('email'=>'test'));
@@ -23,30 +21,12 @@ class UserPresenter extends BaseApiPresenter
 				$this->sendErrorResponse($e->getMessage(), 401);
 			}
 
-
 			// user has successfully logged in
 			if ($user) {
-
-				$friends = [];
-				foreach ($user->friends as $friend) {
-					$friends[] = [
-						'id' => $friend->id,
-						'email' => $friend->email,
-						'name' => $friend->name,
-						'facebookId' => $friend->facebookId
-					];
-				}
-
 				$this->sendSuccessResponse([
 					'id' => $user->id,
-					'email' => $user->email,
-					'name' => $user->name,
-					'facebookId' => $user->facebookId,
-					'facebookToken' => $user->facebookToken,
-					'registredAt' => $user->registeredAt,
-					'friends' => $friends
-					], 201);
-
+					'api-key' => $user->apiKey
+				], 201);
 			} else {
 				$this->sendErrorResponse('facebookId does not match facebookToken', 401);
 			}
@@ -54,5 +34,34 @@ class UserPresenter extends BaseApiPresenter
 		} else {
 			$this->sendErrorResponse('You have to provide facebookId and facebookToken.', 400);
 		}
+	}
+
+	public function actionDefault() {
+		$this->authenticate();
+
+		// Update users info from facebook
+		try {
+			$user = $this->userModel->refresh($this->user);
+		} catch (FacebookApiException $e) {
+			$this->sendErrorResponse($e->getMessage(), 401);
+		}
+
+
+		$friends = [];
+		foreach ($user->friends as $friend) {
+			$friends[] = [
+				'id' => $friend->id,
+				'email' => $friend->email,
+				'name' => $friend->name
+			];
+		}
+
+		$this->sendSuccessResponse([
+			'id' => $user->id,
+			'email' => $user->email,
+			'name' => $user->name,
+			'registeredAt' => $user->registeredAt,
+			'friends' => $friends
+		], 200);
 	}
 }
