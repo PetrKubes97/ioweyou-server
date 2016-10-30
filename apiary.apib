@@ -4,9 +4,11 @@ FORMAT: 1A
 
 Api for PayUBack Android app
 
-## Questions Collection [/user]
+# Group User
 
-### Login [POST]
+## Login [/user/login]
+
+### post [POST]
 
 + Request (application/json)
 
@@ -19,9 +21,30 @@ Api for PayUBack Android app
 
         {
             "id": 1648,
-            "email": "test@example.com",
-            "name": "John Smith"
             "api-key": "16asd5f65as5d4g6afdas1df65dsafasdf"
+        }
+        
+## default [/user]
+
+### get [POST]
+
++ Request (application/json)
+
+    + Headers
+    
+            api-key: "asdasdf4fd6as15f6asdf6as1dfas"
+
++ Response 201 (application/json)
+
+        {
+            "id": 1648,
+            "email": "test@example.com",
+            "name": "John Smith",
+            "registeredAt": {
+                "date": "2016-10-30 10:14:22.000000",
+                "timezone_type": 3,
+                "timezone": "Europe/Prague"
+            },
             "friends": [
                 {
                     "id": 243,
@@ -33,4 +56,35 @@ Api for PayUBack Android app
                     "name": "Bill Smith"
                 }
             ]
+        }
+
+# Group Currencies
+
+## Currencies [/currencies]
+
+### default [GET]
+
++ Request (application/json)
+
+    + Headers
+        
+            api-key: "asdasdf4fd6as15f6asdf6as1dfas"
+
++ Response 200 (application/json)
+
+        {
+          "currencies": [
+            {
+              "id": 1,
+              "symbol": "Kč"
+            },
+            {
+              "id": 2,
+              "symbol": "$"
+            },
+            {
+              "id": 3,
+              "symbol": "€"
+            }
+          ]
         }
