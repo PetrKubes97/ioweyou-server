@@ -18,6 +18,7 @@ use Nextras\Orm\Entity\Entity;
  * @property boolean 			$deleted {default 0}
  * @property DateTime			$createdAt {default now}
  * @property string|NULL		$customFriendName
+ * @property string|NULL		$thingName
  */
 class Debt extends Entity
 {
