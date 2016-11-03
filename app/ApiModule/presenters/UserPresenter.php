@@ -25,7 +25,7 @@ class UserPresenter extends BaseApiPresenter
 			if ($user) {
 				$this->sendSuccessResponse([
 					'id' => $user->id,
-					'api-key' => $user->apiKey
+					'apiKey' => $user->apiKey
 				], 201);
 			} else {
 				$this->sendErrorResponse('facebookId does not match facebookToken', 401);
@@ -60,7 +60,7 @@ class UserPresenter extends BaseApiPresenter
 			'id' => $user->id,
 			'email' => $user->email,
 			'name' => $user->name,
-			'registeredAt' => $user->registeredAt,
+			'registeredAt' => $user->registeredAt->format('Y-m-d H:i:s'),
 			'friends' => $friends
 		], 200);
 	}
