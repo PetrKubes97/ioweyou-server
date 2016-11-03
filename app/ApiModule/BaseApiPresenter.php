@@ -37,11 +37,15 @@ class BaseApiPresenter extends Nette\Application\UI\Presenter
 	}
 
 	protected function authenticate() {
-		$user = $this->userModel->authenticate($this->headers['api-key']);
-		if ($user ) {
+
+		if (strlen($this->headers['api-key'])>1) {
+			$user = $this->userModel->authenticate($this->headers['api-key']);
+		}
+
+		if ($user) {
 			$this->user = $user;
 		} else {
-			$this->sendErrorResponse('You have to log in to perform this action.', 401);
+			$this->sendErrorResponse('You have to be logged in to perform this action.', 401);
 		}
 	}
 }
