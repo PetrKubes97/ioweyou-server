@@ -16,13 +16,13 @@ CREATE TABLE IF NOT EXISTS `currencies` (
 
 CREATE TABLE IF NOT EXISTS `debts` (
   `id` int(11)  UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `creditor_id` int(11) UNSIGNED NOT NULL,
-  `debtor_id` int(11) UNSIGNED NOT NULL,
-  `currency_id` int(11) UNSIGNED NOT NULL,
+  `creditor_id` int(11) UNSIGNED NULL,
+  `debtor_id` int(11) UNSIGNED NULL,
+  `currency_id` int(11) UNSIGNED NULL,
   `amount` int(15) NULL,
   `note` varchar(255) NULL,
-  `paid` tinyint(1) NOT NULL,
-  `deleted` tinyint(1) NOT NULL,
+  `paid_at` datetime NULL,
+  `deleted_at` datetime NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `modified_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `custom_friend_name` varchar(255) NULL,

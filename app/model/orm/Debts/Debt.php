@@ -14,9 +14,10 @@ use Nextras\Orm\Entity\Entity;
  * @property Currency|NULL 		$currency 	{m:1 Currency, oneSided=true}
  * @property int|NULL			$amount
  * @property string|NULL		$note
- * @property boolean			$paid {default 0}
- * @property boolean 			$deleted {default 0}
+ * @property DateTime|NULL		$paidAt {default null}
+ * @property DateTime|NULL 		$deletedAt {default null}
  * @property DateTime			$createdAt {default now}
+ * @property DateTime			$modifiedAt {default now}
  * @property string|NULL		$customFriendName
  * @property string|NULL		$thingName
  */
