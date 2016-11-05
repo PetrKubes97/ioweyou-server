@@ -31,11 +31,11 @@ class DebtsPresenter extends BaseApiPresenter {
 		}
 
 		if ($which == 'toPay') {
-			$this->sendSuccessResponse($toPay);
+			$this->sendSuccessResponse(['debtsToPay' => $toPay]);
 		} elseif ($which == 'toGet') {
-			$this->sendSuccessResponse($toGet);
+			$this->sendSuccessResponse(['debtsToGet' => $toGet]);
 		} else {
-			$this->sendSuccessResponse(array_merge($toPay, $toGet));
+			$this->sendSuccessResponse(['debts' => array_merge($toPay, $toGet)]);
 		}
 	}
 
