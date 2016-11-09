@@ -19,7 +19,7 @@ class RouterFactory
 		$router = new RouteList;
 
 		// API
-		$router[] = new Route('api/debts/new', 'Api:Debts:new');
+		$router[] = new Route('api/debts/update', 'Api:Debts:update');
 		$router[] = new Route('api/debts[/<which>]', 'Api:Debts:default');
 
 		$router[] = new Route('<module>/<presenter>/<action>[/<id>]', 'Web:Homepage:default');

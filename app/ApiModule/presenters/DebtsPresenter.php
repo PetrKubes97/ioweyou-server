@@ -4,6 +4,8 @@ namespace App\ApiModule\Presenters;
 
 use App\Model\Debt;
 use Nette\Neon\Exception;
+use Nette\Utils\DateTime;
+use Tracy;
 
 class DebtsPresenter extends BaseApiPresenter {
 
@@ -40,38 +42,62 @@ class DebtsPresenter extends BaseApiPresenter {
 	}
 
 	/**
-	 * Converts debt entity to an array, which is suitable for api response
-	 * @param Debt $debt
-	 * @return array
+	 * Updates newest debts and shows debt's most recent version
 	 */
-	private function convertDebtToArray(Debt $debt) {
+	public function actionUpdate() {
 
-		$creditorId = (isset($debt->creditor)) ? $debt->creditor->id : "";
-		$debtorId = (isset($debt->debtor)) ? $debt->debtor->id : "";
-		$currencyId = (isset($debt->currency)) ? $debt->currency->id : "";
-		$paidAt = (isset($debt->paidAt)) ? $debt->paidAt->format('Y-m-d H:i:s') : "";
-		$deletedAt = (isset($debt->deletedAt)) ? $debt->deletedAt->format('Y-m-d H:i:s') : "";
+		$id = $this->data['id'];
 
-		return [
-			'creditorId' => $creditorId,
-			'debtorId' => $debtorId,
-			'customFriendName' => $debt->customFriendName,
-			'amount' => $debt->amount,
-			'currencyId' => $currencyId,
-			'thingName' => $debt->thingName,
-			'note' => $debt->note,
-			'paid_at' => $paidAt,
-			'deleted_at' => $deletedAt,
-			'modified_at' => $debt->modifiedAt->format('Y-m-d H:i:s')
-		];
-	}
+		// Check the most important things which are nessesary for further actions
+		try {
+			// If id is < than 0, it means that it's a new debt and a new row must be created
+			if (!isset($id) || $id < 0) {
+				$debt = new Debt();
+			} else {
+				$debt = $this->orm->debts->getById($id);
+			}
 
-	/**
-	 * Adds a new debt to the database
-	 */
-	public function actionNew() {
+			if ($debt === null) {
+				throw new Exception('This debt does not exist.');
+			}
 
-		$debt = new Debt();
+			if ($this->data['createdAt'] == "") {
+				throw new Exception('CreatedAt has to be set.');
+			}
+
+			if ($this->data['modifiedAt'] == "") {
+				throw new Exception('ModifiedAt has to be set.');
+			}
+
+
+		} catch (Exception $e) {
+			$this->sendErrorResponse($e->getMessage());
+		}
+
+
+		// Check if the recieved debt is the most recent version
+		if ($id > 0) {
+			$modifiedAt = DateTime::from($this->data['modifiedAt']);
+
+			// If the recieved debt is older, send newest version
+			if ($modifiedAt < $debt->modifiedAt) {
+				$this->sendDebtSuccessResponse($debt);
+			}
+		}
+
+		$paidAt = null;
+		$deletedAt = null;
+		if ($this->data['paidAt'] != "") {
+			$paidAt = DateTime::from($this->data['paidAt']);
+		}
+
+		if ($this->data['deletedAt'] != "") {
+			$deletedAt = DateTime::from($this->data['deletedAt']);
+		}
+
+
+		// Here we have the newest debt, let's update the databse
+
 		$debt->creditor = $this->orm->users->getById($this->data['creditorId']);
 		$debt->debtor = $this->orm->users->getById($this->data['debtorId']);
 		$debt->customFriendName = $this->data['customFriendName'];
@@ -79,6 +105,10 @@ class DebtsPresenter extends BaseApiPresenter {
 		$debt->currency = $this->orm->users->getById($this->data['currencyId']);
 		$debt->thingName = $this->data['thingName'];
 		$debt->note = $this->data['note'];
+		$debt->paidAt = $paidAt;
+		$debt->deletedAt = $deletedAt;
+		$debt->createdAt = DateTime::from($this->data['createdAt']);
+		$debt->modifiedAt = new DateTime();
 
 		// Check if the debt is valid
 		try {
@@ -94,6 +124,8 @@ class DebtsPresenter extends BaseApiPresenter {
 				throw new Exception('If you chose to owe a thing, currency and amount must not be set.');
 			} elseif ($debt->amount == "" && $debt->thingName == "") {
 				throw new Exception('You have to set either amount or thingName');
+			} elseif ($debt->amount == "" && $debt->thingName == "") {
+				throw new Exception('You have to set either amount or thingName');
 			}
 		} catch (Exception $e) {
 			$this->sendErrorResponse($e->getMessage());
@@ -101,8 +133,40 @@ class DebtsPresenter extends BaseApiPresenter {
 
 		$debt = $this->orm->debts->persistAndFlush($debt);
 
-		$this->sendSuccessResponse(["id" => $debt->getPersistedId()]);
+		$this->sendDebtSuccessResponse($debt);
+	}
 
+	private function sendDebtSuccessResponse(Debt $debt) {
+		$this->sendSuccessResponse($this->convertDebtToArray($debt));
+	}
+
+	/**
+	 * Converts debt entity to an array, which is suitable for api response
+	 * @param Debt $debt
+	 * @return array
+	 */
+	private function convertDebtToArray(Debt $debt) {
+
+		$creditorId = (isset($debt->creditor)) ? $debt->creditor->id : "";
+		$debtorId = (isset($debt->debtor)) ? $debt->debtor->id : "";
+		$currencyId = (isset($debt->currency)) ? $debt->currency->id : "";
+		$paidAt = (isset($debt->paidAt)) ? $debt->paidAt->format('Y-m-d H:i:s') : "";
+		$deletedAt = (isset($debt->deletedAt)) ? $debt->deletedAt->format('Y-m-d H:i:s') : "";
+
+		return [
+			'id' => $debt->id,
+			'creditorId' => $creditorId,
+			'debtorId' => $debtorId,
+			'customFriendName' => $debt->customFriendName,
+			'amount' => $debt->amount,
+			'currencyId' => $currencyId,
+			'thingName' => $debt->thingName,
+			'note' => $debt->note,
+			'paidAt' => $paidAt,
+			'deletedAt' => $deletedAt,
+			'modifiedAt' => $debt->modifiedAt->format('Y-m-d H:i:s'),
+			'createdAt' => $debt->createdAt->format('Y-m-d H:i:s')
+		];
 	}
 
 }
