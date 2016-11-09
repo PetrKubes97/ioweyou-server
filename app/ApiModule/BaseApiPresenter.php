@@ -20,7 +20,7 @@ class BaseApiPresenter extends Nette\Application\UI\Presenter
 		parent::__construct();
 		$this->orm = $orm;
 		$this->userModel = $userModel;
-
+		$this->request = $request;
 		$this->data = $request->getPost();
 		$this->headers = $request->getHeaders();
 	}
@@ -38,7 +38,9 @@ class BaseApiPresenter extends Nette\Application\UI\Presenter
 
 	protected function authenticate() {
 
-		if (strlen($this->headers['api-key'])>1) {
+		$user = null;
+
+		if (isset($this->headers['api-key']) && strlen($this->headers['api-key'])>1) {
 			$user = $this->userModel->authenticate($this->headers['api-key']);
 		}
 
