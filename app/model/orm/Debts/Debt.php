@@ -20,6 +20,7 @@ use Nextras\Orm\Entity\Entity;
  * @property DateTime|NULL 		$deletedAt {default null}
  * @property DateTime			$createdAt {default now}
  * @property DateTime			$modifiedAt {default now}
+ * @property int				$version {default 0}
  */
 class Debt extends Entity
 {

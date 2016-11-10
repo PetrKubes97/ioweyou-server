@@ -27,6 +27,7 @@ CREATE TABLE IF NOT EXISTS `debts` (
   `modified_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `custom_friend_name` varchar(255) NULL,
   `thing_name` VARCHAR(255) NULL,
+  `version` int(15) NOT NULL DEFAULT 0,
   CONSTRAINT `loans_ibfk_1` FOREIGN KEY (`creditor_id`) REFERENCES `users` (`id`),
   CONSTRAINT `loans_ibfk_2` FOREIGN KEY (`debtor_id`) REFERENCES `users` (`id`),
   CONSTRAINT `loans_ibfk_3` FOREIGN KEY (`currency_id`) REFERENCES `currencies` (`id`)

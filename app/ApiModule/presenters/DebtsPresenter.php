@@ -69,6 +69,9 @@ class DebtsPresenter extends BaseApiPresenter {
 				throw new Exception('ModifiedAt has to be set.');
 			}
 
+			if ($this->data['version'] == "") {
+				throw new Exception('Version has to be an int.');
+			}
 
 		} catch (Exception $e) {
 			$this->sendErrorResponse($e->getMessage());
@@ -77,10 +80,9 @@ class DebtsPresenter extends BaseApiPresenter {
 
 		// Check if the recieved debt is the most recent version
 		if ($id > 0) {
-			$modifiedAt = DateTime::from($this->data['modifiedAt']);
-
 			// If the recieved debt is older, send newest version
-			if ($modifiedAt < $debt->modifiedAt) {
+			// in case of versions being equal, send server version so that there aren't useless database updates
+			if ((int) $this->data['version'] <= $debt->version) {
 				$this->sendDebtSuccessResponse($debt);
 			}
 		}
@@ -95,7 +97,6 @@ class DebtsPresenter extends BaseApiPresenter {
 			$deletedAt = DateTime::from($this->data['deletedAt']);
 		}
 
-
 		// Here we have the newest debt, let's update the databse
 
 		$debt->creditor = $this->orm->users->getById($this->data['creditorId']);
@@ -109,6 +110,7 @@ class DebtsPresenter extends BaseApiPresenter {
 		$debt->deletedAt = $deletedAt;
 		$debt->createdAt = DateTime::from($this->data['createdAt']);
 		$debt->modifiedAt = new DateTime();
+		$debt->version = (int) $this->data['version'];
 
 		// Check if the debt is valid
 		try {
@@ -165,7 +167,8 @@ class DebtsPresenter extends BaseApiPresenter {
 			'paidAt' => $paidAt,
 			'deletedAt' => $deletedAt,
 			'modifiedAt' => $debt->modifiedAt->format('Y-m-d H:i:s'),
-			'createdAt' => $debt->createdAt->format('Y-m-d H:i:s')
+			'createdAt' => $debt->createdAt->format('Y-m-d H:i:s'),
+			'version' => $debt->version
 		];
 	}
 
