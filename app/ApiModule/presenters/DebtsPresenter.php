@@ -56,7 +56,7 @@ class DebtsPresenter extends BaseApiPresenter {
 					throw new Exception('ModifiedAt has to be set.');
 				}
 
-				if ($receivedDebt['version'] == "") {
+				if (!is_int($receivedDebt['version'])) {
 					throw new Exception('Version has to be an int.');
 				}
 
