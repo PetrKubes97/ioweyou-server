@@ -155,21 +155,31 @@ class DebtsPresenter extends BaseApiPresenter {
 	 */
 	private function convertDebtToArray(Debt $debt) {
 
+
+		// Convert all nulls to empty strings
 		$creditorId = (isset($debt->creditor)) ? $debt->creditor->id : "";
 		$debtorId = (isset($debt->debtor)) ? $debt->debtor->id : "";
+
+		$customFriendName = (isset($debt->customFriendName)) ? $debt->customFriendName : "";
+		$amount = (isset($debt->amount)) ? $debt->amount : "";
+		$thingName = (isset($debt->thingName)) ? $debt->thingName : "";
+		$note = (isset($debt->note)) ? $debt->note : "";
+
 		$currencyId = (isset($debt->currency)) ? $debt->currency->id : "";
 		$paidAt = (isset($debt->paidAt)) ? $debt->paidAt->format('Y-m-d H:i:s') : "";
 		$deletedAt = (isset($debt->deletedAt)) ? $debt->deletedAt->format('Y-m-d H:i:s') : "";
+
+
 
 		return [
 			'id' => $debt->id,
 			'creditorId' => $creditorId,
 			'debtorId' => $debtorId,
-			'customFriendName' => $debt->customFriendName,
-			'amount' => $debt->amount,
+			'customFriendName' => $customFriendName,
+			'amount' => $amount,
 			'currencyId' => $currencyId,
-			'thingName' => $debt->thingName,
-			'note' => $debt->note,
+			'thingName' => $thingName,
+			'note' => $note,
 			'paidAt' => $paidAt,
 			'deletedAt' => $deletedAt,
 			'modifiedAt' => $debt->modifiedAt->format('Y-m-d H:i:s'),
