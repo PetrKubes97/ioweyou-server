@@ -43,4 +43,16 @@ CREATE TABLE IF NOT EXISTS `friendships` (
   CONSTRAINT `friendships_ibfk_2` FOREIGN KEY (`user2_id`) REFERENCES `users` (`id`)
 ) ENGINE='InnoDB' DEFAULT CHARSET=utf8;
 
+CREATE TABLE `actions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `type` enum('debt_new','debt_update','debt_delete','debt_restore','debt_mark_as_paid', 'debt_mark_as_unpaid', 'registered') NOT NULL,
+  `debt_id` int(11) unsigned NULL,
+  `user_id` int(11) unsigned NOT NULL,
+  `public` tinyint(1) NOT NULL DEFAULT '0',
+  `note` VARCHAR(255) NULL,
+  `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (`debt_id`) REFERENCES `debts` (`id`),
+  FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+);
+
 

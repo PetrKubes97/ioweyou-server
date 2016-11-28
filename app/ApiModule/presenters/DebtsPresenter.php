@@ -2,6 +2,7 @@
 
 namespace App\ApiModule\Presenters;
 
+use App\Model\Action;
 use App\Model\Debt;
 use Nette\Neon\Exception;
 use Nette\Utils\DateTime;
@@ -33,13 +34,19 @@ class DebtsPresenter extends BaseApiPresenter {
 		// Go through each debt saved on a mobile device right now, update the database, and return all debts
 		foreach ($allReceivedDebts['debts'] as $receivedDebt) {
 
-
 			// Check the most important things which are nessesary for further actions
 			try {
 				$id = $receivedDebt['id'];
 				// If id is < than 0, it means that it's a new debt and a new row must be created
 				if (!isset($id) || $id < 0) {
 					$debt = new Debt();
+
+					// Add a new action
+					$action = new Action();
+					$action->type = Action::TYPE_DEBT_NEW;
+					$action->user = $this->user;
+					$action->debt = $debt;
+
 				} else {
 					$debt = $this->orm->debts->getById($id);
 				}
@@ -59,6 +66,11 @@ class DebtsPresenter extends BaseApiPresenter {
 				if (!is_int($receivedDebt['version'])) {
 					throw new Exception('Version has to be an int.');
 				}
+
+				if ($receivedDebt['id'] > 0 && ($debt->creditor->id != $receivedDebt['creditorId'] || $debt->debtor->id != $receivedDebt['debtorId'])) {
+					throw new Exception('You can not change creditor or debtor of a debt. Create a new debt instead.');
+				}
+
 
 			} catch (Exception $e) {
 				$this->sendErrorResponse('Debt ' . $id . ': ' . $e->getMessage());
@@ -82,6 +94,44 @@ class DebtsPresenter extends BaseApiPresenter {
 
 			if ($receivedDebt['deletedAt'] != "") {
 				$deletedAt = DateTime::from($receivedDebt['deletedAt']);
+			}
+
+			// Create actions if user changes the debt
+			if (!isset($action)) {
+
+				if ($debt->paidAt == null && $paidAt != null) {
+					$action = $this->createAction($debt, Action::TYPE_DEBT_MARK_AS_PAID);
+				} elseif ($debt->paidAt != null && $paidAt == null) {
+					$action = $this->createAction($debt, Action::TYPE_DEBT_MARK_AS_UNPAID);
+				} elseif ($debt->deletedAt == null && $deletedAt != null) {
+					$action = $this->createAction($debt, Action::TYPE_DEBT_DELETE);
+				} elseif ($debt->deletedAt != null && $deletedAt == null) {
+					$action = $this->createAction($debt, Action::TYPE_DEBT_RESTORE);
+				} else {
+					$note = '';
+					$note .= ($debt->customFriendName != $receivedDebt['customFriendName']) ? 'Name of a friend was changed. ' : '';
+
+					if ($debt->amount != null) {
+						if ($receivedDebt['thingName'] == '') {
+							$note .= ($debt->amount != $receivedDebt['amount']) ? 'Amount was changed. ' : '';
+							$note .= ($debt->currency != $receivedDebt['currencyId']) ? 'Currency was changed. ' : '';
+						} else {
+							$note .= 'Money were changed to a thing. ';
+						}
+					} else {
+						if ($receivedDebt['amount'] == '') {
+							$note .= ($debt->thingName != $receivedDebt['thingName']) ? 'Name of a thing was changed. ' : '';
+						} else {
+							$note .= 'Thing was changed to money. ';
+						}
+					}
+
+					$note .= ($debt->note != $receivedDebt['note']) ? 'Note was changed. ' : '';
+
+					if (!empty($note)) {
+						$action = $this->createAction($debt, Action::TYPE_DEBT_UPDATED, $note);
+					}
+				}
 			}
 
 			// Here we have the newest debt, let's update the databse
@@ -121,6 +171,11 @@ class DebtsPresenter extends BaseApiPresenter {
 			}
 
 			$this->orm->debts->persistAndFlush($debt);
+
+			// Add an action for new debt; It needs to be at the end of the script, otherwise empty debt would be created in the databse
+			if (isset($action)) {
+				$this->orm->actions->persistAndFlush($action);
+			}
 		}
 
 		$this->sendSuccessResponse($this->getDebtsArray());
@@ -149,7 +204,7 @@ class DebtsPresenter extends BaseApiPresenter {
 
 
 	/**
-	 * Converts debt entity to an array, which is suitable for api response
+	 * Converts debt entity to an array, which is suitable for an api response
 	 * @param Debt $debt
 	 * @return array
 	 */
@@ -186,6 +241,17 @@ class DebtsPresenter extends BaseApiPresenter {
 			'createdAt' => $debt->createdAt->format('Y-m-d H:i:s'),
 			'version' => $debt->version
 		];
+	}
+
+	private function createAction(Debt $debt, $type, $note = null) {
+		$action = new Action();
+		$action->user = $this->user;
+		$action->debt = $debt;
+		$action->type = $type;
+		$action->note = $note;
+		$action->public = true;
+		return $action;
+
 	}
 
 }

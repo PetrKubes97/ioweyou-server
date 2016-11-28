@@ -21,8 +21,10 @@ use Nextras\Orm\Relationships\OneHasMany;
  * @property OneHasMany|Debt[]			$debtsToPay 		{1:m Debt::$debtor}
  * @property OneHasMany|Friendship[]  	$lowerFriendships 	{1:m Friendship::$user1}
  * @property OneHasMany|Friendship[]  	$higherFriendships 	{1:m Friendship::$user2}
- * @property DateTime					$registeredAt {default now}
- * @property-read ICollection|User[]	$friends {virtual}
+ * @property OneHasMany|Action[]		$actions			{1:m Action::$user}
+ * @property DateTime					$registeredAt 		{default now}
+ * @property-read ICollection|User[]	$friends 			{virtual}
+ * @property-read ICollection|Debt[]	$debts 				{virtual}
  */
 class User extends Entity
 {
@@ -40,5 +42,20 @@ class User extends Entity
 		}
 
 		return $friends;
+	}
+
+	protected function getterDebts() {
+
+		$debts = [];
+
+		foreach ($this->debtsToPay as $debt) {
+			$debts[] = $debt;
+		}
+
+		foreach ($this->debtsToGet as $debt) {
+			$debts[] = $debt;
+		}
+
+		return $debts;
 	}
 }
