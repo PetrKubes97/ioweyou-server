@@ -2,21 +2,20 @@
 
 namespace App\WebModule\Presenters;
 
+use App\Model\Orm;
 use Nette;
 
 class HomepagePresenter extends Nette\Application\UI\Presenter
 {
+	private $orm;
 
-	/** @var Nette\Database\Context */
-	private $database;
-
-	public function __construct(Nette\Database\Context $database)
+	public function __construct(Orm $orm)
 	{
-		$this->database = $database;
+		$this->orm = $orm;
 	}
 
 	public function renderDefault() {
-		$this->template->test = 'It is alive!';
+		$this->template->test = 'First user: ' . $this->orm->users->getById(1)->email;
 	}
 
 }
