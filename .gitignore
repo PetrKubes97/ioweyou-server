@@ -2,3 +2,4 @@ app/config/config.local.neon
 .idea/
 migrations/dummy-data/
 temp/
+deploy.sh
