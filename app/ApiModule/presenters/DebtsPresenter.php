@@ -103,17 +103,13 @@ class DebtsPresenter extends BaseApiPresenter {
 			if (!isset($action)) {
 
 				if ($debt->paidAt == null && $paidAt != null) {
-					$action->note = 'Debt was marked as paid. ';
-					$action = $this->createAction($debt, Action::TYPE_DEBT_MARK_AS_PAID);
+					$action = $this->createAction($this->user, $debt, Action::TYPE_DEBT_MARK_AS_PAID, 'Debt was marked as paid. ');
 				} elseif ($debt->paidAt != null && $paidAt == null) {
-					$action->note = 'Debt was marked as unpaid. ';
-					$action = $this->createAction($debt, Action::TYPE_DEBT_MARK_AS_UNPAID);
+					$action = $this->createAction($this->user, $debt, Action::TYPE_DEBT_MARK_AS_UNPAID, 'Debt was marked as unpaid. ');
 				} elseif ($debt->deletedAt == null && $deletedAt != null) {
-					$action->note = 'Debt was deleted. ';
-					$action = $this->createAction($debt, Action::TYPE_DEBT_DELETE);
+					$action = $this->createAction($this->user, $debt, Action::TYPE_DEBT_DELETE, 'Debt was deleted. ');
 				} elseif ($debt->deletedAt != null && $deletedAt == null) {
-					$action->note = 'Debt was restored. ';
-					$action = $this->createAction($debt, Action::TYPE_DEBT_RESTORE);
+					$action = $this->createAction($this->user, $debt, Action::TYPE_DEBT_RESTORE, 'Debt was restored. ');
 				} else {
 					$note = '';
 					$note .= ($debt->customFriendName != $receivedDebt['customFriendName']) ? 'Name of a friend was changed. ' : '';
@@ -140,7 +136,7 @@ class DebtsPresenter extends BaseApiPresenter {
 					}
 
 					if (!empty($note)) {
-						$action = $this->createAction($debt, Action::TYPE_DEBT_UPDATED, $note);
+						$action = $this->createAction($this->user, $debt, Action::TYPE_DEBT_UPDATED, $note);
 					}
 				}
 			}
@@ -253,16 +249,4 @@ class DebtsPresenter extends BaseApiPresenter {
 			'version' => $debt->version
 		];
 	}
-
-	private function createAction(Debt $debt, $type, $note = null) {
-		$action = new Action();
-		$action->user = $this->user;
-		$action->debt = $debt;
-		$action->type = $type;
-		$action->note = $note;
-		$action->public = true;
-		return $action;
-
-	}
-
 }

@@ -35,6 +35,7 @@ class UserModel extends Object
 		// User doesn't exist, let's register him
 		if (!$user) {
 			$user = new User();
+			$action = $this->createAction($user, Action::TYPE_REGISTERED);
 		}
 
 		// update his data
@@ -44,9 +45,15 @@ class UserModel extends Object
 		$user->facebookToken = $fbToken;
 
 		// create a new unique api key
-		if ($generateApiKey) {$user->apiKey = $this->generateApiKey();};
+		if ($generateApiKey) {
+			$action = $this->createAction($user, Action::TYPE_LOGGED);
+			$user->apiKey = $this->generateApiKey();
+		}
 
 		$this->orm->users->persist($user); // it is neccessary to persist the user before any friends
+		if ($action != null) {
+			$this->orm->actions->persist($action);
+		}
 
 		foreach ($userData->friends->data as $fbFriend) {
 
@@ -100,5 +107,16 @@ class UserModel extends Object
 			$apiKey = $this->generateApiKey();
 		}
 		return $apiKey;
+	}
+
+
+	private function createAction(User $user, $type, $note = null) {
+		$action = new Action();
+		$action->user = $user;
+		$action->debt = null;
+		$action->type = $type;
+		$action->note = $note;
+		$action->public = false;
+		return $action;
 	}
 }

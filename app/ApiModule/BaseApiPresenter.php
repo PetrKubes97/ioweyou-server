@@ -3,6 +3,9 @@
 namespace App\ApiModule\Presenters;
 
 use App;
+use App\Model\Action;
+use App\Model\Debt;
+use App\Model\User;
 use Nette;
 use Tracy\Debugger;
 
@@ -32,6 +35,10 @@ class BaseApiPresenter extends Nette\Application\UI\Presenter
 	}
 
 	protected function sendErrorResponse($message, $code = 400) {
+		// Save error
+		$action = $this->createAction($this->user, null, Action::TYPE_ERROR, $code . ": " . $message, false);
+		$this->orm->actions->persistAndFlush($action);
+
 		$this->getHttpResponse()->setCode($code);
 		$this->sendJson(array('message' => $message));
 	}
@@ -49,5 +56,15 @@ class BaseApiPresenter extends Nette\Application\UI\Presenter
 		} else {
 			$this->sendErrorResponse('You have to be logged in to perform this action.', 401);
 		}
+	}
+
+	protected function createAction($user, $debt, $type, $note = null, $public = true) {
+		$action = new Action();
+		$action->user = $user;
+		$action->debt = $debt;
+		$action->type = $type;
+		$action->note = $note;
+		$action->public = $public;
+		return $action;
 	}
 }

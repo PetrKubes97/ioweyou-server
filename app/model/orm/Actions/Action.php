@@ -10,8 +10,8 @@ use Nextras\Orm\Entity\Entity;
  *
  * @property int 				$id {primary}
  * @property string 			$type
- * @property Debt 				$debt {m:1 Debt::$actions}
- * @property User				$user {m:1 User::$actions}
+ * @property Debt|NULL 			$debt {m:1 Debt::$actions}
+ * @property User|NULL			$user {m:1 User::$actions}
  * @property string|NULL		$note
  * @property bool				$public {Default false}
  * @property DateTime			$date {Default now}
@@ -25,5 +25,7 @@ class Action extends Entity
 	const TYPE_DEBT_MARK_AS_UNPAID = 'debt_mark_as_unpaid';
 	const TYPE_DEBT_UPDATED = 'debt_update';
 
+	const TYPE_ERROR = 'error';
 	const TYPE_REGISTERED = 'registered';
+	const TYPE_LOGGED = 'logged_in';
 }
