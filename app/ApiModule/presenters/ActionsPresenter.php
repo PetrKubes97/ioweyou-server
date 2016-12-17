@@ -4,6 +4,7 @@ namespace App\ApiModule\Presenters;
 
 
 use App\Model\Action;
+use App\Model\Debt;
 use Tracy\Debugger;
 
 class ActionsPresenter extends BaseApiPresenter
@@ -22,7 +23,7 @@ class ActionsPresenter extends BaseApiPresenter
 		foreach ($debts as $debt) {
 
 			foreach ($debt->actions as $action) {
-				$actions[] = $this->convertActionToArray($action);
+				$actions[] = $this->convertActionToArray($action, $debt);
 			}
 		}
 
@@ -34,7 +35,7 @@ class ActionsPresenter extends BaseApiPresenter
 	 * @param Action $action
 	 * @return array
 	 */
-	private function convertActionToArray(Action $action) {
+	private function convertActionToArray(Action $action, Debt $debt) {
 
 
 		// Convert all nulls to empty strings

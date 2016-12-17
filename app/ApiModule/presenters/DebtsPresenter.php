@@ -46,6 +46,7 @@ class DebtsPresenter extends BaseApiPresenter {
 					$action->type = Action::TYPE_DEBT_NEW;
 					$action->user = $this->user;
 					$action->debt = $debt;
+					$action->note = 'A new debt was created.';
 
 				} else {
 					$debt = $this->orm->debts->getById($id);
@@ -67,10 +68,12 @@ class DebtsPresenter extends BaseApiPresenter {
 					throw new Exception('Version has to be an int.');
 				}
 
-				if ($receivedDebt['id'] > 0 && ($debt->creditor->id != $receivedDebt['creditorId'] || $debt->debtor->id != $receivedDebt['debtorId'])) {
-					throw new Exception('You can not change creditor or debtor of a debt. Create a new debt instead.');
+				// check if there are the same people being part of this debt
+				if ($receivedDebt['id'] > 0 &&
+					($debt->creditor->id != $receivedDebt['creditorId'] || $debt->debtor->id != $receivedDebt['debtorId']) &&
+					($debt->creditor->id != $receivedDebt['debtorId'] || $debt->debtor->id != $receivedDebt['creditorId'])) {
+					throw new Exception('You can not change creditor or debtor of a debt.');
 				}
-
 
 			} catch (Exception $e) {
 				$this->sendErrorResponse('Debt ' . $id . ': ' . $e->getMessage());
@@ -100,12 +103,16 @@ class DebtsPresenter extends BaseApiPresenter {
 			if (!isset($action)) {
 
 				if ($debt->paidAt == null && $paidAt != null) {
+					$action->note = 'Debt was marked as paid. ';
 					$action = $this->createAction($debt, Action::TYPE_DEBT_MARK_AS_PAID);
 				} elseif ($debt->paidAt != null && $paidAt == null) {
+					$action->note = 'Debt was marked as unpaid. ';
 					$action = $this->createAction($debt, Action::TYPE_DEBT_MARK_AS_UNPAID);
 				} elseif ($debt->deletedAt == null && $deletedAt != null) {
+					$action->note = 'Debt was deleted. ';
 					$action = $this->createAction($debt, Action::TYPE_DEBT_DELETE);
 				} elseif ($debt->deletedAt != null && $deletedAt == null) {
+					$action->note = 'Debt was restored. ';
 					$action = $this->createAction($debt, Action::TYPE_DEBT_RESTORE);
 				} else {
 					$note = '';
@@ -127,6 +134,10 @@ class DebtsPresenter extends BaseApiPresenter {
 					}
 
 					$note .= ($debt->note != $receivedDebt['note']) ? 'Note was changed. ' : '';
+
+					if ($debt->creditor->id != $receivedDebt['creditorId']) {
+						$note .= 'Creditor and debtor were switched. ';
+					}
 
 					if (!empty($note)) {
 						$action = $this->createAction($debt, Action::TYPE_DEBT_UPDATED, $note);
@@ -172,7 +183,7 @@ class DebtsPresenter extends BaseApiPresenter {
 
 			$this->orm->debts->persistAndFlush($debt);
 
-			// Add an action for new debt; It needs to be at the end of the script, otherwise empty debt would be created in the databse
+			// Add an action for a new debt; It needs to be at the end of the script, otherwise empty debt would be created in the databse
 			if (isset($action)) {
 				$this->orm->actions->persistAndFlush($action);
 			}
