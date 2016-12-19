@@ -15,7 +15,7 @@ use Nextras\Orm\Relationships\OneHasMany;
  * @property Currency|NULL 			$currency 	{m:1 Currency, oneSided=true}
  * @property string|NULL			$customFriendName
  * @property string|NULL			$thingName
- * @property int|NULL				$amount
+ * @property float|NULL				$amount
  * @property string|NULL			$note
  * @property DateTime|NULL			$paidAt {default null}
  * @property DateTime|NULL 			$deletedAt {default null}
