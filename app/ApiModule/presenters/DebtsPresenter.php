@@ -117,7 +117,7 @@ class DebtsPresenter extends BaseApiPresenter {
 					if ($debt->amount != null) {
 						if ($receivedDebt['thingName'] == '') {
 							$note .= ($debt->amount != $receivedDebt['amount']) ? 'Amount was changed. ' : '';
-							$note .= ($debt->currency != $receivedDebt['currencyId']) ? 'Currency was changed. ' : '';
+							$note .= ($debt->currency->id != $receivedDebt['currencyId']) ? 'Currency was changed. ' : '';
 						} else {
 							$note .= 'Money were changed to a thing. ';
 						}
