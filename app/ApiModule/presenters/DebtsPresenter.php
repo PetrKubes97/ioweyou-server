@@ -79,6 +79,11 @@ class DebtsPresenter extends BaseApiPresenter {
 				$this->sendErrorResponse('Debt ' . $id . ': ' . $e->getMessage());
 			}
 
+			if (is_bool($receivedDebt['lock'])) {
+				$lock = $receivedDebt['lock'];
+			} else {
+				$lock = false;
+			}
 
 			// Check if the recieved debt is the most recent version
 			if ($id > 0) {
@@ -86,6 +91,12 @@ class DebtsPresenter extends BaseApiPresenter {
 				// in case of versions being equal, debt won't be updated
 				if ((int)$receivedDebt['version'] <= $debt->version) {
 					continue;
+				} else {
+					// Check if user has the right to edit this debt
+					if ($debt->manager != null && $this->user != $debt->manager) {
+						continue;
+					}
+
 				}
 			}
 
@@ -98,6 +109,8 @@ class DebtsPresenter extends BaseApiPresenter {
 			if ($receivedDebt['deletedAt'] != "") {
 				$deletedAt = DateTime::from($receivedDebt['deletedAt']);
 			}
+
+
 
 			// Create actions if user changes the debt
 			if (!isset($action)) {
@@ -135,10 +148,23 @@ class DebtsPresenter extends BaseApiPresenter {
 						$note .= 'Creditor and debtor were switched. ';
 					}
 
+					if (($debt->manager == null && $lock == true) ||
+						($debt->manager != null && $lock == false)
+					) {
+						$note .= 'Owner changed permissions on this debt. ';
+					}
+
 					if (!empty($note)) {
 						$action = $this->createAction($this->user, $debt, Action::TYPE_DEBT_UPDATED, $note);
 					}
 				}
+			}
+
+			$manager = null;
+			if ($lock) {
+				$manager = $this->user;
+			} else {
+				$manager = null;
 			}
 
 			// Here we have the newest debt, let's update the databse
@@ -154,6 +180,7 @@ class DebtsPresenter extends BaseApiPresenter {
 			$debt->deletedAt = $deletedAt;
 			$debt->createdAt = DateTime::from($receivedDebt['createdAt']);
 			$debt->modifiedAt = new DateTime();
+			$debt->manager = $manager;
 			$debt->version = (int)$receivedDebt['version'];
 
 			// Check if the debt is valid
@@ -231,7 +258,7 @@ class DebtsPresenter extends BaseApiPresenter {
 		$paidAt = (isset($debt->paidAt)) ? $debt->paidAt->format('Y-m-d H:i:s') : "";
 		$deletedAt = (isset($debt->deletedAt)) ? $debt->deletedAt->format('Y-m-d H:i:s') : "";
 
-
+		$managerId = (isset($debt->manager->id)) ? $debt->manager->id : "";
 
 		return [
 			'id' => $debt->id,
@@ -246,6 +273,7 @@ class DebtsPresenter extends BaseApiPresenter {
 			'deletedAt' => $deletedAt,
 			'modifiedAt' => $debt->modifiedAt->format('Y-m-d H:i:s'),
 			'createdAt' => $debt->createdAt->format('Y-m-d H:i:s'),
+			'managerId' => $managerId,
 			'version' => $debt->version
 		];
 	}

@@ -22,6 +22,7 @@ use Nextras\Orm\Relationships\OneHasMany;
  * @property DateTime				$createdAt {default now}
  * @property DateTime				$modifiedAt {default now}
  * @property int					$version {default 0}
+ * @property User|NULL				$manager {m:1 User, oneSided=true}
  * @property OneHasMany|Action[]	$actions {1:m Action::$debt}
  */
 class Debt extends Entity
