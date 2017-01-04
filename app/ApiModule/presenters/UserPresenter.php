@@ -14,10 +14,12 @@ class UserPresenter extends BaseApiPresenter
 
 	public function actionLogin() {
 
-		if (isset($this->data['facebookId']) && isset($this->data['facebookToken'])) {
+		$receivedBody = json_decode($this->request->getRawBody(), true);
+
+		if (isset($receivedBody['facebookId']) && isset($receivedBody['facebookToken'])) {
 
 			try {
-				$user = $this->userModel->login($this->data['facebookId'], $this->data['facebookToken']);
+				$user = $this->userModel->login($receivedBody['facebookId'], $receivedBody['facebookToken']);
 			} catch (FacebookApiException $e) {
 				$this->sendErrorResponse($e->getMessage(), 401);
 			}
