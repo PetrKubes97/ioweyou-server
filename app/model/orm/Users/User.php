@@ -25,6 +25,7 @@ use Nextras\Orm\Relationships\OneHasMany;
  * @property DateTime					$registeredAt 		{default now}
  * @property-read ICollection|User[]	$friends 			{virtual}
  * @property-read ICollection|Debt[]	$debts 				{virtual}
+ * @property-read ICollection|Debt[]	$activeDebts 		{virtual}
  */
 class User extends Entity
 {
@@ -57,5 +58,9 @@ class User extends Entity
 		}
 
 		return $debts;
+	}
+
+	protected function getterActiveDebts() {
+		return $this->getModel()->getRepository('App\Model\DebtsRepository')->getActiveDebts($this->id);
 	}
 }

@@ -215,25 +215,15 @@ class DebtsPresenter extends BaseApiPresenter {
 		$this->sendSuccessResponse($this->getDebtsArray());
 	}
 
-	private function getDebtsArray($which = null) {
-		$toPay = [];
-		$toGet = [];
+	private function getDebtsArray() {
 
-		foreach ($this->user->debtsToPay as $debt) {
-			$toPay[] = $this->convertDebtToArray($debt);
+		$debts = [];
+
+		foreach ($this->user->activeDebts as $debt) {
+			$debts[] = $this->convertDebtToArray($debt);
 		}
 
-		foreach ($this->user->debtsToGet as $debt) {
-			$toGet[] = $this->convertDebtToArray($debt);
-		}
-
-		if ($which == 'toPay') {
-			return ['debtsToPay' => $toPay];
-		} elseif ($which == 'toGet') {
-			return ['debtsToGet' => $toGet];
-		} else {
-			return ['debts' => array_merge($toPay, $toGet)];
-		}
+		return ['debts' => $debts];
 	}
 
 
