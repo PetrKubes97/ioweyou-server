@@ -4,6 +4,21 @@ body {
 
 /* CUSTOMIZE NAVBAR
 -------------------------------------------------- */
+
+.navbar-default .navbar-toggle {
+    border-color: rgba(0, 148, 6, 0.62);
+    border-radius: 20%;
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+    background-color: #ffffff;
+}
+
+.navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover {
+    background-color: rgba(0, 148, 6, 0.62);
+}
+
+
 .navbar-default {
     background-color: rgba(0, 148, 6, 0.62);
     border-color: #1f961f;
@@ -74,11 +89,15 @@ body {
     .featurette-heading {
         margin-top: 68px;
     }
+
+    .featurette-divider {
+        margin: 10px 0; /* Space out the Bootstrap <hr> more */
+    }
 }
 
 .featurette p {
     text-align: justify;
-    padding: 0px 20px;
+    padding: 0px 0px 80px 20px;
 }
 
 /* Other */
