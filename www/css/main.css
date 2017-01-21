@@ -1,0 +1,111 @@
+body {
+    font-family: 'Raleway', sans-serif;
+}
+
+/* CUSTOMIZE NAVBAR
+-------------------------------------------------- */
+.navbar-default {
+    background-color: rgba(0, 148, 6, 0.62);
+    border-color: #1f961f;
+}
+
+.navbar-default .navbar-brand {
+    color: #ffffff;
+    font-size: 28px;
+    line-height: 32px;
+    font-weight: bold;
+}
+
+.navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
+    color: #ffffff;
+}
+
+
+.navbar-default .navbar-nav>li>a {
+    color: #ffffff;
+    line-height: 32px;
+    font-size: 20px;
+}
+
+.navbar-default .navbar-nav>li>a:focus, .navbar-default .navbar-nav>li>a:hover {
+    color: #e2e2e2;
+}
+
+
+/* CUSTOMIZE JUMBOTRON
+-------------------------------------------------- */
+.jumbotron {
+    color: white;
+    background: linear-gradient(141deg, #0f62b8 0%, #4baea5 51%, #4caf50 75%);
+    padding-top: 99px;
+    padding-bottom: 99px;
+}
+
+.jumbotron>.container {
+    margin-top: 50px;
+}
+
+.jumbotron>.container>div>div>div>img {
+    border-radius: 100%;
+    box-shadow: 0px 0px 1px 6px white;
+    margin: auto;
+}
+
+
+
+/* Featurettes
+------------------------- */
+
+.featurette-divider {
+    margin: 80px 0; /* Space out the Bootstrap <hr> more */
+}
+
+/* Thin out the marketing headings */
+.featurette-heading {
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -1px;
+    padding: 0px 20px;
+    margin-top: 28px;
+
+}
+
+@media (min-width: 992px) {
+    .featurette-heading {
+        margin-top: 68px;
+    }
+}
+
+.featurette p {
+    text-align: justify;
+    padding: 0px 20px;
+}
+
+/* Other */
+
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+h1 {
+    font-size: 6em;
+    text-align: center;
+    margin: 50px 0px;
+}
+
+/* Animations */
+.fast {
+    -vendor-animation-duration: 1s;
+    -vendor-animation-delay: 0s;
+}
+.slow {
+    -vendor-animation-duration: 3s;
+    animation-duration: 3s;
+    -vendor-animation-delay: 1s;
+}
+.reallyslow {
+    -vendor-animation-duration: 6s;
+    -vendor-animation-delay: 3s;
+}
+

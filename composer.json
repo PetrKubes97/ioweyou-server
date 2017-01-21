@@ -24,7 +24,8 @@
 		"nextras/migrations": "^3.0",
 		"kdyby/console": "^2.6",
 		"nextras/dbal": "^2.0",
-		"kdyby/facebook": "^2.0"
+		"kdyby/facebook": "^2.0",
+		"kdyby/translation": "^2.3"
 	},
 	"require-dev": {
 		"nette/tester": "^1.6"

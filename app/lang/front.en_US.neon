@@ -1,0 +1,19 @@
+homepage:
+    texts:
+        intro: "Simple debt manager. This one is special though, the debts will be synchronized with your facebook friends."
+        login: "Login with facebook. None of your information is shared with third parties."
+        overview: "All your debts are here. Click them and see what you can do with them. "
+        add: "Adding a debt is simple. Just type the name of your friend and suggestions from Facebook contacts (blue rows) and contacts will show up. Then fill up the other fields."
+        actions: "You can see all edits to your debts in this tab."
+
+    headings:
+        howToUse: "How to use:"
+        login: "Login"
+        overview: "Their debts and My debts"
+        add: "Add a new debt"
+        actions: "Actions"
+
+    menu:
+        home: "Home"
+        technology: "Technology"
+        contact: "Contact"

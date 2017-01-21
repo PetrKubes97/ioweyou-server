@@ -18,12 +18,11 @@ class RouterFactory
 	{
 		$router = new RouteList;
 
-		// API
-		$router[] = new Route('api/debts/update', 'Api:Debts:update');
-		$router[] = new Route('api/debts[/<which>]', 'Api:Debts:default');
 
+		$router[] = new Route('[<locale=cs cs|en>/]<module>/<presenter>/<action>', "Web:Homepage:default");
 		$router[] = new Route('<module>/<presenter>/<action>[/<id>]', 'Web:Homepage:default');
 		$router[] = new Route('<presenter>/<action>[/<id>]', 'Web:Homepage:default');
+
 		return $router;
 	}
 
