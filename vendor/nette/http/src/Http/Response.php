@@ -54,11 +54,12 @@ class Response implements IResponse
 	/**
 	 * Sets HTTP response code.
 	 * @param  int
-	 * @return self
+	 * @param  string
+	 * @return static
 	 * @throws Nette\InvalidArgumentException  if code is invalid
 	 * @throws Nette\InvalidStateException  if HTTP headers have been sent
 	 */
-	public function setCode($code)
+	public function setCode($code, $reason = NULL)
 	{
 		$code = (int) $code;
 		if ($code < 100 || $code > 599) {
@@ -66,8 +67,20 @@ class Response implements IResponse
 		}
 		self::checkHeaders();
 		$this->code = $code;
-		$protocol = isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.1';
-		header($protocol . ' ' . $code, TRUE, $code);
+
+		static $hasReason = [ // hardcoded in PHP
+			100, 101,
+			200, 201, 202, 203, 204, 205, 206,
+			300, 301, 302, 303, 304, 305, 307, 308,
+			400, 401, 402, 403, 404, 405, 406, 407, 408, 409, 410, 411, 412, 413, 414, 415, 416, 417, 426, 428, 429, 431,
+			500, 501, 502, 503, 504, 505, 506, 511,
+		];
+		if ($reason || !in_array($code, $hasReason, TRUE)) {
+			$protocol = isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.1';
+			header("$protocol $code " . ($reason ?: 'Unknown status'));
+		} else {
+			http_response_code($code);
+		}
 		return $this;
 	}
 
@@ -86,7 +99,7 @@ class Response implements IResponse
 	 * Sends a HTTP header and replaces a previous one.
 	 * @param  string  header name
 	 * @param  string  header value
-	 * @return self
+	 * @return static
 	 * @throws Nette\InvalidStateException  if HTTP headers have been sent
 	 */
 	public function setHeader($name, $value)
@@ -107,7 +120,7 @@ class Response implements IResponse
 	 * Adds HTTP header.
 	 * @param  string  header name
 	 * @param  string  header value
-	 * @return self
+	 * @return static
 	 * @throws Nette\InvalidStateException  if HTTP headers have been sent
 	 */
 	public function addHeader($name, $value)
@@ -122,7 +135,7 @@ class Response implements IResponse
 	 * Sends a Content-type HTTP header.
 	 * @param  string  mime-type
 	 * @param  string  charset
-	 * @return self
+	 * @return static
 	 * @throws Nette\InvalidStateException  if HTTP headers have been sent
 	 */
 	public function setContentType($type, $charset = NULL)
@@ -152,8 +165,8 @@ class Response implements IResponse
 
 	/**
 	 * Sets the number of seconds before a page cached on a browser expires.
-	 * @param  string|int|\DateTimeInterface  time, value 0 means "until the browser is closed"
-	 * @return self
+	 * @param  string|int|\DateTimeInterface  time, value 0 means "must-revalidate"
+	 * @return static
 	 * @throws Nette\InvalidStateException  if HTTP headers have been sent
 	 */
 	public function setExpiration($time)
@@ -250,7 +263,7 @@ class Response implements IResponse
 	 * @param  string
 	 * @param  bool
 	 * @param  bool
-	 * @return self
+	 * @return static
 	 * @throws Nette\InvalidStateException  if HTTP headers have been sent
 	 */
 	public function setCookie($name, $value, $time, $path = NULL, $domain = NULL, $secure = NULL, $httpOnly = NULL)

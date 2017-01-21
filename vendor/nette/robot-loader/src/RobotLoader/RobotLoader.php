@@ -27,7 +27,7 @@ class RobotLoader
 	/** @var string|array  comma separated wildcards */
 	public $acceptFiles = '*.php, *.php5';
 
-	/** @var bool */
+	/** @var bool @deprecated */
 	public $autoRebuild = TRUE;
 
 	/** @var array */
@@ -37,7 +37,7 @@ class RobotLoader
 	private $classes = [];
 
 	/** @var bool */
-	private $rebuilt = FALSE;
+	private $refreshed = FALSE;
 
 	/** @var array of missing classes in this request */
 	private $missing = [];
@@ -57,7 +57,7 @@ class RobotLoader
 	/**
 	 * Register autoloader.
 	 * @param  bool  prepend autoloader?
-	 * @return self
+	 * @return static
 	 */
 	public function register($prepend = FALSE)
 	{
@@ -85,12 +85,12 @@ class RobotLoader
 		if ($this->autoRebuild) {
 			if (!is_array($info) || !is_file($info['file'])) {
 				$info = is_int($info) ? $info + 1 : 0;
-				if ($this->rebuilt) {
+				if ($this->refreshed) {
 					$this->getCache()->save($this->getKey(), $this->classes);
 				} else {
 					$this->rebuild();
 				}
-			} elseif (!$this->rebuilt && filemtime($info['file']) !== $info['time']) {
+			} elseif (!$this->refreshed && filemtime($info['file']) !== $info['time']) {
 				$this->updateFile($info['file']);
 				if (!isset($this->classes[$type])) {
 					$this->classes[$type] = 0;
@@ -113,7 +113,7 @@ class RobotLoader
 	/**
 	 * Add path or paths to list.
 	 * @param  string|string[]  absolute path
-	 * @return self
+	 * @return static
 	 */
 	public function addDirectory($path)
 	{
@@ -143,8 +143,11 @@ class RobotLoader
 	 */
 	public function rebuild()
 	{
-		$this->rebuilt = TRUE; // prevents calling rebuild() or updateFile() in tryLoad()
-		$this->getCache()->save($this->getKey(), Nette\Utils\Callback::closure($this, 'rebuildCallback'));
+		if ($this->cacheStorage) {
+			$this->getCache()->save($this->getKey(), Nette\Utils\Callback::closure($this, 'rebuildCallback'));
+		} else {
+			$this->rebuildCallback();
+		}
 	}
 
 
@@ -153,6 +156,7 @@ class RobotLoader
 	 */
 	public function rebuildCallback()
 	{
+		$this->refreshed = TRUE; // prevents calling rebuild() or updateFile() in tryLoad()
 		$files = $missing = [];
 		foreach ($this->classes as $class => $info) {
 			if (is_array($info)) {
@@ -332,11 +336,40 @@ class RobotLoader
 	}
 
 
-	/********************* backend ****************d*g**/
+	/********************* caching ****************d*g**/
 
 
 	/**
-	 * @return self
+	 * Sets auto-refresh mode.
+	 * @return static
+	 */
+	public function setAutoRefresh($on = TRUE)
+	{
+		$this->autoRebuild = (bool) $on;
+		return $this;
+	}
+
+
+	/**
+	 * Sets path to temporary directory.
+	 * @return static
+	 */
+	public function setTempDirectory($dir)
+	{
+		if ($dir) {
+			if (!is_dir($dir)) {
+				@mkdir($dir); // @ - directory may already exist
+			}
+			$this->cacheStorage = new Nette\Caching\Storages\FileStorage($dir);
+		} else {
+			$this->cacheStorage = new Nette\Caching\Storages\DevNullStorage;
+		}
+		return $this;
+	}
+
+
+	/**
+	 * @return static
 	 */
 	public function setCacheStorage(Nette\Caching\IStorage $storage)
 	{
@@ -360,7 +393,7 @@ class RobotLoader
 	protected function getCache()
 	{
 		if (!$this->cacheStorage) {
-			trigger_error('Missing cache storage.', E_USER_WARNING);
+			trigger_error('Set path to temporary directory using setTempDirectory().', E_USER_WARNING);
 			$this->cacheStorage = new Nette\Caching\Storages\DevNullStorage;
 		}
 		return new Cache($this->cacheStorage, 'Nette.RobotLoader');
@@ -368,7 +401,7 @@ class RobotLoader
 
 
 	/**
-	 * @return string
+	 * @return array
 	 */
 	protected function getKey()
 	{

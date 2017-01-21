@@ -34,7 +34,7 @@
 
 		draggable(elem, {
 			handle: elem.querySelector('h1'),
-			stop: function() {
+			start: function() {
 				_this.toFloat();
 			}
 		});
@@ -94,7 +94,6 @@
 			clearTimeout(elem.Tracy.displayTimeout);
 			elem.Tracy.displayTimeout = setTimeout(function() {
 				elem.classList.add(Panel.FOCUSED);
-				elem.style.display = 'block';
 				elem.style.zIndex = Panel.zIndex++;
 				if (callback) {
 					callback();
@@ -105,11 +104,10 @@
 
 	Panel.prototype.blur = function() {
 		var elem = this.elem;
-		elem.classList.remove(Panel.FOCUSED);
 		if (this.is(Panel.PEEK)) {
 			clearTimeout(elem.Tracy.displayTimeout);
 			elem.Tracy.displayTimeout = setTimeout(function() {
-				elem.style.display = 'none';
+				elem.classList.remove(Panel.FOCUSED);
 			}, 50);
 		}
 	};
@@ -118,15 +116,14 @@
 		this.elem.classList.remove(Panel.WINDOW);
 		this.elem.classList.remove(Panel.PEEK);
 		this.elem.classList.add(Panel.FLOAT);
-		this.elem.style.display = 'block';
 		this.reposition();
 	};
 
 	Panel.prototype.toPeek = function() {
 		this.elem.classList.remove(Panel.WINDOW);
 		this.elem.classList.remove(Panel.FLOAT);
+		this.elem.classList.remove(Panel.FOCUSED);
 		this.elem.classList.add(Panel.PEEK);
-		this.elem.style.display = 'none';
 	};
 
 	Panel.prototype.toWindow = function() {
@@ -140,19 +137,13 @@
 			return false;
 		}
 
-		function escape(s) {
-			return s.replace(/<\//g, '<\\\/');
-		}
-
 		var doc = win.document;
 		doc.write('<!DOCTYPE html><meta charset="utf-8">'
-			+ '<style>' + escape(localStorage.getItem('tracy-style')) + '</style>'
-			+ '<script>' + escape(localStorage.getItem('tracy-script')) + '</script>'
+			+ '<script src="?_tracy_bar=js&amp;XDEBUG_SESSION_STOP=1" onload="Tracy.Dumper.init()" async><\/script>'
 			+ '<body id="tracy-debug">'
-			+ '<div class="tracy-panel tracy-mode-window" id="' + this.elem.id + '">' + this.elem.innerHTML + '</div>'
-			+ '<script>Tracy.Dumper.init()</script>'
 		);
-		evalScripts(doc.body, win);
+		doc.body.innerHTML = '<div class="tracy-panel tracy-mode-window" id="' + this.elem.id + '">' + this.elem.innerHTML + '<\/div>';
+		evalScripts(doc.body);
 		if (this.elem.querySelector('h1')) {
 			doc.title = this.elem.querySelector('h1').textContent;
 		}
@@ -169,9 +160,9 @@
 			}
 		});
 
-		this.elem.style.display = 'none';
 		this.elem.classList.remove(Panel.FLOAT);
 		this.elem.classList.remove(Panel.PEEK);
+		this.elem.classList.remove(Panel.FOCUSED);
 		this.elem.classList.add(Panel.WINDOW);
 		this.elem.Tracy.window = win;
 		return true;
@@ -222,12 +213,12 @@
 			draggedClass: 'tracy-dragged'
 		});
 
-		this.initTabs();
+		this.initTabs(this.elem);
 		this.restorePosition();
 	};
 
-	Bar.prototype.initTabs = function() {
-		var _this = this, elem = this.elem;
+	Bar.prototype.initTabs = function(elem) {
+		var _this = this;
 
 		forEach(elem.getElementsByTagName('a'), function(a) {
 			a.addEventListener('click', function(e) {
@@ -315,6 +306,10 @@
 	Debug.panels = {};
 
 	Debug.init = function(content, dumps) {
+		if (!document.documentElement.dataset) {
+			throw new Error('Tracy requires IE 11+');
+		}
+
 		layer.innerHTML = content;
 		evalScripts(layer);
 		Tracy.Dumper.init();
@@ -381,53 +376,42 @@
 		if (!header) {
 			return;
 		}
-		var oldOpen = XMLHttpRequest.prototype.open,
-			oldGet = XMLHttpRequest.prototype.getResponseHeader,
-			oldGetAll = XMLHttpRequest.prototype.getAllResponseHeaders;
+		var oldOpen = XMLHttpRequest.prototype.open;
 
 		XMLHttpRequest.prototype.open = function() {
 			oldOpen.apply(this, arguments);
 			if (window.TracyAutoRefresh !== false && arguments[1].indexOf('//') <= 0 || arguments[1].indexOf(location.origin + '/') === 0) {
 				this.setRequestHeader('X-Tracy-Ajax', header);
+				this.addEventListener('load', function() {
+					if (this.getAllResponseHeaders().match(/^X-Tracy-Ajax: 1/mi)) {
+						Debug.loadScript('?_tracy_bar=content-ajax.' + header + '&XDEBUG_SESSION_STOP=1&v=' + Math.random());
+					}
+				});
 			}
 		};
-		XMLHttpRequest.prototype.getResponseHeader = function() {
-			process(this);
-			return oldGet.apply(this, arguments);
-		};
-		XMLHttpRequest.prototype.getAllResponseHeaders = function() {
-			process(this);
-			return oldGetAll.call(this);
-		};
-		function process(xhr) {
-			xhr.getResponseHeader = oldGet;
-			xhr.getAllResponseHeaders = oldGetAll;
-			if (xhr.getAllResponseHeaders().match(/^X-Tracy-Ajax: 1/mi)) {
-				Debug.loadScript('?_tracy_bar=content-ajax.' + header + '&XDEBUG_SESSION_STOP=1&v=' + Math.random());
-			}
-		}
 	};
 
 	Debug.loadScript = function(url) {
 		if (Debug.scriptElem) {
-			Debug.scriptElem.parentNode.removeChild(Debug.scriptElem)
+			Debug.scriptElem.parentNode.removeChild(Debug.scriptElem);
 		}
 		Debug.scriptElem = document.createElement('script');
 		Debug.scriptElem.src = url;
+		Debug.scriptElem.setAttribute('nonce', layer.dataset.nonce);
 		document.documentElement.appendChild(Debug.scriptElem);
 	};
 
-	function evalScripts(elem, scope) {
-		scope = scope || window;
+	function evalScripts(elem) {
 		forEach(elem.getElementsByTagName('script'), function(script) {
 			if ((!script.hasAttribute('type') || script.type === 'text/javascript' || script.type === 'application/javascript') && !script.tracyEvaluated) {
-				(scope.execScript || function (data) {
-					scope['eval'].call(scope, data);
-				})(script.innerHTML);
+				var dolly = script.ownerDocument.createElement('script');
+				dolly.textContent = script.textContent;
+				dolly.setAttribute('nonce', layer.dataset.nonce);
+				script.ownerDocument.body.appendChild(dolly);
 				script.tracyEvaluated = true;
 			}
 		});
-	};
+	}
 
 	// emulate mouseenter & mouseleave
 	function isTargetChanged(target, dest) {
@@ -506,6 +490,9 @@
 			dE.addEventListener('mousemove', onmousemove);
 			dE.addEventListener('mouseup', onmouseup);
 			requestAnimationFrame(redraw);
+			if (options.start) {
+				options.start(e, elem);
+			}
 		});
 
 		(options.handle || elem).addEventListener('click', function(e) {
@@ -518,7 +505,7 @@
 	// returns total offset for element
 	function getOffset(elem) {
 		var res = {left: elem.offsetLeft, top: elem.offsetTop};
-		while (elem = elem.offsetParent) {
+		while (elem = elem.offsetParent) { // eslint-disable-line
 			res.left += elem.offsetLeft; res.top += elem.offsetTop;
 		}
 		return res;

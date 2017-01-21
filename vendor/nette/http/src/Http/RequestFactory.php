@@ -36,7 +36,7 @@ class RequestFactory
 
 	/**
 	 * @param  bool
-	 * @return self
+	 * @return static
 	 */
 	public function setBinary($binary = TRUE)
 	{
@@ -47,7 +47,7 @@ class RequestFactory
 
 	/**
 	 * @param  array|string
-	 * @return self
+	 * @return static
 	 */
 	public function setProxy($proxy)
 	{
@@ -110,7 +110,7 @@ class RequestFactory
 		// remove invalid characters
 		$reChars = '#^[' . self::CHARS . ']*+\z#u';
 		if (!$this->binary) {
-			$list = [& $query, & $post, & $cookies];
+			$list = [&$query, &$post, &$cookies];
 			while (list($key, $val) = each($list)) {
 				foreach ($val as $k => $v) {
 					if (is_string($k) && (!preg_match($reChars, $k) || preg_last_error())) {
@@ -118,7 +118,7 @@ class RequestFactory
 
 					} elseif (is_array($v)) {
 						$list[$key][$k] = $v;
-						$list[] = & $list[$key][$k];
+						$list[] = &$list[$key][$k];
 
 					} else {
 						$list[$key][$k] = (string) preg_replace('#[^' . self::CHARS . ']+#u', '', $v);
@@ -140,7 +140,7 @@ class RequestFactory
 				) {
 					continue;
 				}
-				$v['@'] = & $files[$k];
+				$v['@'] = &$files[$k];
 				$list[] = $v;
 			}
 		}
@@ -169,7 +169,7 @@ class RequestFactory
 					'size' => $v['size'][$k],
 					'tmp_name' => $v['tmp_name'][$k],
 					'error' => $v['error'][$k],
-					'@' => & $v['@'][$k],
+					'@' => &$v['@'][$k],
 				];
 			}
 		}
@@ -233,7 +233,7 @@ class RequestFactory
 					}
 				}
 
-				$scheme = (isset($proxyParams['scheme']) && count($proxyParams['scheme']) === 1) ? $proxyParams['scheme'][0] : 'http';
+				$scheme = (isset($proxyParams['proto']) && count($proxyParams['proto']) === 1) ? $proxyParams['proto'][0] : 'http';
 				$url->setScheme(strcasecmp($scheme, 'https') === 0 ? 'https' : 'http');
 			} else {
 				if (!empty($_SERVER['HTTP_X_FORWARDED_PROTO'])) {

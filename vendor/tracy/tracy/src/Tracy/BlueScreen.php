@@ -40,7 +40,7 @@ class BlueScreen
 	/**
 	 * Add custom panel.
 	 * @param  callable
-	 * @return self
+	 * @return static
 	 */
 	public function addPanel($panel)
 	{
@@ -62,9 +62,7 @@ class BlueScreen
 			ob_start(function () {});
 			$this->renderTemplate($exception, __DIR__ . '/assets/BlueScreen/content.phtml');
 			$contentId = $_SERVER['HTTP_X_TRACY_AJAX'];
-			$queue = & $_SESSION['_tracy']['bluescreen'];
-			$queue = array_slice(array_filter((array) $queue), -5, NULL, TRUE);
-			$queue[$contentId] = ['content' => ob_get_clean(), 'dumps' => Dumper::fetchLiveData()];
+			$_SESSION['_tracy']['bluescreen'][$contentId] = ['content' => ob_get_clean(), 'dumps' => Dumper::fetchLiveData(), 'time' => time()];
 
 		} else {
 			$this->renderTemplate($exception, __DIR__ . '/assets/BlueScreen/page.phtml');
@@ -111,6 +109,7 @@ class BlueScreen
 				Dumper::LOCATION => Dumper::LOCATION_CLASS,
 			]);
 		};
+		$nonce = Helpers::getNonce();
 
 		require $template;
 	}
@@ -215,7 +214,7 @@ class BlueScreen
 		$source = explode("\n", "\n" . str_replace("\r\n", "\n", $html));
 		$out = '';
 		$spans = 1;
-		$start = $i = max(1, min($line, count($source) - 1) - floor($lines * 2 / 3));
+		$start = $i = max(1, min($line, count($source) - 1) - (int) floor($lines * 2 / 3));
 		while (--$i >= 1) { // find last highlighted block
 			if (preg_match('#.*(</?span[^>]*>)#', $source[$i], $m)) {
 				if ($m[1] !== '</span>') {

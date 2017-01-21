@@ -13,6 +13,7 @@ use Nette;
 /**
  * PHP reflection helpers.
  * @internal
+ * @deprecated
  */
 class PhpReflection
 {
@@ -59,10 +60,8 @@ class PhpReflection
 	public static function getParameterType(\ReflectionParameter $param)
 	{
 		if (PHP_VERSION_ID >= 70000) {
-			if ($param->hasType()) {
-				$type = PHP_VERSION_ID >= 70100 ? $param->getType()->getName() : (string) $param->getType();
-				return strtolower($type) === 'self' ? $param->getDeclaringClass()->getName() : $type;
-			}
+			$type = $param->hasType() ? (string) $param->getType() : NULL;
+			return strtolower($type) === 'self' ? $param->getDeclaringClass()->getName() : $type;
 		} elseif ($param->isArray() || $param->isCallable()) {
 			return $param->isArray() ? 'array' : 'callable';
 		} else {
@@ -84,7 +83,7 @@ class PhpReflection
 	public static function getReturnType(\ReflectionFunctionAbstract $func)
 	{
 		if (PHP_VERSION_ID >= 70000 && $func->hasReturnType()) {
-			$type = PHP_VERSION_ID >= 70100 ? $func->getReturnType()->getName() : (string) $func->getReturnType();
+			$type = (string) $func->getReturnType();
 			return strtolower($type) === 'self' ? $func->getDeclaringClass()->getName() : $type;
 		}
 		$type = preg_replace('#[|\s].*#', '', (string) self::parseAnnotation($func, 'return'));
@@ -112,7 +111,7 @@ class PhpReflection
 	 */
 	public static function getClassTree(\ReflectionClass $class)
 	{
-		$addTraits = function ($types) use (& $addTraits) {
+		$addTraits = function ($types) use (&$addTraits) {
 			if ($traits = array_merge(...array_map('class_uses', array_values($types)))) {
 				$types += $traits + $addTraits($traits);
 			}
@@ -256,7 +255,7 @@ class PhpReflection
 	}
 
 
-	private static function fetch(& $tokens, $take)
+	private static function fetch(&$tokens, $take)
 	{
 		$res = NULL;
 		while ($token = current($tokens)) {

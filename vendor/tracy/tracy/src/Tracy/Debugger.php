@@ -16,7 +16,7 @@ use ErrorException;
  */
 class Debugger
 {
-	const VERSION = '2.4.3';
+	const VERSION = '2.4.5';
 
 	/** server modes for Debugger::enable() */
 	const
@@ -144,7 +144,7 @@ class Debugger
 		}
 
 		self::$maxLen = & self::$maxLength;
-		self::$reserved = str_repeat('t', 3e5);
+		self::$reserved = str_repeat('t', 30000);
 		self::$time = isset($_SERVER['REQUEST_TIME_FLOAT']) ? $_SERVER['REQUEST_TIME_FLOAT'] : microtime(TRUE);
 		self::$obLevel = ob_get_level();
 		self::$cpuUsage = !self::$productionMode && function_exists('getrusage') ? getrusage() : NULL;
@@ -165,9 +165,9 @@ class Debugger
 
 		// php configuration
 		if (function_exists('ini_set')) {
-			ini_set('display_errors', !self::$productionMode); // or 'stderr'
-			ini_set('html_errors', FALSE);
-			ini_set('log_errors', FALSE);
+			ini_set('display_errors', self::$productionMode ? '0' : '1'); // or 'stderr'
+			ini_set('html_errors', '0');
+			ini_set('log_errors', '0');
 
 		} elseif (ini_get('display_errors') != !self::$productionMode // intentionally ==
 			&& ini_get('display_errors') !== (self::$productionMode ? 'stderr' : 'stdout')
@@ -179,7 +179,6 @@ class Debugger
 		if (self::$enabled) {
 			return;
 		}
-		self::$enabled = TRUE;
 
 		register_shutdown_function([__CLASS__, 'shutdownHandler']);
 		set_exception_handler([__CLASS__, 'exceptionHandler']);
@@ -188,20 +187,8 @@ class Debugger
 		array_map('class_exists', ['Tracy\Bar', 'Tracy\BlueScreen', 'Tracy\DefaultBarPanel', 'Tracy\Dumper',
 			'Tracy\FireLogger', 'Tracy\Helpers', 'Tracy\Logger']);
 
-		if (self::$productionMode) {
-
-		} elseif (headers_sent($file, $line) || ob_get_length()) {
-			throw new \LogicException(
-				__METHOD__ . '() called after some output has been sent. '
-				. ($file ? "Output started at $file:$line." : 'Try Tracy\OutputDebugger to find where output started.')
-			);
-
-		} elseif (self::getBar()->dispatchAssets()) {
-			exit;
-
-		} elseif (session_status() === PHP_SESSION_ACTIVE) {
-			self::dispatch();
-		}
+		self::dispatch();
+		self::$enabled = TRUE;
 	}
 
 
@@ -219,7 +206,7 @@ class Debugger
 				. ($file ? "Output started at $file:$line." : 'Try Tracy\OutputDebugger to find where output started.')
 			);
 
-		} elseif (session_status() !== PHP_SESSION_ACTIVE) {
+		} elseif (self::$enabled && session_status() !== PHP_SESSION_ACTIVE) {
 			ini_set('session.use_cookies', '1');
 			ini_set('session.use_only_cookies', '1');
 			ini_set('session.use_trans_sid', '0');
@@ -227,7 +214,8 @@ class Debugger
 			ini_set('session.cookie_httponly', '1');
 			session_start();
 		}
-		if (self::getBar()->dispatchContent()) {
+
+		if (self::getBar()->dispatchAssets()) {
 			exit;
 		}
 	}
@@ -252,6 +240,7 @@ class Debugger
 		if (!self::$reserved) {
 			return;
 		}
+		self::$reserved = NULL;
 
 		$error = error_get_last();
 		if (in_array($error['type'], [E_ERROR, E_CORE_ERROR, E_COMPILE_ERROR, E_PARSE, E_RECOVERABLE_ERROR, E_USER_ERROR], TRUE)) {
@@ -261,7 +250,6 @@ class Debugger
 			);
 
 		} elseif (self::$showBar && !self::$productionMode) {
-			self::$reserved = NULL;
 			self::removeOutputBuffers(FALSE);
 			self::getBar()->render();
 		}
@@ -276,15 +264,13 @@ class Debugger
 	 */
 	public static function exceptionHandler($exception, $exit = TRUE)
 	{
-		if (!self::$reserved) {
+		if (!self::$reserved && $exit) {
 			return;
 		}
 		self::$reserved = NULL;
 
 		if (!headers_sent()) {
-			$protocol = isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.1';
-			$code = isset($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE ') !== FALSE ? 503 : 500;
-			header("$protocol $code", TRUE, $code);
+			http_response_code(isset($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE ') !== FALSE ? 503 : 500);
 			if (Helpers::isHtmlMode()) {
 				header('Content-Type: text/html; charset=UTF-8');
 			}

@@ -56,7 +56,7 @@ class PresenterFactory implements IPresenterFactory
 	 * @return string  class name
 	 * @throws InvalidPresenterException
 	 */
-	public function getPresenterClass(& $name)
+	public function getPresenterClass(&$name)
 	{
 		if (isset($this->cache[$name])) {
 			return $this->cache[$name];
@@ -93,7 +93,7 @@ class PresenterFactory implements IPresenterFactory
 
 	/**
 	 * Sets mapping as pairs [module => mask]
-	 * @return self
+	 * @return static
 	 */
 	public function setMapping(array $mapping)
 	{

@@ -15,7 +15,7 @@ class HomepagePresenter extends Nette\Application\UI\Presenter
 	}
 
 	public function renderDefault() {
-		$this->template->test = 'First user: ' . $this->orm->users->getById(1)->email;
+
 	}
 
 }

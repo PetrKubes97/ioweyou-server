@@ -56,7 +56,7 @@ class Helpers
 	public static function formatHtml($mask)
 	{
 		$args = func_get_args();
-		return preg_replace_callback('#%#', function () use (& $args, & $count) {
+		return preg_replace_callback('#%#', function () use (&$args, &$count) {
 			return Helpers::escapeHtml($args[++$count]);
 		}, $mask);
 	}
@@ -64,11 +64,11 @@ class Helpers
 
 	public static function escapeHtml($s)
 	{
-		return htmlspecialchars($s, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+		return htmlspecialchars((string) $s, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 	}
 
 
-	public static function findTrace(array $trace, $method, & $index = NULL)
+	public static function findTrace(array $trace, $method, &$index = NULL)
 	{
 		$m = explode('::', $method);
 		foreach ($trace as $i => $item) {
@@ -172,7 +172,7 @@ class Helpers
 		} elseif (preg_match('#^Call to undefined function (\S+\\\\)?(\w+)\(#', $message, $m)) {
 			$funcs = array_merge(get_defined_functions()['internal'], get_defined_functions()['user']);
 			$hint = self::getSuggestion($funcs, $m[1] . $m[2]) ?: self::getSuggestion($funcs, $m[2]);
-			$message .= ", did you mean $hint()?";
+			$message = "Call to undefined function $m[2](), did you mean $hint()?";
 
 		} elseif (preg_match('#^Call to undefined method (\S+)::(\w+)#', $message, $m)) {
 			$hint = self::getSuggestion(get_class_methods($m[1]), $m[2]);
@@ -236,6 +236,15 @@ class Helpers
 	public static function isAjax()
 	{
 		return isset($_SERVER['HTTP_X_TRACY_AJAX']) && preg_match('#^\w{10}\z#', $_SERVER['HTTP_X_TRACY_AJAX']);
+	}
+
+
+	/** @internal */
+	public static function getNonce()
+	{
+		return preg_match('#^Content-Security-Policy:.*\sscript-src\s+(?:[^;]+\s)?\'nonce-([\w+/]+=*)\'#mi', implode("\n", headers_list()), $m)
+			? $m[1]
+			: NULL;
 	}
 
 }

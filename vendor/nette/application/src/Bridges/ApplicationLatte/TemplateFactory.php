@@ -31,14 +31,21 @@ class TemplateFactory implements UI\ITemplateFactory
 	/** @var Nette\Caching\IStorage */
 	private $cacheStorage;
 
+	/** @var string */
+	private $templateClass;
+
 
 	public function __construct(ILatteFactory $latteFactory, Nette\Http\IRequest $httpRequest = NULL,
-		Nette\Security\User $user = NULL, Nette\Caching\IStorage $cacheStorage = NULL)
+		Nette\Security\User $user = NULL, Nette\Caching\IStorage $cacheStorage = NULL, $templateClass = NULL)
 	{
 		$this->latteFactory = $latteFactory;
 		$this->httpRequest = $httpRequest;
 		$this->user = $user;
 		$this->cacheStorage = $cacheStorage;
+		if ($templateClass && (!class_exists($templateClass) || !is_a($templateClass, Template::class, TRUE))) {
+			throw new Nette\InvalidArgumentException("Class $templateClass does not extend " . Template::class . ' or it does not exist.');
+		}
+		$this->templateClass = $templateClass ?: Template::class;
 	}
 
 
@@ -48,7 +55,7 @@ class TemplateFactory implements UI\ITemplateFactory
 	public function createTemplate(UI\Control $control = NULL)
 	{
 		$latte = $this->latteFactory->create();
-		$template = new Template($latte);
+		$template = new $this->templateClass($latte);
 		$presenter = $control ? $control->getPresenter(FALSE) : NULL;
 
 		if ($control instanceof UI\Presenter) {
@@ -96,6 +103,8 @@ class TemplateFactory implements UI\ITemplateFactory
 			$latte->addProvider('uiControl', $control);
 			$latte->addProvider('uiPresenter', $presenter);
 			$latte->addProvider('snippetBridge', new Nette\Bridges\ApplicationLatte\SnippetBridge($control));
+			$nonce = preg_match('#\s\'nonce-([\w+/]+=*)\'#', $presenter->getHttpResponse()->getHeader('Content-Security-Policy'), $m) ? $m[1] : NULL;
+			$latte->addProvider('uiNonce', $nonce);
 		}
 		$latte->addProvider('cacheStorage', $this->cacheStorage);
 
