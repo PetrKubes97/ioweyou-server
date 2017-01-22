@@ -1,12 +1,12 @@
 body {
-    font-family: 'Raleway', sans-serif;
+    font-family: 'Scope One', serif;
 }
 
 /* CUSTOMIZE NAVBAR
 -------------------------------------------------- */
 
 .navbar-default .navbar-toggle {
-    border-color: rgba(0, 148, 6, 0.62);
+    border-color: rgba(0, 0, 0, 0);
     border-radius: 20%;
 }
 
@@ -15,7 +15,7 @@ body {
 }
 
 .navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover {
-    background-color: rgba(0, 148, 6, 0.62);
+    background-color: rgba(0, 0, 0, 0);
 }
 
 
@@ -71,17 +71,13 @@ body {
 /* Featurettes
 ------------------------- */
 
-.featurette-divider {
-    margin: 80px 0; /* Space out the Bootstrap <hr> more */
-}
-
 /* Thin out the marketing headings */
 .featurette-heading {
     font-weight: 400;
     line-height: 1;
     letter-spacing: -1px;
     padding: 0px 20px;
-    margin-top: 28px;
+    margin-top: 68px;
 
 }
 
@@ -97,7 +93,7 @@ body {
 
 .featurette p {
     text-align: justify;
-    padding: 0px 0px 80px 20px;
+    padding: 0px 0px 30px 20px;
 }
 
 /* Other */
@@ -110,7 +106,19 @@ body {
 h1 {
     font-size: 6em;
     text-align: center;
-    margin: 50px 0px;
+    margin: 50px 0px 20px 0px;
+}
+
+h2 {
+    font-size: 3em;
+}
+
+.email {
+    margin: auto;
+    display: block;
+    text-align: center;
+    font-size: 2em;
+    padding: 1em 0em;
 }
 
 /* Animations */

@@ -7,7 +7,7 @@
 	<title>{ifset title}{include title|stripHtml} | {/ifset}Nette Web</title>
 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 	<link href="{$basePath}/css/main.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,500,700&amp;subset=latin-ext" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Scope+One&amp;subset=latin-ext" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" />
 </head>
 
@@ -29,9 +29,9 @@
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
-					<li><a href="#">{$home}</a></li>
-					<li><a href="#about">{$technology}</a></li>
-					<li><a href="#contact">{$contact}</a></li>
+					<li><a n:href="Homepage:default">{$home}</a></li>
+					<li><a n:href="Homepage:technology">{$technology}</a></li>
+					<li><a n:href="Homepage:contact">{$contact}</a></li>
 				</ul>
 			</div><!--/.nav-collapse -->
 		</div>
@@ -47,7 +47,7 @@
 		<script src="https://nette.github.io/resources/js/netteForms.min.js"></script>
         <script>
             var options = {
-                animateThreshold: 200,
+                animateThreshold: 100,
                 scrollPollInterval: 20
             }
             $('.aniview').AniView(options);

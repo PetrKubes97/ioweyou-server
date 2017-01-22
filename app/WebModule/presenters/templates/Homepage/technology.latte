@@ -1,3 +1,168 @@
 {block content}
 
-technologie
+<div class="container lead" style="padding-top: 50px">
+    <h1>Technologie</h1>
+    <h2>Serverová část</h2>
+    <p>
+        Aplikace komunikuje se serverem pomocí REST rozhraní. Fyzický server se nachází v USA je spravován firmou Amazon.
+    </p>
+    <p>
+        Byl využit programovací jazyk PHP a framework Nette. Samotná aplikace je rozdělena na dva moduly - ApiModule a WebModule. Veškerá komunikace klienta a serveru probíhá v Api modulu. Web modul slouží pouze k zobrazení základní webové stránky a jejímu překladu do jiných jazyků.
+    </p>
+    <p>
+        Api modul se skládá ze čtyř presenterů. Úkolem každého presenteru je zpracovat přijatá data, na základě těchto dat provést patřičné dotazy do databáze a výsledek vrátit ve formátu JSON. Každý z těchto presenterů obsahuje jednu nebo více akcí (action), jejich funkce jsou popsány níže:
+    </p>
+    <ul>
+        <li>
+            ActionsPresenter - presenter sloužící ke stahování akcí uživatele
+            <ul>
+                <li>actionDefault - vrátí všechny uživatelovi akce ve formátu</li>
+            </ul>
+        </li>
+        <li>
+            CurrenciesPresenter - presenter sloužící ke stahování všech dostupných měn
+            <ul>
+                <li>actionDefault - vrátí všechny měny</li>
+            </ul>
+        </li>
+        <li>
+            DebtsPresenter - presenter sloužící k aktualizaci dluhů
+            <ul>
+                <li>actionDefault - vrátí všechny uživatelovi dluhy</li>
+                <li>actionUpdate - přijímá JSON s aktuálními dluhy uživatele a vrací aktualizovaný seznam jeho dluhů</li>
+            </ul>
+        </li>
+        <li>
+            UserPresenter - presenter sloužící k přihlašování uživate
+            <ul>
+                <li>actionLogin - přijímá JSON s tokenem a id uživatelova Facebookového účtu a vrátí přihlašovací token a id v aplikaci.</li>
+                <li>actionDefault - vratí informace o uživateli a jeho přátelích</li>
+            </ul>
+        </li>
+    </ul>
+    <p>
+        Pro vytvoření serverové části byly použity následující knihovny:
+    <p>
+    <ul>
+        <li><a href="https://nette.org/">Nette framework včetně Tracy a Latte</a></li>
+        <li><a href="https://nextras.org/orm/docs/2.2/">Nextras ORM</a>
+        <ul>
+            <li>
+                ORM je vhodné pro přehlednější a efektivnější práci s databází.
+            </li>
+        </ul>
+        </li>
+        <li><a href="https://nextras.org/migrations/docs/3.0/">Nextras Migrations</a>
+            <ul>
+                <li>
+                    Migrace umožní jednoduché nahrávání změn v databázi na produkční server a navíc je možné veškeré změny vrátit.
+                </li>
+            </ul>
+        </li>
+        <li><a href="https://nextras.org/dbal/docs/2.1/">Nextras Dbal</a>
+            <ul>
+                <li>
+                    Tato knihovna je nutná pro správné fungování ORM.
+                </li>
+            </ul>
+        </li>
+        <li><a href="https://github.com/Kdyby/Facebook">Kdyby Facebook</a>
+            <ul>
+                <li>
+                    Knihovna umožňující snadnou komunikaci s Facebook API
+                </li>
+            </ul>
+        </li>
+        <li><a href="https://github.com/Kdyby/Console">Kdyby Console</a>
+            <ul>
+                <li>
+                   Console umožňuje spouštění migrací na serveru.
+                </li>
+            </ul>
+        </li>
+        <li><a href="https://github.com/kdyby/translation">Kdyby Translation</a>
+            <ul>
+                <li>
+                    Pro jednoduché přeložení webové části do jiného jazyka.
+                </li>
+            </ul>
+        </li>
+    </ul>
+
+    <h2>Klientská část - Android aplikace</h2>
+    <p>
+        Aplikace pro Android byla napsána pomocí standardních knihoven v programovacím jazyce JAVA.
+    </p>
+    <p>
+        Bylo třeba naprogramovat uživatelské rozhraní zajišťující přívětivé uživatelské rozhraní, funkčnost aplikace offline a komunikaci se serverem.
+    </p>
+    <p>
+        Jednotlivé třídy jsou rozděleny do následujících kategorií:
+    </p>
+    <ul>
+        <li>Activities & Adapters & Fragments
+            <ul>
+                <li>
+                    Tyto třídy zajišťují zobrazování uživatelského rozhraní a celkové řízení chodu aplikace.
+                </li>
+            </ul>
+        </li>
+        <li>Database
+            <ul>
+                <li>
+                    Databázová třída obsahuje funkce pro zápis dat do lokální databáze. Tyto funkce jsou volány z aktivit.
+                </li>
+            </ul>
+        </li>
+        <li>Api
+            <ul>
+                <li>
+                    Třída Api obstarává všechny dotazy na vzdálený server. Tyto dotazy vykoná v asynchronním vlákně a zavolá callback v aktivitě, ve které je volána.
+                </li>
+            </ul>
+        </li>
+        <li>Service
+            <ul>
+                <li>
+                    Třída, která umožňuje synchronizaci dat i v době, kdy není aplikace používána.
+                </li>
+            </ul>
+        </li>
+    </ul>
+
+    <p>
+        Byly použity následující knihovny:
+    <p>
+    <ul>
+        <li><a href="https://developer.android.com/topic/libraries/support-library/index.html">Android support library</a></li>
+        <li><a href="https://developers.facebook.com/docs/android/">Facebook Android SDK</a>
+            <ul>
+                <li>
+                    Pro přidání tlačítko pro přihlášení přes Facebook a následné získání id a tokenu.
+                </li>
+            </ul>
+        </li>
+        <li><a href="http://facebook.github.io/stetho/">Stetho</a>
+            <ul>
+                <li>
+                    Pro snadnější debuggování.
+                </li>
+            </ul>
+        </li>
+        <li><a href="https://github.com/johncarl81/parceler">Parceler</a>
+            <ul>
+                <li>
+                    Knihovna pro efektivnější předávání objektů mezi aktivitami.
+                </li>
+            </ul>
+        </li>
+        <li><a href="https://github.com/code-troopers/android-betterpickers">Android Betterpickers</a>
+            <ul>
+                <li>
+                    Knihovna obsahující formuláře pro zadání času a data.
+                </li>
+            </ul>
+        </li>
+    </ul>
+
+</div>

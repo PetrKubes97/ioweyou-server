@@ -25,7 +25,7 @@ class DebtsPresenter extends BaseApiPresenter {
 	}
 
 	/**
-	 * Updates newest debts and shows debts's most recent versions
+	 * Updates newest debts and shows debts' most recent versions
 	 */
 	public function actionUpdate() {
 
