@@ -4,14 +4,14 @@ use Nextras\Migrations\Bridges;
 use Nextras\Migrations\Controllers;
 use Nextras\Migrations\Drivers;
 use Nextras\Migrations\Extensions;
-use Nette\Database\Connection;
+use Nextras;
 
 require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/../app/bootstrap.php';
 
-$conn = $container->getByType(Nette\Database\Connection::class);
+$conn = $container->getByType(Nextras\Dbal\Connection::class);
 
-$dbal = new Bridges\NetteDatabase\NetteAdapter($conn);
+$dbal = new Bridges\NextrasDbal\NextrasAdapter($conn);
 // or	new Bridges\NextrasDbal\NextrasAdapter($conn);
 // or   new Bridges\NetteDatabase\NetteAdapter($conn);
 // or   new Bridges\DoctrineDbal\DoctrineAdapter($conn);
