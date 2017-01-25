@@ -122,17 +122,8 @@ h2 {
 }
 
 /* Animations */
-.fast {
-    -vendor-animation-duration: 1s;
-    -vendor-animation-delay: 0s;
-}
-.slow {
-    -vendor-animation-duration: 3s;
-    animation-duration: 3s;
-    -vendor-animation-delay: 1s;
-}
-.reallyslow {
-    -vendor-animation-duration: 6s;
-    -vendor-animation-delay: 3s;
+.speed {
+    animation-duration:  1s !important;
+    animation-delay:  0s !important;
 }
 
