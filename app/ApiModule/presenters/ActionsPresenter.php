@@ -17,17 +17,14 @@ class ActionsPresenter extends BaseApiPresenter
 
 	public function actionDefault() {
 
-		$actions = [];
-		$debts = $this->user->debts;
+		$actions = $this->orm->actions->getRecentActions($this->user);
 
-		foreach ($debts as $debt) {
-
-			foreach ($debt->actions as $action) {
-				$actions[] = $this->convertActionToArray($action);
-			}
+		foreach ($actions as $action) {
+			$actionsArray[] = $this->convertActionToArray($action);
 		}
 
-		$this->sendSuccessResponse(['actions' => $actions]);
+
+		$this->sendSuccessResponse(['actions' => $actionsArray]);
 	}
 
 	/**

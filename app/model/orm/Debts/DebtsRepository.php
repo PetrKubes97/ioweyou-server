@@ -2,6 +2,7 @@
 
 namespace App\Model;
 
+use Nextras\Orm\Collection\ICollection;
 use Nextras\Orm\Repository\Repository;
 
 /**
