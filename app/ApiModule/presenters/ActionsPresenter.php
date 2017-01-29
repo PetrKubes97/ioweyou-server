@@ -46,6 +46,7 @@ class ActionsPresenter extends BaseApiPresenter
 			'type' => $action->type,
 			'debtId' => $action->debt->id,
 			'userId' => $action->user->id,
+			'userName' => $action->user->name,
 			'public' => (boolean) $action->public,
 			'note' => $note,
 			'date' => $action->date->format('Y-m-d H:i:s'),
