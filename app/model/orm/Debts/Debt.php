@@ -27,5 +27,43 @@ use Nextras\Orm\Relationships\OneHasMany;
  */
 class Debt extends Entity
 {
+	/**
+	 * Converts debt entity to an array, which is suitable for an api response
+	 * @return array
+	 */
+	public function convertToArray() {
 
+
+		// Convert all nulls to empty strings
+		$creditorId = (isset($this->creditor)) ? $this->creditor->id : "";
+		$debtorId = (isset($this->debtor)) ? $this->debtor->id : "";
+
+		$customFriendName = (isset($this->customFriendName)) ? $this->customFriendName : "";
+		$amount = (isset($this->amount)) ? $this->amount : "";
+		$thingName = (isset($this->thingName)) ? $this->thingName : "";
+		$note = (isset($this->note)) ? $this->note : "";
+
+		$currencyId = (isset($this->currency)) ? $this->currency->id : "";
+		$paidAt = (isset($this->paidAt)) ? $this->paidAt->format('Y-m-d H:i:s') : "";
+		$deletedAt = (isset($this->deletedAt)) ? $this->deletedAt->format('Y-m-d H:i:s') : "";
+
+		$managerId = (isset($this->manager->id)) ? $this->manager->id : "";
+
+		return [
+			'id' => $this->id,
+			'creditorId' => $creditorId,
+			'debtorId' => $debtorId,
+			'customFriendName' => $customFriendName,
+			'amount' => $amount,
+			'currencyId' => $currencyId,
+			'thingName' => $thingName,
+			'note' => $note,
+			'paidAt' => $paidAt,
+			'deletedAt' => $deletedAt,
+			'modifiedAt' => $this->modifiedAt->format('Y-m-d H:i:s'),
+			'createdAt' => $this->createdAt->format('Y-m-d H:i:s'),
+			'managerId' => $managerId,
+			'version' => $this->version
+		];
+	}
 }

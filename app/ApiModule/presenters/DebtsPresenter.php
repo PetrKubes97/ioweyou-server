@@ -33,7 +33,7 @@ class DebtsPresenter extends BaseApiPresenter {
 
 		// Go through each debt saved on a mobile device right now, update the database, and return all debts
 		foreach ($allReceivedDebts['debts'] as $receivedDebt) {
-
+			$action = null;
 			// Check the most important things which are nessesary for further actions
 			try {
 				$id = $receivedDebt['id'];
@@ -206,7 +206,7 @@ class DebtsPresenter extends BaseApiPresenter {
 
 			$this->orm->debts->persistAndFlush($debt);
 
-			// Add an action for a new debt; It needs to be at the end of the script, otherwise empty debt would be created in the databse
+			// Add an action for a new debt; It needs to be at the end of the script, otherwise an empty debt would be created in the database
 			if (isset($action)) {
 				$this->orm->actions->persistAndFlush($action);
 			}
@@ -220,11 +220,11 @@ class DebtsPresenter extends BaseApiPresenter {
 		$toGet = [];
 
 		foreach ($this->user->debtsToPay as $debt) {
-			$toPay[] = $this->convertDebtToArray($debt);
+			$toPay[] = $debt->convertToArray();
 		}
 
 		foreach ($this->user->debtsToGet as $debt) {
-			$toGet[] = $this->convertDebtToArray($debt);
+			$toGet[] = $debt->convertToArray();
 		}
 
 		if ($which == 'toPay') {
@@ -234,47 +234,5 @@ class DebtsPresenter extends BaseApiPresenter {
 		} else {
 			return ['debts' => array_merge($toPay, $toGet)];
 		}
-	}
-
-
-	/**
-	 * Converts debt entity to an array, which is suitable for an api response
-	 * @param Debt $debt
-	 * @return array
-	 */
-	private function convertDebtToArray(Debt $debt) {
-
-
-		// Convert all nulls to empty strings
-		$creditorId = (isset($debt->creditor)) ? $debt->creditor->id : "";
-		$debtorId = (isset($debt->debtor)) ? $debt->debtor->id : "";
-
-		$customFriendName = (isset($debt->customFriendName)) ? $debt->customFriendName : "";
-		$amount = (isset($debt->amount)) ? $debt->amount : "";
-		$thingName = (isset($debt->thingName)) ? $debt->thingName : "";
-		$note = (isset($debt->note)) ? $debt->note : "";
-
-		$currencyId = (isset($debt->currency)) ? $debt->currency->id : "";
-		$paidAt = (isset($debt->paidAt)) ? $debt->paidAt->format('Y-m-d H:i:s') : "";
-		$deletedAt = (isset($debt->deletedAt)) ? $debt->deletedAt->format('Y-m-d H:i:s') : "";
-
-		$managerId = (isset($debt->manager->id)) ? $debt->manager->id : "";
-
-		return [
-			'id' => $debt->id,
-			'creditorId' => $creditorId,
-			'debtorId' => $debtorId,
-			'customFriendName' => $customFriendName,
-			'amount' => $amount,
-			'currencyId' => $currencyId,
-			'thingName' => $thingName,
-			'note' => $note,
-			'paidAt' => $paidAt,
-			'deletedAt' => $deletedAt,
-			'modifiedAt' => $debt->modifiedAt->format('Y-m-d H:i:s'),
-			'createdAt' => $debt->createdAt->format('Y-m-d H:i:s'),
-			'managerId' => $managerId,
-			'version' => $debt->version
-		];
 	}
 }
