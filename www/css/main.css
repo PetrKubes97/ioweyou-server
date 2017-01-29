@@ -76,14 +76,11 @@ body {
     font-weight: 400;
     line-height: 1;
     letter-spacing: -1px;
-    padding: 0px 20px;
-    margin-top: 68px;
-
 }
 
 @media (min-width: 992px) {
-    .featurette-heading {
-        margin-top: 68px;
+    .featurette td {
+        padding: 16px 28px;
     }
 
     .featurette-divider {
@@ -93,14 +90,6 @@ body {
 
 .featurette p {
     text-align: justify;
-    padding: 0px 0px 30px 20px;
-}
-
-/* Other */
-
-.vcenter {
-    display: inline-block;
-    vertical-align: middle;
 }
 
 h1 {
