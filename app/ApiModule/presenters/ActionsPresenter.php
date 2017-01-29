@@ -23,7 +23,7 @@ class ActionsPresenter extends BaseApiPresenter
 		foreach ($debts as $debt) {
 
 			foreach ($debt->actions as $action) {
-				$actions[] = $this->convertActionToArray($action, $debt);
+				$actions[] = $this->convertActionToArray($action);
 			}
 		}
 
@@ -35,8 +35,19 @@ class ActionsPresenter extends BaseApiPresenter
 	 * @param Action $action
 	 * @return array
 	 */
-	private function convertActionToArray(Action $action, Debt $debt) {
+	private function convertActionToArray(Action $action) {
 
+		if ($action->debt->creditor === $action->user && $action->debt->debtor != NULL) {
+			$user2Id = $action->debt->debtor->id;
+			$user2Name = $action->debt->debtor->name;
+
+		} else if ($action->debt->debtor === $action->user && $action->debt->creditor != NULL) {
+			$user2Id = $action->debt->creditor->id;
+			$user2Name = $action->debt->creditor->name;
+		} else {
+			$user2Id = "";
+			$user2Name = $action->debt->customFriendName;
+		}
 
 		// Convert all nulls to empty strings
 		$note = (isset($action->note)) ? $action->note : "";
@@ -45,8 +56,10 @@ class ActionsPresenter extends BaseApiPresenter
 			'id' => $action->id,
 			'type' => $action->type,
 			'debtId' => $action->debt->id,
-			'userId' => $action->user->id,
-			'userName' => $action->user->name,
+			'user1Id' => $action->user->id,
+			'user1Name' => $action->user->name,
+			'user2Id' => $user2Id,
+			'user2Name' => $user2Name,
 			'public' => (boolean) $action->public,
 			'note' => $note,
 			'date' => $action->date->format('Y-m-d H:i:s'),
