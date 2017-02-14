@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>Class App\Model\UserModel</title>
+
+	<link rel="stylesheet" href="resources/style.css?e99947befd7bf673c6b43ff75e9e0f170c88a60e">
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+				<h3>Namespaces</h3>
+			<ul>
+				<li class="active">
+					<a href="namespace-App.html">
+						App<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-App.ApiModule.html">
+						ApiModule<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-App.ApiModule.Presenters.html">
+						Presenters					</a>
+
+						</li>
+							</ul></li>
+				<li class="active">
+					<a href="namespace-App.Model.html">
+						Model					</a>
+
+						</li>
+				<li>
+					<a href="namespace-App.Presenters.html">
+						Presenters					</a>
+
+						</li>
+				<li>
+					<a href="namespace-App.WebModule.html">
+						WebModule<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-App.WebModule.Presenters.html">
+						Presenters					</a>
+
+						</li>
+							</ul></li></ul></li>
+			</ul>
+		</div>
+
+		<hr>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-App.Model.Action.html">Action</a></li>
+				<li><a href="class-App.Model.ActionsMapper.html">ActionsMapper</a></li>
+				<li><a href="class-App.Model.ActionsRepository.html">ActionsRepository</a></li>
+				<li><a href="class-App.Model.CurrenciesMapper.html">CurrenciesMapper</a></li>
+				<li><a href="class-App.Model.CurrenciesRepository.html">CurrenciesRepository</a></li>
+				<li><a href="class-App.Model.Currency.html">Currency</a></li>
+				<li><a href="class-App.Model.Debt.html">Debt</a></li>
+				<li><a href="class-App.Model.DebtsMapper.html">DebtsMapper</a></li>
+				<li><a href="class-App.Model.DebtsRepository.html">DebtsRepository</a></li>
+				<li><a href="class-App.Model.Friendship.html">Friendship</a></li>
+				<li><a href="class-App.Model.FriendshipsMapper.html">FriendshipsMapper</a></li>
+				<li><a href="class-App.Model.FriendshipsRepository.html">FriendshipsRepository</a></li>
+				<li><a href="class-App.Model.Orm.html">Orm</a></li>
+				<li><a href="class-App.Model.User.html">User</a></li>
+				<li class="active"><a href="class-App.Model.UserModel.html">UserModel</a></li>
+				<li><a href="class-App.Model.UsersMapper.html">UsersMapper</a></li>
+				<li><a href="class-App.Model.UsersRepository.html">UsersRepository</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="">
+		<input type="hidden" name="ie" value="UTF-8">
+		<input type="text" name="q" class="text" placeholder="Search">
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="namespace-App.Model.html" title="Summary of App\Model"><span>Namespace</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class UserModel</h1>
+
+
+
+	<dl class="tree">
+		<dd style="padding-left:0px">
+Nette\Object
+			
+			
+		</dd>
+		<dd style="padding-left:30px">
+			<img src="resources/inherit.png" alt="Extended by">
+<b><span>App\Model\UserModel</span></b>			
+			
+			
+		</dd>
+	</dl>
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		<b>Namespace:</b> <a href="namespace-App.html">App</a>\<a href="namespace-App.Model.html">Model</a><br>
+		
+
+			<b>Located at</b> <a href="source-class-App.Model.UserModel.html#9-142" title="Go to source code">model/UserModel.php</a>
+		<br>
+	</div>
+
+
+
+	<table class="summary methods" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="updateFromFb" id="_updateFromFb">
+
+		<td class="attributes"><code>
+			 private 
+
+			<code><a href="class-App.Model.User.html">App\Model\User</a></code>|mixed|Nextras\Orm\Entity\IEntity|null
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_updateFromFb">#</a>
+		<code><a href="source-class-App.Model.UserModel.html#29-102" title="Go to source code">updateFromFb</a>( <span> <var>$fbId</var></span>, <span> <var>$fbToken</var></span>, <span>boolean <var>$generateApiKey</var> = <span class="php-keyword1">false</span></span> )</code>
+
+		<div class="description short">
+			<p>Adds or updates user data in the database using the Facebook API</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Adds or updates user data in the database using the Facebook API</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$fbId</var></dt>
+					<dd></dd>
+					<dt><var>$fbToken</var></dt>
+					<dd></dd>
+					<dt><var>$generateApiKey</var></dt>
+					<dd>Optionally can generate a new api key for the user</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><a href="class-App.Model.User.html">App\Model\User</a></code>|mixed|Nextras\Orm\Entity\IEntity|null
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="generateApiKey" id="_generateApiKey">
+
+		<td class="attributes"><code>
+			 private 
+
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_generateApiKey">#</a>
+		<code><a href="source-class-App.Model.UserModel.html#119-130" title="Go to source code">generateApiKey</a>( )</code>
+
+		<div class="description short">
+			<p>Generates api key</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Generates api key</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					string
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="createAction" id="_createAction">
+
+		<td class="attributes"><code>
+			 private 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_createAction">#</a>
+		<code><a href="source-class-App.Model.UserModel.html#133-141" title="Go to source code">createAction</a>( <span><code><a href="class-App.Model.User.html">App\Model\User</a></code> <var>$user</var></span>, <span> <var>$type</var></span>, <span> <var>$note</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+
+
+	<table class="summary properties" id="properties">
+	<caption>Properties summary</caption>
+	<tr data-order="fb" id="$fb">
+		<td class="attributes"><code>
+			private  
+			
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-App.Model.UserModel.html#12" title="Go to source code"><var>$fb</var></a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$fb" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="orm" id="$orm">
+		<td class="attributes"><code>
+			private  
+			
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-App.Model.UserModel.html#13" title="Go to source code"><var>$orm</var></a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$orm" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	</table>
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		 API documentation generated by <a href="http://apigen.org">ApiGen</a>
+	</div>
+</div>
+</div>
+<script src="resources/combined.js"></script>
+<script src="elementlist.js"></script>
+</body>
+</html>

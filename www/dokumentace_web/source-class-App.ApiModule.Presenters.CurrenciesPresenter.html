@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="robots" content="noindex">
+
+	<title>File ApiModule/presenters/CurrenciesPresenter.php</title>
+
+	<link rel="stylesheet" href="resources/style.css?e99947befd7bf673c6b43ff75e9e0f170c88a60e">
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+				<h3>Namespaces</h3>
+			<ul>
+				<li>
+					<a href="namespace-App.html">
+						App<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-App.ApiModule.html">
+						ApiModule<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-App.ApiModule.Presenters.html">
+						Presenters					</a>
+
+						</li>
+							</ul></li>
+				<li>
+					<a href="namespace-App.Model.html">
+						Model					</a>
+
+						</li>
+				<li>
+					<a href="namespace-App.Presenters.html">
+						Presenters					</a>
+
+						</li>
+				<li>
+					<a href="namespace-App.WebModule.html">
+						WebModule<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-App.WebModule.Presenters.html">
+						Presenters					</a>
+
+						</li>
+							</ul></li></ul></li>
+			</ul>
+		</div>
+
+		<hr>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-App.ApiModule.Presenters.ActionsPresenter.html">App\ApiModule\Presenters\ActionsPresenter</a></li>
+				<li><a href="class-App.ApiModule.Presenters.BaseApiPresenter.html">App\ApiModule\Presenters\BaseApiPresenter</a></li>
+				<li><a href="class-App.ApiModule.Presenters.CurrenciesPresenter.html">App\ApiModule\Presenters\CurrenciesPresenter</a></li>
+				<li><a href="class-App.ApiModule.Presenters.DebtsPresenter.html">App\ApiModule\Presenters\DebtsPresenter</a></li>
+				<li><a href="class-App.ApiModule.Presenters.UserPresenter.html">App\ApiModule\Presenters\UserPresenter</a></li>
+				<li><a href="class-App.Model.Action.html">App\Model\Action</a></li>
+				<li><a href="class-App.Model.ActionsMapper.html">App\Model\ActionsMapper</a></li>
+				<li><a href="class-App.Model.ActionsRepository.html">App\Model\ActionsRepository</a></li>
+				<li><a href="class-App.Model.CurrenciesMapper.html">App\Model\CurrenciesMapper</a></li>
+				<li><a href="class-App.Model.CurrenciesRepository.html">App\Model\CurrenciesRepository</a></li>
+				<li><a href="class-App.Model.Currency.html">App\Model\Currency</a></li>
+				<li><a href="class-App.Model.Debt.html">App\Model\Debt</a></li>
+				<li><a href="class-App.Model.DebtsMapper.html">App\Model\DebtsMapper</a></li>
+				<li><a href="class-App.Model.DebtsRepository.html">App\Model\DebtsRepository</a></li>
+				<li><a href="class-App.Model.Friendship.html">App\Model\Friendship</a></li>
+				<li><a href="class-App.Model.FriendshipsMapper.html">App\Model\FriendshipsMapper</a></li>
+				<li><a href="class-App.Model.FriendshipsRepository.html">App\Model\FriendshipsRepository</a></li>
+				<li><a href="class-App.Model.Orm.html">App\Model\Orm</a></li>
+				<li><a href="class-App.Model.User.html">App\Model\User</a></li>
+				<li><a href="class-App.Model.UserModel.html">App\Model\UserModel</a></li>
+				<li><a href="class-App.Model.UsersMapper.html">App\Model\UsersMapper</a></li>
+				<li><a href="class-App.Model.UsersRepository.html">App\Model\UsersRepository</a></li>
+				<li><a href="class-App.Presenters.Error4xxPresenter.html">App\Presenters\Error4xxPresenter</a></li>
+				<li><a href="class-App.Presenters.ErrorPresenter.html">App\Presenters\ErrorPresenter</a></li>
+				<li><a href="class-App.RouterFactory.html">App\RouterFactory</a></li>
+				<li><a href="class-App.WebModule.Presenters.BasePresenter.html">App\WebModule\Presenters\BasePresenter</a></li>
+				<li><a href="class-App.WebModule.Presenters.HomepagePresenter.html">App\WebModule\Presenters\HomepagePresenter</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="">
+		<input type="hidden" name="ie" value="UTF-8">
+		<input type="text" name="q" class="text" placeholder="Search">
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+<span>Namespace</span>			</li>
+			<li>
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<pre><code><span id="1" class="l"><a href="#1"> 1: </a><span class="xlang">&lt;?php</span>
+</span><span id="2" class="l"><a href="#2"> 2: </a>
+</span><span id="3" class="l"><a href="#3"> 3: </a><span class="php-keyword1">namespace</span> App\ApiModule\Presenters;
+</span><span id="4" class="l"><a href="#4"> 4: </a>
+</span><span id="5" class="l"><a href="#5"> 5: </a><span class="php-keyword1">class</span> CurrenciesPresenter <span class="php-keyword1">extends</span> BaseApiPresenter {
+</span><span id="6" class="l"><a href="#6"> 6: </a>
+</span><span id="7" class="l"><a href="#7"> 7: </a>    <span class="php-comment">// Check if user is logged in</span>
+</span><span id="8" class="l"><a href="#8"> 8: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> startup()
+</span><span id="9" class="l"><a href="#9"> 9: </a>    {
+</span><span id="10" class="l"><a href="#10">10: </a>        parent::startup();
+</span><span id="11" class="l"><a href="#11">11: </a>        <span class="php-var">$this</span>-&gt;authenticate();
+</span><span id="12" class="l"><a href="#12">12: </a>    }
+</span><span id="13" class="l"><a href="#13">13: </a>
+</span><span id="14" class="l"><a href="#14">14: </a>    <span class="php-comment">/**
+</span></span><span id="15" class="l"><a href="#15">15: </a><span class="php-comment">     * Selects all currencies from the database and shows them as JSON
+</span></span><span id="16" class="l"><a href="#16">16: </a><span class="php-comment">     */</span>
+</span><span id="17" class="l"><a href="#17">17: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> actionDefault() {
+</span><span id="18" class="l"><a href="#18">18: </a>
+</span><span id="19" class="l"><a href="#19">19: </a>        <span class="php-var">$currenciesArr</span> = [];
+</span><span id="20" class="l"><a href="#20">20: </a>        <span class="php-var">$currencies</span> = <span class="php-var">$this</span>-&gt;orm-&gt;currencies-&gt;findAll();
+</span><span id="21" class="l"><a href="#21">21: </a>
+</span><span id="22" class="l"><a href="#22">22: </a>        <span class="php-keyword1">foreach</span> (<span class="php-var">$currencies</span> <span class="php-keyword1">as</span> <span class="php-var">$currency</span>) {
+</span><span id="23" class="l"><a href="#23">23: </a>            <span class="php-var">$currenciesArr</span>[] = [<span class="php-quote">'id'</span> =&gt; <span class="php-var">$currency</span>-&gt;id, <span class="php-quote">'symbol'</span> =&gt; <span class="php-var">$currency</span>-&gt;symbol];
+</span><span id="24" class="l"><a href="#24">24: </a>        }
+</span><span id="25" class="l"><a href="#25">25: </a>
+</span><span id="26" class="l"><a href="#26">26: </a>        <span class="php-var">$this</span>-&gt;sendSuccessResponse([<span class="php-quote">'currencies'</span> =&gt; <span class="php-var">$currenciesArr</span>]);
+</span><span id="27" class="l"><a href="#27">27: </a>    }
+</span><span id="28" class="l"><a href="#28">28: </a>}
+</span><span id="29" class="l"><a href="#29">29: </a></span></code></pre>
+
+	<div id="footer">
+		 API documentation generated by <a href="http://apigen.org">ApiGen</a>
+	</div>
+</div>
+</div>
+<script src="resources/combined.js?4a6c3cb9f2c204948b277799dfff90bae9a710ac"></script>
+<script src="elementlist.js?1456fff78146996f9b8cddd8eaf5e846d8327a62"></script>
+</body>
+</html>
