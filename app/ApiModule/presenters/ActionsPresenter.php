@@ -15,6 +15,9 @@ class ActionsPresenter extends BaseApiPresenter
 		$this->authenticate();
 	}
 
+	/**
+	 * Selects recent actions from the database and shows them as JSON
+	 */
 	public function actionDefault() {
 
 		$actions = $this->orm->actions->getRecentActions($this->user);
@@ -22,7 +25,6 @@ class ActionsPresenter extends BaseApiPresenter
 		foreach ($actions as $action) {
 			$actionsArray[] = $this->convertActionToArray($action);
 		}
-
 
 		$this->sendSuccessResponse(['actions' => $actionsArray]);
 	}

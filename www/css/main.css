@@ -78,22 +78,25 @@ body {
     letter-spacing: -1px;
 }
 
-@media (min-width: 992px) {
-    .featurette td {
-        padding: 16px 28px;
-    }
-
-    .featurette-divider {
-        margin: 10px 0; /* Space out the Bootstrap <hr> more */
+@media (max-width: 768px) {
+    .featurette {
+        padding-top: 2em;
     }
 }
 
-.featurette p {
+.featurette {
     text-align: justify;
+    display: flex; !important;
+    align-items: center; !important;
+    flex-wrap: wrap;
+}
+
+.reverse {
+    flex-direction: row-reverse;
 }
 
 h1 {
-    font-size: 6em;
+    font-size: 4em;
     text-align: center;
     margin: 50px 0px 20px 0px;
 }

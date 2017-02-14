@@ -43,6 +43,9 @@ class BaseApiPresenter extends Nette\Application\UI\Presenter
 		$this->sendJson(array('message' => $message));
 	}
 
+	/**
+	 * Checks if user is logged in
+	 */
 	protected function authenticate() {
 
 		$user = null;

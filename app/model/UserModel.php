@@ -26,8 +26,17 @@ class UserModel extends Object
 		return $this->updateFromFb($user->facebookId, $user->facebookToken);
 	}
 
+	/**
+	 * Adds or updates user data in the database using the Facebook API
+	 *
+	 * @param $fbId
+	 * @param $fbToken
+	 * @param bool $generateApiKey Optionally can generate a new api key for the user
+	 * @return User|mixed|\Nextras\Orm\Entity\IEntity|null
+	 */
 	private function updateFromFb($fbId, $fbToken, $generateApiKey = false)
 	{
+		// Facebook API call
 		$this->fb->setAccessToken($fbToken);
 		$userData = $this->fb->api('/' . $fbId . '?fields=email,friends,name');
 
@@ -92,6 +101,12 @@ class UserModel extends Object
 		return $user;
 	}
 
+	/**
+	 * Gets user by an API key
+	 *
+	 * @param $apiKey
+	 * @return bool|mixed|\Nextras\Orm\Entity\IEntity|null
+	 */
 	public function authenticate($apiKey) {
 		$user = $this->orm->users->getByApiKey($apiKey);
 		if ($user) {
@@ -101,6 +116,11 @@ class UserModel extends Object
 		}
 	}
 
+	/**
+	 * Generates api key
+	 *
+	 * @return string
+	 */
 	private function generateApiKey() {
 		$apiKey = Random::generate(63,'a-zA-Z0-9');
 		if ($this->orm->users->getByApiKey($apiKey)) {

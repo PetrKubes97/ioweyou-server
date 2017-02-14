@@ -12,6 +12,11 @@ class UserPresenter extends BaseApiPresenter
 		$this->sendSuccessResponse(array('email'=>'test'));
 	}
 
+	/**
+	 * Receives facebookId and token
+	 * Uses Facebook API to fetch info about the user
+	 * Shows users id and apiKey
+	 */
 	public function actionLogin() {
 
 		$receivedBody = json_decode($this->request->getRawBody(), true);
@@ -39,6 +44,10 @@ class UserPresenter extends BaseApiPresenter
 		}
 	}
 
+	/**
+	 * Updates user using facebook API
+	 * Shows all user's data as a JSON
+	 */
 	public function actionDefault() {
 		$this->authenticate();
 

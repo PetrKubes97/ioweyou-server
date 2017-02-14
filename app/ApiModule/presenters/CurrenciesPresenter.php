@@ -11,6 +11,9 @@ class CurrenciesPresenter extends BaseApiPresenter {
 		$this->authenticate();
 	}
 
+	/**
+	 * Selects all currencies from the database and shows them as JSON
+	 */
 	public function actionDefault() {
 
 		$currenciesArr = [];

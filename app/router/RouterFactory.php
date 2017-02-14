@@ -18,7 +18,7 @@ class RouterFactory
 	{
 		$router = new RouteList;
 
-
+		$router[] = new Route('', 'Web:Homepage:default');
 		$router[] = new Route('[<locale=cs cs|en>/]<module>/<presenter>/<action>', "Web:Homepage:default");
 		$router[] = new Route('<module>/<presenter>/<action>[/<id>]', 'Web:Homepage:default');
 		$router[] = new Route('<presenter>/<action>[/<id>]', 'Web:Homepage:default');
