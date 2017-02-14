@@ -18,10 +18,9 @@ class DebtsPresenter extends BaseApiPresenter {
 
 	/**
 	 * Responses with a list of user's depts
-	 * @param null $which
 	 */
-	public function actionDefault($which = null) {
-		$this->sendSuccessResponse($this->getDebtsArray($which));
+	public function actionDefault() {
+		$this->sendSuccessResponse($this->getDebtsArray());
 	}
 
 	/**
