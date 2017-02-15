@@ -162,6 +162,43 @@ Nextras\Orm\Entity\Entity
 
 
 
+	<table class="summary methods" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="convertToArray" id="_convertToArray">
+
+		<td class="attributes"><code>
+			 public 
+
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_convertToArray">#</a>
+		<code><a href="source-class-App.Model.Debt.html#30-68" title="Go to source code">convertToArray</a>( )</code>
+
+		<div class="description short">
+			<p>Converts debt entity to an array, which is suitable for an api response</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Converts debt entity to an array, which is suitable for an api response</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					array
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
 
 
 
@@ -177,6 +214,275 @@ Nextras\Orm\Entity\Entity
 
 
 
+	<table class="summary properties" id="magicProperties">
+	<caption>Magic properties summary</caption>
+	<tr data-order="id" id="m$id">
+		<td class="attributes"><code>
+			public  
+			integer
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-App.Model.Debt.html#12" title="Go to source code"><var>$id</var></a>
+
+			<div class="description short">
+				<p>{primary}</p>
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+	</tr>
+	<tr data-order="creditor" id="m$creditor">
+		<td class="attributes"><code>
+			public  
+			<code><a href="class-App.Model.User.html">App\Model\User</a></code>|null
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-App.Model.Debt.html#13" title="Go to source code"><var>$creditor</var></a>
+
+			<div class="description short">
+				<p>{m:1 User::$debtsToGet}</p>
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+	</tr>
+	<tr data-order="debtor" id="m$debtor">
+		<td class="attributes"><code>
+			public  
+			<code><a href="class-App.Model.User.html">App\Model\User</a></code>|null
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-App.Model.Debt.html#14" title="Go to source code"><var>$debtor</var></a>
+
+			<div class="description short">
+				<p>{m:1 User::$debtsToPay}</p>
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+	</tr>
+	<tr data-order="currency" id="m$currency">
+		<td class="attributes"><code>
+			public  
+			<code><a href="class-App.Model.Currency.html">App\Model\Currency</a></code>|null
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-App.Model.Debt.html#15" title="Go to source code"><var>$currency</var></a>
+
+			<div class="description short">
+				<p>{m:1 Currency, oneSided=true}</p>
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+	</tr>
+	<tr data-order="customFriendName" id="m$customFriendName">
+		<td class="attributes"><code>
+			public  
+			string|null
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-App.Model.Debt.html#16" title="Go to source code"><var>$customFriendName</var></a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+	</tr>
+	<tr data-order="thingName" id="m$thingName">
+		<td class="attributes"><code>
+			public  
+			string|null
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-App.Model.Debt.html#17" title="Go to source code"><var>$thingName</var></a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+	</tr>
+	<tr data-order="amount" id="m$amount">
+		<td class="attributes"><code>
+			public  
+			float|null
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-App.Model.Debt.html#18" title="Go to source code"><var>$amount</var></a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+	</tr>
+	<tr data-order="note" id="m$note">
+		<td class="attributes"><code>
+			public  
+			string|null
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-App.Model.Debt.html#19" title="Go to source code"><var>$note</var></a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+	</tr>
+	<tr data-order="paidAt" id="m$paidAt">
+		<td class="attributes"><code>
+			public  
+			Nette\Utils\DateTime|null
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-App.Model.Debt.html#20" title="Go to source code"><var>$paidAt</var></a>
+
+			<div class="description short">
+				<p>{default null}</p>
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+	</tr>
+	<tr data-order="deletedAt" id="m$deletedAt">
+		<td class="attributes"><code>
+			public  
+			Nette\Utils\DateTime|null
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-App.Model.Debt.html#21" title="Go to source code"><var>$deletedAt</var></a>
+
+			<div class="description short">
+				<p>{default null}</p>
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+	</tr>
+	<tr data-order="createdAt" id="m$createdAt">
+		<td class="attributes"><code>
+			public  
+			Nette\Utils\DateTime
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-App.Model.Debt.html#22" title="Go to source code"><var>$createdAt</var></a>
+
+			<div class="description short">
+				<p>{default now}</p>
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+	</tr>
+	<tr data-order="modifiedAt" id="m$modifiedAt">
+		<td class="attributes"><code>
+			public  
+			Nette\Utils\DateTime
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-App.Model.Debt.html#23" title="Go to source code"><var>$modifiedAt</var></a>
+
+			<div class="description short">
+				<p>{default now}</p>
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+	</tr>
+	<tr data-order="version" id="m$version">
+		<td class="attributes"><code>
+			public  
+			integer
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-App.Model.Debt.html#24" title="Go to source code"><var>$version</var></a>
+
+			<div class="description short">
+				<p>{default 0}</p>
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+	</tr>
+	<tr data-order="manager" id="m$manager">
+		<td class="attributes"><code>
+			public  
+			<code><a href="class-App.Model.User.html">App\Model\User</a></code>|null
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-App.Model.Debt.html#25" title="Go to source code"><var>$manager</var></a>
+
+			<div class="description short">
+				<p>{m:1 User, oneSided=true}</p>
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+	</tr>
+	</table>
 
 
 

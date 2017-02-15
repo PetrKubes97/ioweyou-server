@@ -156,44 +156,78 @@ Nette\Application\UI\Presenter
 
 	<table class="summary methods" id="methods">
 	<caption>Methods summary</caption>
-	<tr data-order="convertActionToArray" id="_convertActionToArray">
+	<tr data-order="startup" id="_startup">
 
 		<td class="attributes"><code>
-			 private 
+			 public 
 
-			array
+			
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
-		<a class="anchor" href="#_convertActionToArray">#</a>
-		<code><a href="source-class-App.ApiModule.Presenters.ActionsPresenter.html#32-66" title="Go to source code">convertActionToArray</a>( <span><code><a href="class-App.Model.Action.html">App\Model\Action</a></code> <var>$action</var></span> )</code>
+		<a class="anchor" href="#_startup">#</a>
+		<code><a href="source-class-App.ApiModule.Presenters.ActionsPresenter.html#12-16" title="Go to source code">startup</a>( )</code>
 
 		<div class="description short">
-			<p>Converts action entity to an array for an api response</p>
+			
 		</div>
 
 		<div class="description detailed hidden">
-			<p>Converts action entity to an array for an api response</p>
+			
 
 
-				<h4>Parameters</h4>
-				<div class="list"><dl>
-					<dt><var>$action</var></dt>
-					<dd></dd>
-				</dl></div>
 
-				<h4>Returns</h4>
-				<div class="list">
-					array
-				</div>
 
 
 
 
 		</div>
 		</div></td>
+	</tr>
+	<tr data-order="actionDefault" id="_actionDefault">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_actionDefault">#</a>
+		<code><a href="source-class-App.ApiModule.Presenters.ActionsPresenter.html#18-30" title="Go to source code">actionDefault</a>( )</code>
+
+		<div class="description short">
+			<p>Selects recent actions from the database and shows them as JSON</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Selects recent actions from the database and shows them as JSON</p>
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+	<table class="summary inherited">
+	<caption>Methods inherited from <a href="class-App.ApiModule.Presenters.BaseApiPresenter.html#methods">App\ApiModule\Presenters\BaseApiPresenter</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-App.ApiModule.Presenters.BaseApiPresenter.html#___construct">__construct()</a>, 
+			<a href="class-App.ApiModule.Presenters.BaseApiPresenter.html#_authenticate">authenticate()</a>, 
+			<a href="class-App.ApiModule.Presenters.BaseApiPresenter.html#_createAction">createAction()</a>, 
+			<a href="class-App.ApiModule.Presenters.BaseApiPresenter.html#_sendErrorResponse">sendErrorResponse()</a>, 
+			<a href="class-App.ApiModule.Presenters.BaseApiPresenter.html#_sendSuccessResponse">sendSuccessResponse()</a>
+		</code></td>
 	</tr>
 	</table>
 
@@ -208,7 +242,19 @@ Nette\Application\UI\Presenter
 
 
 
-
+	<table class="summary inherited">
+	<caption>Properties inherited from <a href="class-App.ApiModule.Presenters.BaseApiPresenter.html#properties">App\ApiModule\Presenters\BaseApiPresenter</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-App.ApiModule.Presenters.BaseApiPresenter.html#$data"><var>$data</var></a>, 
+			<a href="class-App.ApiModule.Presenters.BaseApiPresenter.html#$headers"><var>$headers</var></a>, 
+			<a href="class-App.ApiModule.Presenters.BaseApiPresenter.html#$orm"><var>$orm</var></a>, 
+			<a href="class-App.ApiModule.Presenters.BaseApiPresenter.html#$request"><var>$request</var></a>, 
+			<a href="class-App.ApiModule.Presenters.BaseApiPresenter.html#$user"><var>$user</var></a>, 
+			<a href="class-App.ApiModule.Presenters.BaseApiPresenter.html#$userModel"><var>$userModel</var></a>
+		</code></td>
+	</tr>
+	</table>
 
 
 

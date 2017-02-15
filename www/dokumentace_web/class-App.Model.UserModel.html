@@ -161,106 +161,128 @@ Nette\Object
 
 	<table class="summary methods" id="methods">
 	<caption>Methods summary</caption>
-	<tr data-order="updateFromFb" id="_updateFromFb">
+	<tr data-order="__construct" id="___construct">
 
 		<td class="attributes"><code>
-			 private 
+			 public 
 
-			<code><a href="class-App.Model.User.html">App\Model\User</a></code>|mixed|Nextras\Orm\Entity\IEntity|null
+			
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
-		<a class="anchor" href="#_updateFromFb">#</a>
-		<code><a href="source-class-App.Model.UserModel.html#29-102" title="Go to source code">updateFromFb</a>( <span> <var>$fbId</var></span>, <span> <var>$fbToken</var></span>, <span>boolean <var>$generateApiKey</var> = <span class="php-keyword1">false</span></span> )</code>
+		<a class="anchor" href="#___construct">#</a>
+		<code><a href="source-class-App.Model.UserModel.html#15-19" title="Go to source code">__construct</a>( <span>Kdyby\Facebook\Facebook <var>$facebook</var></span>, <span><code><a href="class-App.Model.Orm.html">App\Model\Orm</a></code> <var>$orm</var></span> )</code>
 
 		<div class="description short">
-			<p>Adds or updates user data in the database using the Facebook API</p>
+			
 		</div>
 
 		<div class="description detailed hidden">
-			<p>Adds or updates user data in the database using the Facebook API</p>
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="login" id="_login">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_login">#</a>
+		<code><a href="source-class-App.Model.UserModel.html#21-23" title="Go to source code">login</a>( <span> <var>$fbId</var></span>, <span> <var>$fbToken</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="refresh" id="_refresh">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_refresh">#</a>
+		<code><a href="source-class-App.Model.UserModel.html#25-27" title="Go to source code">refresh</a>( <span><code><a href="class-App.Model.User.html">App\Model\User</a></code> <var>$user</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="authenticate" id="_authenticate">
+
+		<td class="attributes"><code>
+			 public 
+
+			boolean|mixed|Nextras\Orm\Entity\IEntity|null
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_authenticate">#</a>
+		<code><a href="source-class-App.Model.UserModel.html#104-117" title="Go to source code">authenticate</a>( <span> <var>$apiKey</var></span> )</code>
+
+		<div class="description short">
+			<p>Gets user by an API key</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Gets user by an API key</p>
 
 
 				<h4>Parameters</h4>
 				<div class="list"><dl>
-					<dt><var>$fbId</var></dt>
+					<dt><var>$apiKey</var></dt>
 					<dd></dd>
-					<dt><var>$fbToken</var></dt>
-					<dd></dd>
-					<dt><var>$generateApiKey</var></dt>
-					<dd>Optionally can generate a new api key for the user</dd>
 				</dl></div>
 
 				<h4>Returns</h4>
 				<div class="list">
-					<code><a href="class-App.Model.User.html">App\Model\User</a></code>|mixed|Nextras\Orm\Entity\IEntity|null
+					boolean|mixed|Nextras\Orm\Entity\IEntity|null
 				</div>
-
-
-
-
-		</div>
-		</div></td>
-	</tr>
-	<tr data-order="generateApiKey" id="_generateApiKey">
-
-		<td class="attributes"><code>
-			 private 
-
-			string
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_generateApiKey">#</a>
-		<code><a href="source-class-App.Model.UserModel.html#119-130" title="Go to source code">generateApiKey</a>( )</code>
-
-		<div class="description short">
-			<p>Generates api key</p>
-		</div>
-
-		<div class="description detailed hidden">
-			<p>Generates api key</p>
-
-
-
-				<h4>Returns</h4>
-				<div class="list">
-					string
-				</div>
-
-
-
-
-		</div>
-		</div></td>
-	</tr>
-	<tr data-order="createAction" id="_createAction">
-
-		<td class="attributes"><code>
-			 private 
-
-			
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_createAction">#</a>
-		<code><a href="source-class-App.Model.UserModel.html#133-141" title="Go to source code">createAction</a>( <span><code><a href="class-App.Model.User.html">App\Model\User</a></code> <var>$user</var></span>, <span> <var>$type</var></span>, <span> <var>$note</var> = <span class="php-keyword1">null</span></span> )</code>
-
-		<div class="description short">
-			
-		</div>
-
-		<div class="description detailed hidden">
-			
-
-
-
 
 
 
@@ -281,59 +303,6 @@ Nette\Object
 
 
 
-	<table class="summary properties" id="properties">
-	<caption>Properties summary</caption>
-	<tr data-order="fb" id="$fb">
-		<td class="attributes"><code>
-			private  
-			
-		</code></td>
-
-		<td class="name">
-				<a href="source-class-App.Model.UserModel.html#12" title="Go to source code"><var>$fb</var></a>
-
-			<div class="description short">
-				
-			</div>
-
-			<div class="description detailed hidden">
-				
-
-			</div>
-		</td>
-		<td class="value">
-			<div>
-				<a href="#$fb" class="anchor">#</a>
-				<code></code>
-			</div>
-		</td>
-	</tr>
-	<tr data-order="orm" id="$orm">
-		<td class="attributes"><code>
-			private  
-			
-		</code></td>
-
-		<td class="name">
-				<a href="source-class-App.Model.UserModel.html#13" title="Go to source code"><var>$orm</var></a>
-
-			<div class="description short">
-				
-			</div>
-
-			<div class="description detailed hidden">
-				
-
-			</div>
-		</td>
-		<td class="value">
-			<div>
-				<a href="#$orm" class="anchor">#</a>
-				<code></code>
-			</div>
-		</td>
-	</tr>
-	</table>
 
 
 
