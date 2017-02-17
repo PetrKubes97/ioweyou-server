@@ -20,6 +20,7 @@ class ActionsPresenter extends BaseApiPresenter
 	 */
 	public function actionDefault() {
 
+		$actionsArray = [];
 		$actions = $this->orm->actions->getRecentActions($this->user);
 
 		foreach ($actions as $action) {

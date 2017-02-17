@@ -4,10 +4,7 @@ namespace App\ApiModule\Presenters;
 
 use App;
 use App\Model\Action;
-use App\Model\Debt;
-use App\Model\User;
 use Nette;
-use Tracy\Debugger;
 
 class BaseApiPresenter extends Nette\Application\UI\Presenter
 {
