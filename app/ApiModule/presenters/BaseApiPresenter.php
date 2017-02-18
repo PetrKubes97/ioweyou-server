@@ -15,7 +15,9 @@ class BaseApiPresenter extends Nette\Application\UI\Presenter
 	protected $request;
 	protected $user;
 
-	public function __construct(App\Model\Orm $orm, Nette\Http\Request $request, App\Model\UserModel $userModel)
+	protected $version;
+
+	public function __construct($version = 1, App\Model\Orm $orm, Nette\Http\Request $request, App\Model\UserModel $userModel)
 	{
 		parent::__construct();
 		$this->orm = $orm;
@@ -23,11 +25,13 @@ class BaseApiPresenter extends Nette\Application\UI\Presenter
 		$this->request = $request;
 		$this->data = $request->getPost();
 		$this->headers = $request->getHeaders();
+		$this->version = $version;
 	}
 
 	protected function sendSuccessResponse($responseData, $code = 200)
 	{
 		$this->getHttpResponse()->setCode($code);
+		$this->getHttpResponse()->addHeader("X-Min-Version", $this->version);
 		$this->sendJson($responseData);
 	}
 
