@@ -60,7 +60,7 @@ class UserModel extends Object
 		}
 
 		$this->orm->users->persist($user); // it is neccessary to persist the user before any friends
-		if ($action != null) {
+		if (isset($action)) {
 			$this->orm->actions->persist($action);
 		}
 

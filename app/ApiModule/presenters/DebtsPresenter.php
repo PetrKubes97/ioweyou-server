@@ -3,6 +3,7 @@
 namespace App\ApiModule\Presenters;
 
 use App\Model\Action;
+use App\Model\ActionMessage;
 use App\Model\Debt;
 use Nette\Neon\Exception;
 use Nette\Utils\DateTime;
@@ -41,11 +42,9 @@ class DebtsPresenter extends BaseApiPresenter {
 					$debt = new Debt();
 
 					// Add a new action
-					$action = new Action();
-					$action->type = Action::TYPE_DEBT_NEW;
-					$action->user = $this->user;
-					$action->debt = $debt;
-					$action->note = 'A new debt was created.';
+					$action = $this->createAction($this->user, $debt, Action::TYPE_DEBT_NEW);
+
+					$this->createActionMessage($action, ActionMessage::MESSAGE_DEBT_NEW);
 
 				} else {
 					$debt = $this->orm->debts->getById($id);
@@ -69,8 +68,14 @@ class DebtsPresenter extends BaseApiPresenter {
 
 				// check if there are the same people being part of this debt
 				if ($receivedDebt['id'] > 0 &&
-					($debt->creditor->id != $receivedDebt['creditorId'] || $debt->debtor->id != $receivedDebt['debtorId']) &&
-					($debt->creditor->id != $receivedDebt['debtorId'] || $debt->debtor->id != $receivedDebt['creditorId'])) {
+					(
+						(isset($debt->creditor->id) && $debt->creditor->id != $receivedDebt['creditorId']) ||
+						(isset($debt->debtor->id) && $debt->debtor->id != $receivedDebt['debtorId'])
+					) && (
+						(isset($debt->creditor->id) && $debt->creditor->id != $receivedDebt['debtorId']) ||
+						(isset($debt->debtor->id) && $debt->debtor->id != $receivedDebt['creditorId'])
+					)
+				) {
 					throw new Exception('You can not change creditor or debtor of a debt.');
 				}
 
@@ -95,7 +100,6 @@ class DebtsPresenter extends BaseApiPresenter {
 					if ($debt->manager != null && $this->user != $debt->manager) {
 						continue;
 					}
-
 				}
 			}
 
@@ -115,46 +119,61 @@ class DebtsPresenter extends BaseApiPresenter {
 			if (!isset($action)) {
 
 				if ($debt->paidAt == null && $paidAt != null) {
-					$action = $this->createAction($this->user, $debt, Action::TYPE_DEBT_MARK_AS_PAID, 'Debt was marked as paid. ');
+					$action = $this->createAction($this->user, $debt, Action::TYPE_DEBT_MARK_AS_PAID);
+					$this->createActionMessage($action, ActionMessage::MESSAGE_DEBT_MARKED_AS_PAID);
 				} elseif ($debt->paidAt != null && $paidAt == null) {
-					$action = $this->createAction($this->user, $debt, Action::TYPE_DEBT_MARK_AS_UNPAID, 'Debt was marked as unpaid. ');
+					$action = $this->createAction($this->user, $debt, Action::TYPE_DEBT_MARK_AS_UNPAID);
+					$this->createActionMessage($action, ActionMessage::MESSAGE_DEBT_MARKED_AS_UNPAID);
 				} elseif ($debt->deletedAt == null && $deletedAt != null) {
-					$action = $this->createAction($this->user, $debt, Action::TYPE_DEBT_DELETE, 'Debt was deleted. ');
+					$action = $this->createAction($this->user, $debt, Action::TYPE_DEBT_DELETE);
+					$this->createActionMessage($action, ActionMessage::MESSAGE_DEBT_DELETED);
 				} elseif ($debt->deletedAt != null && $deletedAt == null) {
-					$action = $this->createAction($this->user, $debt, Action::TYPE_DEBT_RESTORE, 'Debt was restored. ');
+					$action = $this->createAction($this->user, $debt, Action::TYPE_DEBT_RESTORE);
+					$this->createActionMessage($action, ActionMessage::MESSAGE_DEBT_RESTORED);
 				} else {
-					$note = '';
-					$note .= ($debt->customFriendName != $receivedDebt['customFriendName']) ? 'Name of a friend was changed. ' : '';
+					$messages = [];
+					if (isset($receivedDebt['customFriendName']) && $debt->customFriendName != $receivedDebt['customFriendName']) {
+						$messages[] = ActionMessage::MESSAGE_DEBT_FRIEND_NAME_CHANGED;
+					};
 
 					if ($debt->amount != null) {
-						if ($receivedDebt['thingName'] == '') {
-							$note .= ($debt->amount != $receivedDebt['amount']) ? 'Amount was changed. ' : '';
-							$note .= ($debt->currency->id != $receivedDebt['currencyId']) ? 'Currency was changed. ' : '';
+						if (!isset($receivedDebt['thingName'])) {
+							if ($debt->amount != $receivedDebt['amount']) {$messages[] = ActionMessage::MESSAGE_DEBT_AMOUNT_CHANGED;}
+							if ($debt->currency->id != $receivedDebt['currencyId']) {$messages[] = ActionMessage::MESSAGE_DEBT_CURRENCY_CHANGED;}
 						} else {
-							$note .= 'Money were changed to a thing. ';
+							$messages[] = ActionMessage::MESSAGE_DEBT_MONEY_TO_THING;
 						}
 					} else {
 						if ($receivedDebt['amount'] == '') {
-							$note .= ($debt->thingName != $receivedDebt['thingName']) ? 'Name of a thing was changed. ' : '';
+							if ($debt->thingName != $receivedDebt['thingName']) {$messages[] = ActionMessage::MESSAGE_DEBT_THING_NAME_CHANGED;}
 						} else {
-							$note .= 'Thing was changed to money. ';
+							$messages[] = ActionMessage::MESSAGE_DEBT_THING_TO_MONEY;
 						}
 					}
 
-					$note .= ($debt->note != $receivedDebt['note']) ? 'Note was changed. ' : '';
+					if ($debt->note != $receivedDebt['note']) {$messages[] = ActionMessage::MESSAGE_DEBT_NOTE_CHANGED;};
 
-					if ($debt->creditor->id != $receivedDebt['creditorId']) {
-						$note .= 'Creditor and debtor were switched. ';
+					if (
+						(isset($debt->creditor) && $debt->creditor->id != $receivedDebt['creditorId']) ||
+						(isset($debt->debtor) && $debt->debtor->id != $receivedDebt['debtorId'])
+					) {
+						$messages[] = ActionMessage::MESSAGE_DEBT_CREDITOR_DEBTOR_SWITCHED;
 					}
 
 					if (($debt->manager == null && $lock == true) ||
 						($debt->manager != null && $lock == false)
 					) {
-						$note .= 'Owner changed permissions on this debt. ';
+						$messages[] = ActionMessage::MESSAGE_DEBT_PERMISSION_CHANGED;
 					}
 
-					if (!empty($note)) {
-						$action = $this->createAction($this->user, $debt, Action::TYPE_DEBT_UPDATED, $note);
+					if (!empty($messages)) {
+						$action = $this->createAction($this->user, $debt, Action::TYPE_DEBT_UPDATED, '');
+
+						// create notes
+						foreach ($messages as $message) {
+							$this->createActionMessage($action, $message);
+						}
+
 					}
 				}
 			}
@@ -208,10 +227,20 @@ class DebtsPresenter extends BaseApiPresenter {
 			// Add an action for a new debt; It needs to be at the end of the script, otherwise an empty debt would be created in the database
 			if (isset($action)) {
 				$this->orm->actions->persistAndFlush($action);
+
+				// flush persisted notes
+				$this->orm->actionsMessages->flush();
 			}
 		}
 
 		$this->sendSuccessResponse($this->getDebtsArray());
+	}
+
+	private function createActionMessage(Action $action, $message) {
+		$ActionMessage = new ActionMessage();
+		$ActionMessage->action = $action;
+		$ActionMessage->message = $message;
+		$this->orm->actionsMessages->persist($ActionMessage);
 	}
 
 	private function getDebtsArray() {

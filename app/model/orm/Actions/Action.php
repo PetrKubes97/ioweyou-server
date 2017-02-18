@@ -4,17 +4,19 @@ namespace App\Model;
 
 use Nette\Utils\DateTime;
 use Nextras\Orm\Entity\Entity;
+use Nextras\Orm\Relationships\OneHasMany;
 
 /**
  * Action
  *
- * @property int 				$id {primary}
- * @property string 			$type
- * @property Debt|NULL 			$debt {m:1 Debt::$actions}
- * @property User|NULL			$user {m:1 User::$actions}
- * @property string|NULL		$note
- * @property bool				$public {Default false}
- * @property DateTime			$date {Default now}
+ * @property int 						$id {primary}
+ * @property string 					$type
+ * @property Debt|NULL 					$debt {m:1 Debt::$actions}
+ * @property User|NULL					$user {m:1 User::$actions}
+ * @property string|NULL				$note
+ * @property bool						$public {Default false}
+ * @property DateTime					$date {Default now}
+ * @property OneHasMany|ActionMessage[]	$actionMessages {1:m ActionMessage::$action}
  */
 class Action extends Entity
 {

@@ -49,6 +49,13 @@ class ActionsPresenter extends BaseApiPresenter
 			$user2Name = $action->debt->customFriendName;
 		}
 
+		$messages = [];
+		foreach ($action->actionMessages as $message) {
+			$messages[] = [
+				'note' => $message->message
+			];
+		}
+
 		// Convert all nulls to empty strings
 		$note = (isset($action->note)) ? $action->note : "";
 
@@ -60,8 +67,8 @@ class ActionsPresenter extends BaseApiPresenter
 			'user1Name' => $action->user->name,
 			'user2Id' => $user2Id,
 			'user2Name' => $user2Name,
-			'public' => (boolean) $action->public,
-			'note' => $note,
+			'note' => $note, // can be deleted after users update their apps
+			'messages' => $messages,
 			'date' => $action->date->format('Y-m-d H:i:s'),
 		];
 	}
