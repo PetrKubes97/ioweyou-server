@@ -18,13 +18,6 @@ class DebtsPresenter extends BaseApiPresenter {
 	}
 
 	/**
-	 * Responses with a list of user's depts
-	 */
-	public function actionDefault() {
-		$this->sendSuccessResponse($this->getDebtsArray());
-	}
-
-	/**
 	 * Updates newest debts and shows debts' most recent versions
 	 */
 	public function actionUpdate() {
@@ -36,7 +29,21 @@ class DebtsPresenter extends BaseApiPresenter {
 			$action = null;
 			// Check the most important things which are nessesary for further actions
 			try {
+
+				if (!array_key_exists('id', $receivedDebt) ||
+					!array_key_exists('createdAt', $receivedDebt) ||
+					!array_key_exists('modifiedAt', $receivedDebt) ||
+					!array_key_exists('version', $receivedDebt)) {
+					throw new Exception('Some JSON parameters are missing.');
+				}
+
+				if (!array_key_exists('thingName', $receivedDebt) &&
+					(!array_key_exists('currencyId', $receivedDebt) || !array_key_exists('amount', $receivedDebt))) {
+					throw new Exception('Some JSON parameters are missing');
+				}
+
 				$id = $receivedDebt['id'];
+
 				// If id is < than 0, it means that it's a new debt and a new row must be created
 				if (!isset($id) || $id < 0) {
 					$debt = new Debt();
@@ -80,7 +87,11 @@ class DebtsPresenter extends BaseApiPresenter {
 				}
 
 			} catch (Exception $e) {
-				$this->sendErrorResponse('Debt ' . $id . ': ' . $e->getMessage());
+				if (!isset($id)) {
+					$this->sendErrorResponse('Debt: ' . $e->getMessage());
+				} else {
+					$this->sendErrorResponse('Debt ' . $id . ': ' . $e->getMessage());
+				}
 			}
 
 			if (is_bool($receivedDebt['lock'])) {
@@ -113,7 +124,19 @@ class DebtsPresenter extends BaseApiPresenter {
 				$deletedAt = DateTime::from($receivedDebt['deletedAt']);
 			}
 
+			$customFriendName = (!empty($receivedDebt['customFriendName'])) ? $receivedDebt['customFriendName'] : null;
+			$creditorId = (!empty($receivedDebt['creditorId'])) ? $receivedDebt['creditorId'] : null;
+			$debtorId = (!empty($receivedDebt['debtorId'])) ? $receivedDebt['debtorId'] : null;
+			$amount = (!empty($receivedDebt['amount'])) ? $receivedDebt['amount'] : null;
+			$currencyId = (!empty($receivedDebt['currencyId'])) ? $receivedDebt['currencyId'] : null;
+			$thingName = (!empty($receivedDebt['thingName'])) ? $receivedDebt['thingName'] : null;
+			$note = (!empty($receivedDebt['note'])) ? $receivedDebt['note'] : null;
 
+			// TODO set now when interval|type changed
+			$intervalSetAt = new DateTime();
+
+			$intervalMinutes =  (!empty($receivedDebt['intervalMinutes'])) ? $receivedDebt['intervalMinutes'] : null;
+			$intervalType =  (!empty($receivedDebt['intervalType'])) ? $receivedDebt['intervalType'] : null;
 
 			// Create actions if user changes the debt
 			if (!isset($action)) {
@@ -132,30 +155,30 @@ class DebtsPresenter extends BaseApiPresenter {
 					$this->createActionMessage($action, ActionMessage::MESSAGE_DEBT_RESTORED);
 				} else {
 					$messages = [];
-					if (isset($receivedDebt['customFriendName']) && $debt->customFriendName != $receivedDebt['customFriendName']) {
+					if (empty($customFriendName) && $debt->customFriendName != $customFriendName) {
 						$messages[] = ActionMessage::MESSAGE_DEBT_FRIEND_NAME_CHANGED;
 					};
 
 					if ($debt->amount != null) {
-						if (!isset($receivedDebt['thingName'])) {
-							if ($debt->amount != $receivedDebt['amount']) {$messages[] = ActionMessage::MESSAGE_DEBT_AMOUNT_CHANGED;}
-							if ($debt->currency->id != $receivedDebt['currencyId']) {$messages[] = ActionMessage::MESSAGE_DEBT_CURRENCY_CHANGED;}
+						if (!empty($thingName)) {
+							if ($debt->amount != $amount) {$messages[] = ActionMessage::MESSAGE_DEBT_AMOUNT_CHANGED;}
+							if ($debt->currency->id != $currencyId) {$messages[] = ActionMessage::MESSAGE_DEBT_CURRENCY_CHANGED;}
 						} else {
 							$messages[] = ActionMessage::MESSAGE_DEBT_MONEY_TO_THING;
 						}
 					} else {
-						if ($receivedDebt['amount'] == '') {
-							if ($debt->thingName != $receivedDebt['thingName']) {$messages[] = ActionMessage::MESSAGE_DEBT_THING_NAME_CHANGED;}
+						if ($amount == null) {
+							if ($debt->thingName != $thingName) {$messages[] = ActionMessage::MESSAGE_DEBT_THING_NAME_CHANGED;}
 						} else {
 							$messages[] = ActionMessage::MESSAGE_DEBT_THING_TO_MONEY;
 						}
 					}
 
-					if ($debt->note != $receivedDebt['note']) {$messages[] = ActionMessage::MESSAGE_DEBT_NOTE_CHANGED;};
+					if ($debt->note != $note) {$messages[] = ActionMessage::MESSAGE_DEBT_NOTE_CHANGED;};
 
 					if (
-						(isset($debt->creditor) && $debt->creditor->id != $receivedDebt['creditorId']) ||
-						(isset($debt->debtor) && $debt->debtor->id != $receivedDebt['debtorId'])
+						(isset($debt->creditor) && $debt->creditor->id != $creditorId) ||
+						(isset($debt->debtor) && $debt->debtor->id != $debtorId)
 					) {
 						$messages[] = ActionMessage::MESSAGE_DEBT_CREDITOR_DEBTOR_SWITCHED;
 					}
@@ -187,18 +210,22 @@ class DebtsPresenter extends BaseApiPresenter {
 
 			// Here we have the newest debt, let's update the databse
 
-			$debt->creditor = $this->orm->users->getById($receivedDebt['creditorId']);
-			$debt->debtor = $this->orm->users->getById($receivedDebt['debtorId']);
-			$debt->customFriendName = $receivedDebt['customFriendName'];
-			$debt->amount = $receivedDebt['amount'];
-			$debt->currency = $this->orm->currencies->getById($receivedDebt['currencyId']);
-			$debt->thingName = $receivedDebt['thingName'];
-			$debt->note = $receivedDebt['note'];
+			$debt->creditor = $this->orm->users->getById($creditorId);
+			$debt->debtor = $this->orm->users->getById($debtorId);
+			$debt->customFriendName = $customFriendName;
+			$debt->amount = $amount;
+			$debt->currency = $this->orm->currencies->getById($currencyId);
+			$debt->thingName = $thingName;
+			$debt->note = $note;
 			$debt->paidAt = $paidAt;
 			$debt->deletedAt = $deletedAt;
 			$debt->createdAt = DateTime::from($receivedDebt['createdAt']);
 			$debt->modifiedAt = new DateTime();
 			$debt->manager = $manager;
+			$debt->intervalSetAt = DateTime::from($intervalSetAt);
+			$debt->intervalRunAt = DateTime::from($intervalSetAt);
+			$debt->intervalMinutes = $intervalMinutes;
+			$debt->intervalType = $intervalType;
 			$debt->version = (int)$receivedDebt['version'];
 
 			// Check if the debt is valid

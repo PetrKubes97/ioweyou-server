@@ -22,11 +22,18 @@ use Nextras\Orm\Relationships\OneHasMany;
  * @property DateTime				$createdAt {default now}
  * @property DateTime				$modifiedAt {default now}
  * @property int					$version {default 0}
+ * @property DateTime|NULL			$intervalSetAt {default null}
+ * @property int|NULL				$intervalMinutes {default null}
+ * @property DateTime|NULL			$intervalRunAt {default null}
+ * @property String|NULL 			$intervalType {enum self::INTERVAL_TYPE_*}
  * @property User|NULL				$manager {m:1 User, oneSided=true}
  * @property OneHasMany|Action[]	$actions {1:m Action::$debt}
  */
 class Debt extends Entity
 {
+	const INTERVAL_TYPE_ADD = 'add';
+	const INTERVAL_TYPE_CREATE = 'create';
+
 	/**
 	 * Converts debt entity to an array, which is suitable for an api response
 	 * @return array
@@ -49,6 +56,11 @@ class Debt extends Entity
 
 		$managerId = (isset($this->manager->id)) ? $this->manager->id : "";
 
+		$intervalSetAt = (isset($this->intervalSetAt)) ? $this->intervalSetAt->format('Y-m-d H:i:s') : "";
+		$intervalMinutes = (isset($this->intervalMinutes)) ? $this->intervalMinutes : "";
+		$intervalRunAt = (isset($this->intervalRunAt)) ? $this->intervalRunAt->format('Y-m-d H:i:s') : "";
+		$intervalType = (isset($this->intervalType)) ? $this->intervalType : "";
+
 		return [
 			'id' => $this->id,
 			'creditorId' => $creditorId,
@@ -63,6 +75,10 @@ class Debt extends Entity
 			'modifiedAt' => $this->modifiedAt->format('Y-m-d H:i:s'),
 			'createdAt' => $this->createdAt->format('Y-m-d H:i:s'),
 			'managerId' => $managerId,
+			'intervalSetAt' => $intervalSetAt,
+			'intervalMinutes' => $intervalMinutes,
+			'intervalRunAt' => $intervalRunAt,
+			'intervalType' => $intervalType,
 			'version' => $this->version
 		];
 	}
