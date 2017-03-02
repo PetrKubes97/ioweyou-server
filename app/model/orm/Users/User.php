@@ -61,6 +61,6 @@ class User extends Entity
 	}
 
 	protected function getterActiveDebts() {
-		return $this->getModel()->getRepository('App\Model\DebtsRepository')->getActiveDebts($this->id);
+		return $this->getModel()->getRepository('App\Model\DebtsRepository')->findActiveDebts($this->id);
 	}
 }

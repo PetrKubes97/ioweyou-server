@@ -12,7 +12,16 @@ class DebtsMapper extends Mapper
 	 * @param $userId
 	 * @return \Nextras\Dbal\QueryBuilder\QueryBuilder
 	 */
-	public function getActiveDebts($userId) {
+	public function findActiveDebts($userId) {
 		return $this->builder()->where("`paid_at` IS NULL AND `deleted_at` IS NULL AND (`creditor_id` = $userId OR `debtor_id` = $userId)");
+	}
+
+	/**
+	 * Returns all active reoccurring debts
+	 *
+	 * @return \Nextras\Dbal\QueryBuilder\QueryBuilder
+	 */
+	public function findReoccurringDebts() {
+		return $this->builder()->where("`paid_at` IS NULL AND `deleted_at` IS NULL AND (`interval_minutes` > 0)");
 	}
 }

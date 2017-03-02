@@ -6,7 +6,8 @@ use Nextras\Orm\Collection\ICollection;
 use Nextras\Orm\Repository\Repository;
 
 /**
- * @method ICollection|Debt[] getActiveDebts(int $id)
+ * @method ICollection|Debt[] findActiveDebts(int $id)
+ * @method ICollection|Debt[] findReoccurringDebts()
  */
 
 class DebtsRepository extends Repository

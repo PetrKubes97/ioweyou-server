@@ -28,4 +28,5 @@ class ActionMessage extends Entity
 	const MESSAGE_DEBT_NOTE_CHANGED = 'debt_note_changed';
 	const MESSAGE_DEBT_CREDITOR_DEBTOR_SWITCHED = 'debt_creditor_debtor_switched';
 	const MESSAGE_DEBT_PERMISSION_CHANGED = 'debt_permission_changed';
+	const MESSAGE_DEBT_INTERVAL_CHANGED = 'debt_interval_changed';
 }

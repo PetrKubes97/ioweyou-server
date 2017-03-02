@@ -1,0 +1,2 @@
+ALTER TABLE `actions_messages`
+CHANGE `message` `message` enum('debt_new','debt_marked_as_paid','debt_marked_as_unpaid','debt_deleted','debt_restored','debt_friend_name_changed','debt_amount_changed','debt_currency_changed','debt_thing_name_changed','debt_money_to_thing','debt_thing_to_money','debt_note_changed','debt_creditor_debtor_switched','debt_permission_changed','debt_interval_changed') COLLATE 'utf8_bin' NOT NULL AFTER `action_id`;

@@ -73,7 +73,7 @@ class DebtsPresenter extends BaseApiPresenter {
 					throw new Exception('Version has to be an int.');
 				}
 
-				// check if there are the same people being part of this debt
+				// Check if there are the same people being part of this debt
 				if ($receivedDebt['id'] > 0 &&
 					(
 						(isset($debt->creditor->id) && $debt->creditor->id != $receivedDebt['creditorId']) ||
@@ -127,16 +127,49 @@ class DebtsPresenter extends BaseApiPresenter {
 			$customFriendName = (!empty($receivedDebt['customFriendName'])) ? $receivedDebt['customFriendName'] : null;
 			$creditorId = (!empty($receivedDebt['creditorId'])) ? $receivedDebt['creditorId'] : null;
 			$debtorId = (!empty($receivedDebt['debtorId'])) ? $receivedDebt['debtorId'] : null;
-			$amount = (!empty($receivedDebt['amount'])) ? $receivedDebt['amount'] : null;
 			$currencyId = (!empty($receivedDebt['currencyId'])) ? $receivedDebt['currencyId'] : null;
+
+			$creditor = $this->orm->users->getById($creditorId);
+			$debtor = $this->orm->users->getById($debtorId);
+			$currency = $this->orm->currencies->getById($currencyId);
+
+			$amount = (!empty($receivedDebt['amount'])) ? $receivedDebt['amount'] : null;
 			$thingName = (!empty($receivedDebt['thingName'])) ? $receivedDebt['thingName'] : null;
 			$note = (!empty($receivedDebt['note'])) ? $receivedDebt['note'] : null;
-
-			// TODO set now when interval|type changed
-			$intervalSetAt = new DateTime();
-
 			$intervalMinutes =  (!empty($receivedDebt['intervalMinutes'])) ? $receivedDebt['intervalMinutes'] : null;
 			$intervalType =  (!empty($receivedDebt['intervalType'])) ? $receivedDebt['intervalType'] : null;
+
+			$manager = null;
+			if ($lock) {
+				$manager = $this->user;
+			} else {
+				$manager = null;
+			}
+
+			// Do all other validity checks
+			// Check if the debt is valid
+			try {
+				if ($creditor != $this->user && $debtor != $this->user) {
+					throw new Exception('Current user has to be assigned to this debt.');
+				} elseif (($creditor === null || $debtor === null) && $customFriendName == null) {
+					throw new Exception('You have to set creditor and debtor, or one of them has to be customFriendName. Check if the ids are valid.');
+				} elseif (($creditor != null && $debtor != null) && $customFriendName != "") {
+					throw new Exception('You can not set creditor, debtor and customFriendName');
+				} elseif ($amount != "" && ($currency == null || $thingName != "")) {
+					throw new Exception('If amount is chosen, you have to chose currencyId and thingName must be empty. Also, check if currency id is valid.');
+				} elseif ($thingName != "" && ($amount != null || $currency != null)) {
+					throw new Exception('If you chose to owe a thing, currency and amount must not be set.');
+				} elseif ($amount == "" && $thingName == "") {
+					throw new Exception('You have to set either amount or thingName');
+				} elseif ($amount == "" && $thingName == "") {
+					throw new Exception('You have to set either amount or thingName');
+				} elseif (($intervalType != null && $intervalMinutes == null) ||
+					($intervalType == null && $intervalMinutes != null)) {
+					throw new Exception('You have to set either both intervalMinutes and intervalType or neither');
+				}
+			} catch (Exception $e) {
+				$this->sendErrorResponse('Debt ' . $id . ': ' . $e->getMessage());
+			}
 
 			// Create actions if user changes the debt
 			if (!isset($action)) {
@@ -189,6 +222,12 @@ class DebtsPresenter extends BaseApiPresenter {
 						$messages[] = ActionMessage::MESSAGE_DEBT_PERMISSION_CHANGED;
 					}
 
+					// Set interval set at to current date
+					if ($intervalMinutes != $debt->intervalMinutes || $intervalType != $debt->intervalType) {
+						$intervalRunAt = new DateTime();
+						$messages[] = ActionMessage::MESSAGE_DEBT_INTERVAL_CHANGED;
+					}
+
 					if (!empty($messages)) {
 						$action = $this->createAction($this->user, $debt, Action::TYPE_DEBT_UPDATED, '');
 
@@ -201,20 +240,13 @@ class DebtsPresenter extends BaseApiPresenter {
 				}
 			}
 
-			$manager = null;
-			if ($lock) {
-				$manager = $this->user;
-			} else {
-				$manager = null;
-			}
-
 			// Here we have the newest debt, let's update the databse
 
-			$debt->creditor = $this->orm->users->getById($creditorId);
-			$debt->debtor = $this->orm->users->getById($debtorId);
+			$debt->creditor = $creditor;
+			$debt->debtor = $debtor;
 			$debt->customFriendName = $customFriendName;
 			$debt->amount = $amount;
-			$debt->currency = $this->orm->currencies->getById($currencyId);
+			$debt->currency = $currency;
 			$debt->thingName = $thingName;
 			$debt->note = $note;
 			$debt->paidAt = $paidAt;
@@ -222,43 +254,22 @@ class DebtsPresenter extends BaseApiPresenter {
 			$debt->createdAt = DateTime::from($receivedDebt['createdAt']);
 			$debt->modifiedAt = new DateTime();
 			$debt->manager = $manager;
-			$debt->intervalSetAt = DateTime::from($intervalSetAt);
-			$debt->intervalRunAt = DateTime::from($intervalSetAt);
+			$debt->intervalRunAt = ($intervalRunAt) ? DateTime::from($intervalRunAt) : $debt->intervalRunAt;
 			$debt->intervalMinutes = $intervalMinutes;
 			$debt->intervalType = $intervalType;
 			$debt->version = (int)$receivedDebt['version'];
 
-			// Check if the debt is valid
-			try {
-				if ($debt->creditor != $this->user && $debt->debtor != $this->user) {
-					throw new Exception('Current user has to be assigned to this debt.');
-				} elseif (($debt->creditor === null || $debt->debtor === null) && $debt->customFriendName == "") {
-					throw new Exception('You have to set creditor and debtor, or one of them has to be customFriendName. Check if the ids are valid.');
-				} elseif (($debt->creditor != null && $debt->debtor != null) && $debt->customFriendName != "") {
-					throw new Exception('You can not set creditor, debtor and customFriendName');
-				} elseif ($debt->amount != "" && ($debt->currency === null || $debt->thingName != "")) {
-					throw new Exception('If amount is chosen, you have to chose currencyId and thingName must be empty. Also, check if currency id is valid.');
-				} elseif ($debt->thingName != "" && ($debt->amount != "" || $debt->currency != null)) {
-					throw new Exception('If you chose to owe a thing, currency and amount must not be set.');
-				} elseif ($debt->amount == "" && $debt->thingName == "") {
-					throw new Exception('You have to set either amount or thingName');
-				} elseif ($debt->amount == "" && $debt->thingName == "") {
-					throw new Exception('You have to set either amount or thingName');
-				}
-			} catch (Exception $e) {
-				$this->sendErrorResponse('Debt ' . $id . ': ' . $e->getMessage());
-			}
-
-			$this->orm->debts->persistAndFlush($debt);
+			$this->orm->debts->persist($debt);
 
 			// Add an action for a new debt; It needs to be at the end of the script, otherwise an empty debt would be created in the database
 			if (isset($action)) {
-				$this->orm->actions->persistAndFlush($action);
-
-				// flush persisted notes
-				$this->orm->actionsMessages->flush();
+				$this->orm->actions->persist($action);
 			}
 		}
+
+		$this->orm->debts->flush();
+		$this->orm->actions->flush();
+		$this->orm->actionsMessages->flush();
 
 		$this->sendSuccessResponse($this->getDebtsArray());
 	}

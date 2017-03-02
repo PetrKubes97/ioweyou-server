@@ -86,8 +86,8 @@ body {
 
 .featurette {
     text-align: justify;
-    display: flex; !important;
-    align-items: center; !important;
+    display: flex !important;
+    align-items: center !important;
     flex-wrap: wrap;
 }
 

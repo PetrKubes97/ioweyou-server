@@ -22,7 +22,6 @@ use Nextras\Orm\Relationships\OneHasMany;
  * @property DateTime				$createdAt {default now}
  * @property DateTime				$modifiedAt {default now}
  * @property int					$version {default 0}
- * @property DateTime|NULL			$intervalSetAt {default null}
  * @property int|NULL				$intervalMinutes {default null}
  * @property DateTime|NULL			$intervalRunAt {default null}
  * @property String|NULL 			$intervalType {enum self::INTERVAL_TYPE_*}
@@ -56,7 +55,6 @@ class Debt extends Entity
 
 		$managerId = (isset($this->manager->id)) ? $this->manager->id : "";
 
-		$intervalSetAt = (isset($this->intervalSetAt)) ? $this->intervalSetAt->format('Y-m-d H:i:s') : "";
 		$intervalMinutes = (isset($this->intervalMinutes)) ? $this->intervalMinutes : "";
 		$intervalRunAt = (isset($this->intervalRunAt)) ? $this->intervalRunAt->format('Y-m-d H:i:s') : "";
 		$intervalType = (isset($this->intervalType)) ? $this->intervalType : "";
@@ -75,7 +73,6 @@ class Debt extends Entity
 			'modifiedAt' => $this->modifiedAt->format('Y-m-d H:i:s'),
 			'createdAt' => $this->createdAt->format('Y-m-d H:i:s'),
 			'managerId' => $managerId,
-			'intervalSetAt' => $intervalSetAt,
 			'intervalMinutes' => $intervalMinutes,
 			'intervalRunAt' => $intervalRunAt,
 			'intervalType' => $intervalType,
