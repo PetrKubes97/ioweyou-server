@@ -22,7 +22,9 @@ class DebtsPresenter extends BaseApiPresenter {
 	 */
 	public function actionUpdate() {
 
-		$allReceivedDebts = json_decode($this->request->getRawBody(), true);
+		$json = preg_replace('/[^a-zA-Z0-9áčďéěíňóřšťůúýžÁČĎÉĚÍŇÓŘŠŤŮÚÝŽäöüÄÖÜßàâäèéêëîïôœùûüÿçÀÂÄÈÉÊËÎÏÔŒÙÛÜŸÇ\{\}\"\:\[\,\]\-\s\'\$\%\^\&\*\(\)\#\@\!\.]/', '', $this->request->getRawBody());
+
+		$allReceivedDebts = json_decode($json, true);
 
 		// Go through each debt saved on a mobile device right now, update the database, and return all debts
 		foreach ($allReceivedDebts['debts'] as $receivedDebt) {
@@ -193,7 +195,7 @@ class DebtsPresenter extends BaseApiPresenter {
 					};
 
 					if ($debt->amount != null) {
-						if (!empty($thingName)) {
+						if (empty($thingName)) {
 							if ($debt->amount != $amount) {$messages[] = ActionMessage::MESSAGE_DEBT_AMOUNT_CHANGED;}
 							if ($debt->currency->id != $currencyId) {$messages[] = ActionMessage::MESSAGE_DEBT_CURRENCY_CHANGED;}
 						} else {
@@ -254,7 +256,7 @@ class DebtsPresenter extends BaseApiPresenter {
 			$debt->createdAt = DateTime::from($receivedDebt['createdAt']);
 			$debt->modifiedAt = new DateTime();
 			$debt->manager = $manager;
-			$debt->intervalRunAt = ($intervalRunAt) ? DateTime::from($intervalRunAt) : $debt->intervalRunAt;
+			$debt->intervalRunAt = (!empty($intervalRunAt)) ? DateTime::from($intervalRunAt) : $debt->intervalRunAt;
 			$debt->intervalMinutes = $intervalMinutes;
 			$debt->intervalType = $intervalType;
 			$debt->version = (int)$receivedDebt['version'];

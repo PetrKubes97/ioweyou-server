@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Model;
+use Nette\Object;
 
 class ReoccurringDebtsModel extends Object
 {
