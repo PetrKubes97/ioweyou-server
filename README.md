@@ -1,35 +1,41 @@
 # IOweYou - server
 
+This is the backend application which runs [IOweYou website](https://petrkubes.cz/ioweyou/) and provides an API for the [Android app](https://play.google.com/store/apps/details?id=cz.petrkubes.payuback).
+
 ## Installation
 
-1. Clone the GitHub repository
+1. Clone the GitHub repository:
 ```
-git@github.com:PetrKubes97/ioweyou-server.git
+git clone git@github.com:PetrKubes97/ioweyou-server.git
 ```
 
-2. Create database using 'utf8mb4_bin'
+2. Create a database using 'utf8mb4_bin'.
 
-3. Create file config.local.neon in the app/config folder
+3. Create config.local.neon in the app/config folder with the following contents:
 
 ```
 dbal:
-	driver: mysqli
-	host: 127.0.0.1
-	database: yourdbname
-	username: root
-	password: root
+    driver: mysqli
+    host: 127.0.0.1
+    database: yourdbname
+    username: root
+    password: root
 ```
 
-4. Create the temp and dummy-data folder
+5. Run migrations.
 ```
-    mkdir temp
-```
-
-5. Run migrations
+php www/index.php migrations:reset
 ```
 
+6. Make sure that log and temp are writable.
+```
+chmod -R 777 temp; chmod -R 777 log;
 ```
 
+7. At this point, you should be able to open the web page at ``localhost/ioweyou-server/www``.
 
+### Testing the API
 
+The API address is ``http://localhost/ioweyou-api/www/api/``. See apiary.apib for possible requests.
 
+You can get the Facebook Access Token and ID at [Facebook Graph API Explorer](https://developers.facebook.com/tools/explorer/). Click get token and check "user_friends" and "email".
