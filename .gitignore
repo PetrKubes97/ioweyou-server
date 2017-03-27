@@ -1,5 +1,7 @@
 app/config/config.local.neon
 .idea/
-migrations/dummy-data/
-temp/
+migrations/dummy-data/*
+!migrations/dummy-data/.gitkeep
+temp/cache/*
+!temp/cache/.gitkeep
 deploy.sh
