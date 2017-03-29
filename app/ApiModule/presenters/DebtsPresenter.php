@@ -22,9 +22,7 @@ class DebtsPresenter extends BaseApiPresenter {
 	 */
 	public function actionUpdate() {
 
-		$json = preg_replace('/[^a-zA-Z0-9áčďéěíňóřšťůúýžÁČĎÉĚÍŇÓŘŠŤŮÚÝŽäöüÄÖÜßàâäèéêëîïôœùûüÿçÀÂÄÈÉÊËÎÏÔŒÙÛÜŸÇ\{\}\"\:\[\,\]\-\s\'\$\%\^\&\*\(\)\#\@\!\.]/', '', $this->request->getRawBody());
-
-		$allReceivedDebts = json_decode($json, true);
+		$allReceivedDebts = json_decode($this->request->getRawBody(), true);
 
 		// Go through each debt saved on a mobile device right now, update the database, and return all debts
 		foreach ($allReceivedDebts['debts'] as $receivedDebt) {
@@ -96,7 +94,7 @@ class DebtsPresenter extends BaseApiPresenter {
 				}
 			}
 
-			if (is_bool($receivedDebt['lock'])) {
+			if (array_key_exists('lock', $receivedDebt) && is_bool($receivedDebt['lock'])) {
 				$lock = $receivedDebt['lock'];
 			} else {
 				$lock = false;
