@@ -16,4 +16,5 @@ return array(
     'Nextras\\Orm\\' => array($vendorDir . '/nextras/orm/src'),
     'Nextras\\Migrations\\' => array($vendorDir . '/nextras/migrations/src'),
     'Nextras\\Dbal\\' => array($vendorDir . '/nextras/dbal/src'),
+    'Composer\\CaBundle\\' => array($vendorDir . '/composer/ca-bundle/src'),
 );

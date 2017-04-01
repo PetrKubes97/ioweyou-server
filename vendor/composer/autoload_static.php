@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit091ed5d24b4127ffc48411e34be2086f
+class ComposerStaticInit36aed70818fedad9dc77c808fb9a09ea
 {
     public static $files = array (
         '7745382c92b7799bf1294b1f43023ba2' => __DIR__ . '/..' . '/tracy/tracy/src/shortcuts.php',
@@ -17,8 +17,11 @@ class ComposerStaticInit091ed5d24b4127ffc48411e34be2086f
         'S' => 
         array (
             'Symfony\\Polyfill\\Mbstring\\' => 26,
+            'Symfony\\Component\\Translation\\' => 30,
+            'Symfony\\Component\\Filesystem\\' => 29,
             'Symfony\\Component\\Debug\\' => 24,
             'Symfony\\Component\\Console\\' => 26,
+            'Symfony\\Component\\Config\\' => 25,
         ),
         'P' => 
         array (
@@ -30,12 +33,24 @@ class ComposerStaticInit091ed5d24b4127ffc48411e34be2086f
             'Nextras\\Migrations\\' => 19,
             'Nextras\\Dbal\\' => 13,
         ),
+        'C' => 
+        array (
+            'Composer\\CaBundle\\' => 18,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
         'Symfony\\Polyfill\\Mbstring\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
+        ),
+        'Symfony\\Component\\Translation\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/translation',
+        ),
+        'Symfony\\Component\\Filesystem\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/filesystem',
         ),
         'Symfony\\Component\\Debug\\' => 
         array (
@@ -44,6 +59,10 @@ class ComposerStaticInit091ed5d24b4127ffc48411e34be2086f
         'Symfony\\Component\\Console\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/console',
+        ),
+        'Symfony\\Component\\Config\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/config',
         ),
         'Psr\\Log\\' => 
         array (
@@ -61,11 +80,19 @@ class ComposerStaticInit091ed5d24b4127ffc48411e34be2086f
         array (
             0 => __DIR__ . '/..' . '/nextras/dbal/src',
         ),
+        'Composer\\CaBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/composer/ca-bundle/src',
+        ),
     );
 
     public static $prefixesPsr0 = array (
         'K' => 
         array (
+            'Kdyby\\Translation' => 
+            array (
+                0 => __DIR__ . '/..' . '/kdyby/translation/src',
+            ),
             'Kdyby\\Facebook\\' => 
             array (
                 0 => __DIR__ . '/..' . '/kdyby/facebook/src',
@@ -84,10 +111,14 @@ class ComposerStaticInit091ed5d24b4127ffc48411e34be2086f
         'Kdyby\\Console\\InvalidArgumentException' => __DIR__ . '/..' . '/kdyby/console/src/Kdyby/Console/exceptions.php',
         'Kdyby\\Console\\InvalidStateException' => __DIR__ . '/..' . '/kdyby/console/src/Kdyby/Console/exceptions.php',
         'Kdyby\\Console\\UnknownCommandException' => __DIR__ . '/..' . '/kdyby/console/src/Kdyby/Console/exceptions.php',
-        'Kdyby\\CurlCaBundle\\CertificateHelper' => __DIR__ . '/..' . '/kdyby/curl-ca-bundle/src/CertificateHelper.php',
         'Kdyby\\Facebook\\Exception' => __DIR__ . '/..' . '/kdyby/facebook/src/Kdyby/Facebook/exceptions.php',
         'Kdyby\\Facebook\\FacebookApiException' => __DIR__ . '/..' . '/kdyby/facebook/src/Kdyby/Facebook/exceptions.php',
         'Kdyby\\Facebook\\InvalidArgumentException' => __DIR__ . '/..' . '/kdyby/facebook/src/Kdyby/Facebook/exceptions.php',
+        'Kdyby\\Translation\\Exception' => __DIR__ . '/..' . '/kdyby/translation/src/Kdyby/Translation/exceptions.php',
+        'Kdyby\\Translation\\InvalidArgumentException' => __DIR__ . '/..' . '/kdyby/translation/src/Kdyby/Translation/exceptions.php',
+        'Kdyby\\Translation\\InvalidResourceException' => __DIR__ . '/..' . '/kdyby/translation/src/Kdyby/Translation/exceptions.php',
+        'Kdyby\\Translation\\InvalidStateException' => __DIR__ . '/..' . '/kdyby/translation/src/Kdyby/Translation/exceptions.php',
+        'Kdyby\\Translation\\LoaderNotFoundException' => __DIR__ . '/..' . '/kdyby/translation/src/Kdyby/Translation/exceptions.php',
         'Latte\\CompileException' => __DIR__ . '/..' . '/latte/latte/src/Latte/exceptions.php',
         'Latte\\Compiler' => __DIR__ . '/..' . '/latte/latte/src/Latte/Compiler/Compiler.php',
         'Latte\\Engine' => __DIR__ . '/..' . '/latte/latte/src/Latte/Engine.php',
@@ -343,6 +374,10 @@ class ComposerStaticInit091ed5d24b4127ffc48411e34be2086f
         'Nette\\Object' => __DIR__ . '/..' . '/nette/utils/src/Utils/Object.php',
         'Nette\\OutOfRangeException' => __DIR__ . '/..' . '/nette/utils/src/Utils/exceptions.php',
         'Nette\\PhpGenerator\\ClassType' => __DIR__ . '/..' . '/nette/php-generator/src/PhpGenerator/ClassType.php',
+        'Nette\\PhpGenerator\\Closure' => __DIR__ . '/..' . '/nette/php-generator/src/PhpGenerator/Closure.php',
+        'Nette\\PhpGenerator\\Constant' => __DIR__ . '/..' . '/nette/php-generator/src/PhpGenerator/Constant.php',
+        'Nette\\PhpGenerator\\Factory' => __DIR__ . '/..' . '/nette/php-generator/src/PhpGenerator/Factory.php',
+        'Nette\\PhpGenerator\\GlobalFunction' => __DIR__ . '/..' . '/nette/php-generator/src/PhpGenerator/GlobalFunction.php',
         'Nette\\PhpGenerator\\Helpers' => __DIR__ . '/..' . '/nette/php-generator/src/PhpGenerator/Helpers.php',
         'Nette\\PhpGenerator\\Method' => __DIR__ . '/..' . '/nette/php-generator/src/PhpGenerator/Method.php',
         'Nette\\PhpGenerator\\Parameter' => __DIR__ . '/..' . '/nette/php-generator/src/PhpGenerator/Parameter.php',
@@ -350,6 +385,10 @@ class ComposerStaticInit091ed5d24b4127ffc48411e34be2086f
         'Nette\\PhpGenerator\\PhpLiteral' => __DIR__ . '/..' . '/nette/php-generator/src/PhpGenerator/PhpLiteral.php',
         'Nette\\PhpGenerator\\PhpNamespace' => __DIR__ . '/..' . '/nette/php-generator/src/PhpGenerator/PhpNamespace.php',
         'Nette\\PhpGenerator\\Property' => __DIR__ . '/..' . '/nette/php-generator/src/PhpGenerator/Property.php',
+        'Nette\\PhpGenerator\\Traits\\CommentAware' => __DIR__ . '/..' . '/nette/php-generator/src/PhpGenerator/Traits/CommentAware.php',
+        'Nette\\PhpGenerator\\Traits\\FunctionLike' => __DIR__ . '/..' . '/nette/php-generator/src/PhpGenerator/Traits/FunctionLike.php',
+        'Nette\\PhpGenerator\\Traits\\NameAware' => __DIR__ . '/..' . '/nette/php-generator/src/PhpGenerator/Traits/NameAware.php',
+        'Nette\\PhpGenerator\\Traits\\VisibilityAware' => __DIR__ . '/..' . '/nette/php-generator/src/PhpGenerator/Traits/VisibilityAware.php',
         'Nette\\Reflection\\Annotation' => __DIR__ . '/..' . '/nette/reflection/src/Reflection/Annotation.php',
         'Nette\\Reflection\\AnnotationsParser' => __DIR__ . '/..' . '/nette/reflection/src/Reflection/AnnotationsParser.php',
         'Nette\\Reflection\\ClassType' => __DIR__ . '/..' . '/nette/reflection/src/Reflection/ClassType.php',
@@ -393,6 +432,7 @@ class ComposerStaticInit091ed5d24b4127ffc48411e34be2086f
         'Nette\\Utils\\ObjectMixin' => __DIR__ . '/..' . '/nette/utils/src/Utils/ObjectMixin.php',
         'Nette\\Utils\\Paginator' => __DIR__ . '/..' . '/nette/utils/src/Utils/Paginator.php',
         'Nette\\Utils\\Random' => __DIR__ . '/..' . '/nette/utils/src/Utils/Random.php',
+        'Nette\\Utils\\Reflection' => __DIR__ . '/..' . '/nette/utils/src/Utils/Reflection.php',
         'Nette\\Utils\\RegexpException' => __DIR__ . '/..' . '/nette/utils/src/Utils/exceptions.php',
         'Nette\\Utils\\Strings' => __DIR__ . '/..' . '/nette/utils/src/Utils/Strings.php',
         'Nette\\Utils\\TokenIterator' => __DIR__ . '/..' . '/nette/tokenizer/src/Tokenizer/TokenIterator.php',
@@ -480,10 +520,10 @@ class ComposerStaticInit091ed5d24b4127ffc48411e34be2086f
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit091ed5d24b4127ffc48411e34be2086f::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit091ed5d24b4127ffc48411e34be2086f::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit091ed5d24b4127ffc48411e34be2086f::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit091ed5d24b4127ffc48411e34be2086f::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit36aed70818fedad9dc77c808fb9a09ea::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit36aed70818fedad9dc77c808fb9a09ea::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit36aed70818fedad9dc77c808fb9a09ea::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit36aed70818fedad9dc77c808fb9a09ea::$classMap;
 
         }, null, ClassLoader::class);
     }

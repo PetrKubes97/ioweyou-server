@@ -12,7 +12,6 @@ return array(
     'Kdyby\\Console\\InvalidArgumentException' => $vendorDir . '/kdyby/console/src/Kdyby/Console/exceptions.php',
     'Kdyby\\Console\\InvalidStateException' => $vendorDir . '/kdyby/console/src/Kdyby/Console/exceptions.php',
     'Kdyby\\Console\\UnknownCommandException' => $vendorDir . '/kdyby/console/src/Kdyby/Console/exceptions.php',
-    'Kdyby\\CurlCaBundle\\CertificateHelper' => $vendorDir . '/kdyby/curl-ca-bundle/src/CertificateHelper.php',
     'Kdyby\\Facebook\\Exception' => $vendorDir . '/kdyby/facebook/src/Kdyby/Facebook/exceptions.php',
     'Kdyby\\Facebook\\FacebookApiException' => $vendorDir . '/kdyby/facebook/src/Kdyby/Facebook/exceptions.php',
     'Kdyby\\Facebook\\InvalidArgumentException' => $vendorDir . '/kdyby/facebook/src/Kdyby/Facebook/exceptions.php',
