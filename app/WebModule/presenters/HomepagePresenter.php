@@ -16,8 +16,6 @@ class HomepagePresenter extends BasePresenter
 		$this->template->Hoverview = $this->translator->translate('front.homepage.headings.overview');
 		$this->template->Hadd = $this->translator->translate('front.homepage.headings.add');
 		$this->template->Hactions = $this->translator->translate('front.homepage.headings.actions');
-
-
 	}
 
 	public function renderTechnology() {

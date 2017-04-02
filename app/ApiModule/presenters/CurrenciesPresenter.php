@@ -2,6 +2,9 @@
 
 namespace App\ApiModule\Presenters;
 
+/**
+ * Handles currencies
+ */
 class CurrenciesPresenter extends BaseApiPresenter {
 
 	// Check if user is logged in

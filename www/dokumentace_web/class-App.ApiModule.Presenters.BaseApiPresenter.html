@@ -37,6 +37,11 @@
 						</li>
 							</ul></li>
 				<li>
+					<a href="namespace-App.Console.html">
+						Console					</a>
+
+						</li>
+				<li>
 					<a href="namespace-App.Model.html">
 						Model					</a>
 
@@ -148,7 +153,7 @@ Nette\Application\UI\Presenter
 		<b>Namespace:</b> <a href="namespace-App.html">App</a>\<a href="namespace-App.ApiModule.html">ApiModule</a>\<a href="namespace-App.ApiModule.Presenters.html">Presenters</a><br>
 		
 
-			<b>Located at</b> <a href="source-class-App.ApiModule.Presenters.BaseApiPresenter.html#12-73" title="Go to source code">ApiModule/BaseApiPresenter.php</a>
+			<b>Located at</b> <a href="source-class-App.ApiModule.Presenters.BaseApiPresenter.html#9-87" title="Go to source code">ApiModule/presenters/BaseApiPresenter.php</a>
 		<br>
 	</div>
 
@@ -168,7 +173,7 @@ Nette\Application\UI\Presenter
 
 		<td class="name"><div>
 		<a class="anchor" href="#___construct">#</a>
-		<code><a href="source-class-App.ApiModule.Presenters.BaseApiPresenter.html#21-29" title="Go to source code">__construct</a>( <span><code><a href="class-App.Model.Orm.html">App\Model\Orm</a></code> <var>$orm</var></span>, <span>Nette\Http\Request <var>$request</var></span>, <span><code><a href="class-App.Model.UserModel.html">App\Model\UserModel</a></code> <var>$userModel</var></span> )</code>
+		<code><a href="source-class-App.ApiModule.Presenters.BaseApiPresenter.html#20-29" title="Go to source code">__construct</a>( <span> <var>$version</var></span>, <span><code><a href="class-App.Model.Orm.html">App\Model\Orm</a></code> <var>$orm</var></span>, <span>Nette\Http\Request <var>$request</var></span>, <span><code><a href="class-App.Model.UserModel.html">App\Model\UserModel</a></code> <var>$userModel</var></span> )</code>
 
 		<div class="description short">
 			
@@ -198,16 +203,23 @@ Nette\Application\UI\Presenter
 
 		<td class="name"><div>
 		<a class="anchor" href="#_sendSuccessResponse">#</a>
-		<code><a href="source-class-App.ApiModule.Presenters.BaseApiPresenter.html#31-35" title="Go to source code">sendSuccessResponse</a>( <span> <var>$responseData</var></span>, <span> <var>$code</var> = <span class="php-num">200</span></span> )</code>
+		<code><a href="source-class-App.ApiModule.Presenters.BaseApiPresenter.html#31-42" title="Go to source code">sendSuccessResponse</a>( <span> <var>$responseData</var></span>, <span>integer <var>$code</var> = <span class="php-num">200</span></span> )</code>
 
 		<div class="description short">
-			
+			<p>Sends success response and adds a min version header</p>
 		</div>
 
 		<div class="description detailed hidden">
-			
+			<p>Sends success response and adds a min version header</p>
 
 
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$responseData</var></dt>
+					<dd>which is converted to a JSON and send</dd>
+					<dt><var>$code</var></dt>
+					<dd>ex. 200</dd>
+				</dl></div>
 
 
 
@@ -228,16 +240,23 @@ Nette\Application\UI\Presenter
 
 		<td class="name"><div>
 		<a class="anchor" href="#_sendErrorResponse">#</a>
-		<code><a href="source-class-App.ApiModule.Presenters.BaseApiPresenter.html#37-44" title="Go to source code">sendErrorResponse</a>( <span> <var>$message</var></span>, <span> <var>$code</var> = <span class="php-num">400</span></span> )</code>
+		<code><a href="source-class-App.ApiModule.Presenters.BaseApiPresenter.html#44-58" title="Go to source code">sendErrorResponse</a>( <span> <var>$message</var></span>, <span>integer <var>$code</var> = <span class="php-num">400</span></span> )</code>
 
 		<div class="description short">
-			
+			<p>Sends error response</p>
 		</div>
 
 		<div class="description detailed hidden">
-			
+			<p>Sends error response</p>
 
 
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$message</var></dt>
+					<dd>containing error message</dd>
+					<dt><var>$code</var></dt>
+					<dd>ex. 400</dd>
+				</dl></div>
 
 
 
@@ -258,7 +277,7 @@ Nette\Application\UI\Presenter
 
 		<td class="name"><div>
 		<a class="anchor" href="#_authenticate">#</a>
-		<code><a href="source-class-App.ApiModule.Presenters.BaseApiPresenter.html#46-62" title="Go to source code">authenticate</a>( )</code>
+		<code><a href="source-class-App.ApiModule.Presenters.BaseApiPresenter.html#60-76" title="Go to source code">authenticate</a>( )</code>
 
 		<div class="description short">
 			<p>Checks if user is logged in</p>
@@ -288,7 +307,7 @@ Nette\Application\UI\Presenter
 
 		<td class="name"><div>
 		<a class="anchor" href="#_createAction">#</a>
-		<code><a href="source-class-App.ApiModule.Presenters.BaseApiPresenter.html#64-72" title="Go to source code">createAction</a>( <span> <var>$user</var></span>, <span> <var>$debt</var></span>, <span> <var>$type</var></span>, <span> <var>$note</var> = <span class="php-keyword1">null</span></span>, <span> <var>$public</var> = <span class="php-keyword1">true</span></span> )</code>
+		<code><a href="source-class-App.ApiModule.Presenters.BaseApiPresenter.html#78-86" title="Go to source code">createAction</a>( <span> <var>$user</var></span>, <span> <var>$debt</var></span>, <span> <var>$type</var></span>, <span> <var>$note</var> = <span class="php-keyword1">null</span></span>, <span> <var>$public</var> = <span class="php-keyword1">true</span></span> )</code>
 
 		<div class="description short">
 			
@@ -328,7 +347,7 @@ Nette\Application\UI\Presenter
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-App.ApiModule.Presenters.BaseApiPresenter.html#14" title="Go to source code"><var>$orm</var></a>
+				<a href="source-class-App.ApiModule.Presenters.BaseApiPresenter.html#11" title="Go to source code"><var>$orm</var></a>
 
 			<div class="description short">
 				
@@ -353,7 +372,7 @@ Nette\Application\UI\Presenter
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-App.ApiModule.Presenters.BaseApiPresenter.html#15" title="Go to source code"><var>$data</var></a>
+				<a href="source-class-App.ApiModule.Presenters.BaseApiPresenter.html#12" title="Go to source code"><var>$data</var></a>
 
 			<div class="description short">
 				
@@ -378,7 +397,7 @@ Nette\Application\UI\Presenter
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-App.ApiModule.Presenters.BaseApiPresenter.html#16" title="Go to source code"><var>$headers</var></a>
+				<a href="source-class-App.ApiModule.Presenters.BaseApiPresenter.html#13" title="Go to source code"><var>$headers</var></a>
 
 			<div class="description short">
 				
@@ -403,7 +422,7 @@ Nette\Application\UI\Presenter
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-App.ApiModule.Presenters.BaseApiPresenter.html#17" title="Go to source code"><var>$userModel</var></a>
+				<a href="source-class-App.ApiModule.Presenters.BaseApiPresenter.html#14" title="Go to source code"><var>$userModel</var></a>
 
 			<div class="description short">
 				
@@ -428,7 +447,7 @@ Nette\Application\UI\Presenter
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-App.ApiModule.Presenters.BaseApiPresenter.html#18" title="Go to source code"><var>$request</var></a>
+				<a href="source-class-App.ApiModule.Presenters.BaseApiPresenter.html#15" title="Go to source code"><var>$request</var></a>
 
 			<div class="description short">
 				
@@ -453,7 +472,7 @@ Nette\Application\UI\Presenter
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-App.ApiModule.Presenters.BaseApiPresenter.html#19" title="Go to source code"><var>$user</var></a>
+				<a href="source-class-App.ApiModule.Presenters.BaseApiPresenter.html#16" title="Go to source code"><var>$user</var></a>
 
 			<div class="description short">
 				
@@ -467,6 +486,31 @@ Nette\Application\UI\Presenter
 		<td class="value">
 			<div>
 				<a href="#$user" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="version" id="$version">
+		<td class="attributes"><code>
+			protected  
+			
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-App.ApiModule.Presenters.BaseApiPresenter.html#18" title="Go to source code"><var>$version</var></a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$version" class="anchor">#</a>
 				<code></code>
 			</div>
 		</td>

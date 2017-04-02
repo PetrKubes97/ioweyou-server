@@ -5,6 +5,9 @@ namespace App\ApiModule\Presenters;
 use App\Model\Action;
 use Kdyby\Facebook\FacebookApiException;
 
+/**
+ * Handles users
+ */
 class UserPresenter extends BaseApiPresenter
 {
 

@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta name="robots" content="noindex">
 
-	<title>File router/RouterFactory.php</title>
+	<title>File Console/ReoccurringDebtsCommand.php</title>
 
 	<link rel="stylesheet" href="resources/style.css?e99947befd7bf673c6b43ff75e9e0f170c88a60e">
 
@@ -143,34 +143,39 @@
 
 <pre><code><span id="1" class="l"><a href="#1"> 1: </a><span class="xlang">&lt;?php</span>
 </span><span id="2" class="l"><a href="#2"> 2: </a>
-</span><span id="3" class="l"><a href="#3"> 3: </a><span class="php-keyword1">namespace</span> App;
+</span><span id="3" class="l"><a href="#3"> 3: </a><span class="php-keyword1">namespace</span> App\Console;
 </span><span id="4" class="l"><a href="#4"> 4: </a>
-</span><span id="5" class="l"><a href="#5"> 5: </a><span class="php-keyword1">use</span> Nette;
-</span><span id="6" class="l"><a href="#6"> 6: </a><span class="php-keyword1">use</span> Nette\Application\Routers\RouteList;
-</span><span id="7" class="l"><a href="#7"> 7: </a><span class="php-keyword1">use</span> Nette\Application\Routers\Route;
+</span><span id="5" class="l"><a href="#5"> 5: </a><span class="php-keyword1">use</span> Symfony\Component\Console\Command\Command;
+</span><span id="6" class="l"><a href="#6"> 6: </a><span class="php-keyword1">use</span> Symfony\Component\Console\Input\InputInterface;
+</span><span id="7" class="l"><a href="#7"> 7: </a><span class="php-keyword1">use</span> Symfony\Component\Console\Output\OutputInterface;
 </span><span id="8" class="l"><a href="#8"> 8: </a>
-</span><span id="9" class="l"><a href="#9"> 9: </a>
-</span><span id="10" class="l"><a href="#10">10: </a><span class="php-keyword1">class</span> RouterFactory
-</span><span id="11" class="l"><a href="#11">11: </a>{
-</span><span id="12" class="l"><a href="#12">12: </a>    <span class="php-keyword1">use</span> Nette\StaticClass;
-</span><span id="13" class="l"><a href="#13">13: </a>
-</span><span id="14" class="l"><a href="#14">14: </a>    <span class="php-comment">/**
-</span></span><span id="15" class="l"><a href="#15">15: </a><span class="php-comment">     * @return Nette\Application\IRouter
-</span></span><span id="16" class="l"><a href="#16">16: </a><span class="php-comment">     */</span>
-</span><span id="17" class="l"><a href="#17">17: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">static</span> <span class="php-keyword1">function</span> createRouter()
-</span><span id="18" class="l"><a href="#18">18: </a>    {
-</span><span id="19" class="l"><a href="#19">19: </a>        <span class="php-var">$router</span> = <span class="php-keyword1">new</span> RouteList;
-</span><span id="20" class="l"><a href="#20">20: </a>
-</span><span id="21" class="l"><a href="#21">21: </a>        <span class="php-var">$router</span>[] = <span class="php-keyword1">new</span> Route(<span class="php-quote">'[&lt;locale=cs cs|en&gt;/]'</span>, <span class="php-quote">'Web:Homepage:default'</span>);
-</span><span id="22" class="l"><a href="#22">22: </a>        <span class="php-var">$router</span>[] = <span class="php-keyword1">new</span> Route(<span class="php-quote">'[&lt;locale=cs cs|en&gt;/]&lt;module&gt;/&lt;presenter&gt;/&lt;action&gt;'</span>, <span class="php-quote">&quot;Web:Homepage:default&quot;</span>);
-</span><span id="23" class="l"><a href="#23">23: </a>        <span class="php-var">$router</span>[] = <span class="php-keyword1">new</span> Route(<span class="php-quote">'&lt;module&gt;/&lt;presenter&gt;/&lt;action&gt;[/&lt;id&gt;]'</span>, <span class="php-quote">'Web:Homepage:default'</span>);
-</span><span id="24" class="l"><a href="#24">24: </a>        <span class="php-var">$router</span>[] = <span class="php-keyword1">new</span> Route(<span class="php-quote">'&lt;presenter&gt;/&lt;action&gt;[/&lt;id&gt;]'</span>, <span class="php-quote">'Web:Homepage:default'</span>);
-</span><span id="25" class="l"><a href="#25">25: </a>
-</span><span id="26" class="l"><a href="#26">26: </a>        <span class="php-keyword1">return</span> <span class="php-var">$router</span>;
-</span><span id="27" class="l"><a href="#27">27: </a>    }
-</span><span id="28" class="l"><a href="#28">28: </a>
-</span><span id="29" class="l"><a href="#29">29: </a>}
-</span><span id="30" class="l"><a href="#30">30: </a></span></code></pre>
+</span><span id="9" class="l"><a href="#9"> 9: </a><span class="php-comment">/**
+</span></span><span id="10" class="l"><a href="#10">10: </a><span class="php-comment"> * Command for updating reoccuring debts
+</span></span><span id="11" class="l"><a href="#11">11: </a><span class="php-comment"> */</span>
+</span><span id="12" class="l"><a href="#12">12: </a><span class="php-keyword1">class</span> ReoccurringDebtsCommand <span class="php-keyword1">extends</span> Command
+</span><span id="13" class="l"><a href="#13">13: </a>{
+</span><span id="14" class="l"><a href="#14">14: </a>    <span class="php-keyword1">protected</span> <span class="php-keyword1">function</span> configure()
+</span><span id="15" class="l"><a href="#15">15: </a>    {
+</span><span id="16" class="l"><a href="#16">16: </a>        <span class="php-var">$this</span>-&gt;setName(<span class="php-quote">'app:reoccurringDebts'</span>)
+</span><span id="17" class="l"><a href="#17">17: </a>            -&gt;setDescription(<span class="php-quote">'Creates or updates reoccurring dsebts.'</span>);
+</span><span id="18" class="l"><a href="#18">18: </a>    }
+</span><span id="19" class="l"><a href="#19">19: </a>
+</span><span id="20" class="l"><a href="#20">20: </a>    <span class="php-keyword1">protected</span> <span class="php-keyword1">function</span> execute(InputInterface <span class="php-var">$input</span>, OutputInterface <span class="php-var">$output</span>)
+</span><span id="21" class="l"><a href="#21">21: </a>    {
+</span><span id="22" class="l"><a href="#22">22: </a>        <span class="php-var">$model</span> = <span class="php-var">$this</span>-&gt;getHelper(<span class="php-quote">'container'</span>)-&gt;getByType(<span class="php-quote">'Models\ReoccurringDebtsModel'</span>);
+</span><span id="23" class="l"><a href="#23">23: </a>
+</span><span id="24" class="l"><a href="#24">24: </a>        <span class="php-keyword1">try</span> {
+</span><span id="25" class="l"><a href="#25">25: </a>            <span class="php-var">$output</span>-&gt;writeLn(<span class="php-quote">'Tetst'</span>);
+</span><span id="26" class="l"><a href="#26">26: </a>            <span class="php-keyword1">return</span> <span class="php-num">0</span>; <span class="php-comment">// zero return code means everything is ok</span>
+</span><span id="27" class="l"><a href="#27">27: </a>
+</span><span id="28" class="l"><a href="#28">28: </a>        } <span class="php-keyword1">catch</span> (Exception <span class="php-var">$e</span>) {
+</span><span id="29" class="l"><a href="#29">29: </a>            <span class="php-var">$output</span>-&gt;writeLn(<span class="php-quote">'&lt;error&gt;'</span> . <span class="php-var">$e</span>-&gt;getMessage() . <span class="php-quote">'&lt;/error&gt;'</span>);
+</span><span id="30" class="l"><a href="#30">30: </a>            <span class="php-keyword1">return</span> <span class="php-num">1</span>; <span class="php-comment">// non-zero return code means error</span>
+</span><span id="31" class="l"><a href="#31">31: </a>
+</span><span id="32" class="l"><a href="#32">32: </a>        }
+</span><span id="33" class="l"><a href="#33">33: </a>    }
+</span><span id="34" class="l"><a href="#34">34: </a>}
+</span><span id="35" class="l"><a href="#35">35: </a></span></code></pre>
 
 	<div id="footer">
 		 API documentation generated by <a href="http://apigen.org">ApiGen</a>

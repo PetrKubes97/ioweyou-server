@@ -36,6 +36,11 @@
 
 						</li>
 							</ul></li>
+				<li>
+					<a href="namespace-App.Console.html">
+						Console					</a>
+
+						</li>
 				<li class="active">
 					<a href="namespace-App.Model.html">
 						Model					</a>
@@ -68,7 +73,10 @@
 			<h3>Classes</h3>
 			<ul>
 				<li><a href="class-App.Model.Action.html">Action</a></li>
+				<li><a href="class-App.Model.ActionMessage.html">ActionMessage</a></li>
 				<li><a href="class-App.Model.ActionsMapper.html">ActionsMapper</a></li>
+				<li><a href="class-App.Model.ActionsMessagesMapper.html">ActionsMessagesMapper</a></li>
+				<li><a href="class-App.Model.ActionsMessagesRepository.html">ActionsMessagesRepository</a></li>
 				<li><a href="class-App.Model.ActionsRepository.html">ActionsRepository</a></li>
 				<li><a href="class-App.Model.CurrenciesMapper.html">CurrenciesMapper</a></li>
 				<li><a href="class-App.Model.CurrenciesRepository.html">CurrenciesRepository</a></li>
@@ -80,6 +88,7 @@
 				<li><a href="class-App.Model.FriendshipsMapper.html">FriendshipsMapper</a></li>
 				<li><a href="class-App.Model.FriendshipsRepository.html">FriendshipsRepository</a></li>
 				<li><a href="class-App.Model.Orm.html">Orm</a></li>
+				<li><a href="class-App.Model.ReoccurringDebtsModel.html">ReoccurringDebtsModel</a></li>
 				<li><a href="class-App.Model.User.html">User</a></li>
 				<li><a href="class-App.Model.UserModel.html">UserModel</a></li>
 				<li><a href="class-App.Model.UsersMapper.html">UsersMapper</a></li>
@@ -156,7 +165,7 @@ Nextras\Orm\Entity\Entity
 		<b>Namespace:</b> <a href="namespace-App.html">App</a>\<a href="namespace-App.Model.html">Model</a><br>
 		
 
-			<b>Located at</b> <a href="source-class-App.Model.Debt.html#9-69" title="Go to source code">model/orm/Debts/Debt.php</a>
+			<b>Located at</b> <a href="source-class-App.Model.Debt.html#9-82" title="Go to source code">model/orm/Debts/Debt.php</a>
 		<br>
 	</div>
 
@@ -176,7 +185,7 @@ Nextras\Orm\Entity\Entity
 
 		<td class="name"><div>
 		<a class="anchor" href="#_convertToArray">#</a>
-		<code><a href="source-class-App.Model.Debt.html#30-68" title="Go to source code">convertToArray</a>( )</code>
+		<code><a href="source-class-App.Model.Debt.html#36-81" title="Go to source code">convertToArray</a>( )</code>
 
 		<div class="description short">
 			<p>Converts debt entity to an array, which is suitable for an api response</p>
@@ -207,6 +216,57 @@ Nextras\Orm\Entity\Entity
 
 
 
+	<table class="summary constants" id="constants">
+	<caption>Constants summary</caption>
+	<tr data-order="INTERVAL_TYPE_ADD" id="INTERVAL_TYPE_ADD">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-App.Model.Debt.html#33" title="Go to source code"><b>INTERVAL_TYPE_ADD</b></a>
+			</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#INTERVAL_TYPE_ADD" class="anchor">#</a>
+				<code><span class="php-quote">'add'</span></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="INTERVAL_TYPE_CREATE" id="INTERVAL_TYPE_CREATE">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-App.Model.Debt.html#34" title="Go to source code"><b>INTERVAL_TYPE_CREATE</b></a>
+			</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#INTERVAL_TYPE_CREATE" class="anchor">#</a>
+				<code><span class="php-quote">'create'</span></code>
+			</div>
+		</td>
+	</tr>
+	</table>
 
 
 
@@ -463,6 +523,63 @@ Nextras\Orm\Entity\Entity
 			</div>
 		</td>
 	</tr>
+	<tr data-order="intervalMinutes" id="m$intervalMinutes">
+		<td class="attributes"><code>
+			public  
+			integer|null
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-App.Model.Debt.html#25" title="Go to source code"><var>$intervalMinutes</var></a>
+
+			<div class="description short">
+				<p>{default null}</p>
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+	</tr>
+	<tr data-order="intervalRunAt" id="m$intervalRunAt">
+		<td class="attributes"><code>
+			public  
+			Nette\Utils\DateTime|null
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-App.Model.Debt.html#26" title="Go to source code"><var>$intervalRunAt</var></a>
+
+			<div class="description short">
+				<p>{default null}</p>
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+	</tr>
+	<tr data-order="intervalType" id="m$intervalType">
+		<td class="attributes"><code>
+			public  
+			String|null
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-App.Model.Debt.html#27" title="Go to source code"><var>$intervalType</var></a>
+
+			<div class="description short">
+				<p>{enum self::INTERVAL_TYPE_*}</p>
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+	</tr>
 	<tr data-order="manager" id="m$manager">
 		<td class="attributes"><code>
 			public  
@@ -470,7 +587,7 @@ Nextras\Orm\Entity\Entity
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-App.Model.Debt.html#25" title="Go to source code"><var>$manager</var></a>
+				<a href="source-class-App.Model.Debt.html#28" title="Go to source code"><var>$manager</var></a>
 
 			<div class="description short">
 				<p>{m:1 User, oneSided=true}</p>

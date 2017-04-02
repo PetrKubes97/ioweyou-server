@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 
-	<title>Class App\Model\CurrenciesRepository</title>
+	<title>Class App\Console\ReoccurringDebtsCommand</title>
 
 	<link rel="stylesheet" href="resources/style.css?e99947befd7bf673c6b43ff75e9e0f170c88a60e">
 
@@ -36,12 +36,12 @@
 
 						</li>
 							</ul></li>
-				<li>
+				<li class="active">
 					<a href="namespace-App.Console.html">
 						Console					</a>
 
 						</li>
-				<li class="active">
+				<li>
 					<a href="namespace-App.Model.html">
 						Model					</a>
 
@@ -72,27 +72,7 @@
 		<div id="elements">
 			<h3>Classes</h3>
 			<ul>
-				<li><a href="class-App.Model.Action.html">Action</a></li>
-				<li><a href="class-App.Model.ActionMessage.html">ActionMessage</a></li>
-				<li><a href="class-App.Model.ActionsMapper.html">ActionsMapper</a></li>
-				<li><a href="class-App.Model.ActionsMessagesMapper.html">ActionsMessagesMapper</a></li>
-				<li><a href="class-App.Model.ActionsMessagesRepository.html">ActionsMessagesRepository</a></li>
-				<li><a href="class-App.Model.ActionsRepository.html">ActionsRepository</a></li>
-				<li><a href="class-App.Model.CurrenciesMapper.html">CurrenciesMapper</a></li>
-				<li class="active"><a href="class-App.Model.CurrenciesRepository.html">CurrenciesRepository</a></li>
-				<li><a href="class-App.Model.Currency.html">Currency</a></li>
-				<li><a href="class-App.Model.Debt.html">Debt</a></li>
-				<li><a href="class-App.Model.DebtsMapper.html">DebtsMapper</a></li>
-				<li><a href="class-App.Model.DebtsRepository.html">DebtsRepository</a></li>
-				<li><a href="class-App.Model.Friendship.html">Friendship</a></li>
-				<li><a href="class-App.Model.FriendshipsMapper.html">FriendshipsMapper</a></li>
-				<li><a href="class-App.Model.FriendshipsRepository.html">FriendshipsRepository</a></li>
-				<li><a href="class-App.Model.Orm.html">Orm</a></li>
-				<li><a href="class-App.Model.ReoccurringDebtsModel.html">ReoccurringDebtsModel</a></li>
-				<li><a href="class-App.Model.User.html">User</a></li>
-				<li><a href="class-App.Model.UserModel.html">UserModel</a></li>
-				<li><a href="class-App.Model.UsersMapper.html">UsersMapper</a></li>
-				<li><a href="class-App.Model.UsersRepository.html">UsersRepository</a></li>
+				<li class="active"><a href="class-App.Console.ReoccurringDebtsCommand.html">ReoccurringDebtsCommand</a></li>
 			</ul>
 
 
@@ -119,7 +99,7 @@
 				<a href="index.html" title="Overview"><span>Overview</span></a>
 			</li>
 			<li>
-				<a href="namespace-App.Model.html" title="Summary of App\Model"><span>Namespace</span></a>
+				<a href="namespace-App.Console.html" title="Summary of App\Console"><span>Namespace</span></a>
 			</li>
 			<li class="active">
 <span>Class</span>			</li>
@@ -131,19 +111,22 @@
 	</div>
 
 <div id="content" class="class">
-	<h1>Class CurrenciesRepository</h1>
+	<h1>Class ReoccurringDebtsCommand</h1>
 
 
+	<div class="description">
+	<p>Command for updating reoccuring debts</p>
+	</div>
 
 	<dl class="tree">
 		<dd style="padding-left:0px">
-Nextras\Orm\Repository\Repository
+Symfony\Component\Console\Command\Command
 			
 			
 		</dd>
 		<dd style="padding-left:30px">
 			<img src="resources/inherit.png" alt="Extended by">
-<b><span>App\Model\CurrenciesRepository</span></b>			
+<b><span>App\Console\ReoccurringDebtsCommand</span></b>			
 			
 			
 		</dd>
@@ -159,10 +142,10 @@ Nextras\Orm\Repository\Repository
 	<div class="info">
 		
 		
-		<b>Namespace:</b> <a href="namespace-App.html">App</a>\<a href="namespace-App.Model.html">Model</a><br>
+		<b>Namespace:</b> <a href="namespace-App.html">App</a>\<a href="namespace-App.Console.html">Console</a><br>
 		
 
-			<b>Located at</b> <a href="source-class-App.Model.CurrenciesRepository.html#7-14" title="Go to source code">model/orm/Currencies/CurrenciesRepository.php</a>
+			<b>Located at</b> <a href="source-class-App.Console.ReoccurringDebtsCommand.html#9-34" title="Go to source code">Console/ReoccurringDebtsCommand.php</a>
 		<br>
 	</div>
 
@@ -170,10 +153,10 @@ Nextras\Orm\Repository\Repository
 
 	<table class="summary methods" id="methods">
 	<caption>Methods summary</caption>
-	<tr data-order="getEntityClassNames" id="_getEntityClassNames">
+	<tr data-order="configure" id="_configure">
 
 		<td class="attributes"><code>
-			 public static
+			 protected 
 
 			
 			
@@ -181,8 +164,38 @@ Nextras\Orm\Repository\Repository
 		</td>
 
 		<td class="name"><div>
-		<a class="anchor" href="#_getEntityClassNames">#</a>
-		<code><a href="source-class-App.Model.CurrenciesRepository.html#9-12" title="Go to source code">getEntityClassNames</a>( )</code>
+		<a class="anchor" href="#_configure">#</a>
+		<code><a href="source-class-App.Console.ReoccurringDebtsCommand.html#14-18" title="Go to source code">configure</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="execute" id="_execute">
+
+		<td class="attributes"><code>
+			 protected 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_execute">#</a>
+		<code><a href="source-class-App.Console.ReoccurringDebtsCommand.html#20-33" title="Go to source code">execute</a>( <span>Symfony\Component\Console\Input\InputInterface <var>$input</var></span>, <span>Symfony\Component\Console\Output\OutputInterface <var>$output</var></span> )</code>
 
 		<div class="description short">
 			

@@ -7,6 +7,9 @@ use App\Model\Action;
 use App\Model\Debt;
 use Tracy\Debugger;
 
+/**
+ * Handles actions
+ */
 class ActionsPresenter extends BaseApiPresenter
 {
 	public function startup()

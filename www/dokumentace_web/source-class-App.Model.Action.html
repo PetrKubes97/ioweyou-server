@@ -38,6 +38,11 @@
 						</li>
 							</ul></li>
 				<li>
+					<a href="namespace-App.Console.html">
+						Console					</a>
+
+						</li>
+				<li>
 					<a href="namespace-App.Model.html">
 						Model					</a>
 
@@ -73,8 +78,12 @@
 				<li><a href="class-App.ApiModule.Presenters.CurrenciesPresenter.html">App\ApiModule\Presenters\CurrenciesPresenter</a></li>
 				<li><a href="class-App.ApiModule.Presenters.DebtsPresenter.html">App\ApiModule\Presenters\DebtsPresenter</a></li>
 				<li><a href="class-App.ApiModule.Presenters.UserPresenter.html">App\ApiModule\Presenters\UserPresenter</a></li>
+				<li><a href="class-App.Console.ReoccurringDebtsCommand.html">App\Console\ReoccurringDebtsCommand</a></li>
 				<li><a href="class-App.Model.Action.html">App\Model\Action</a></li>
+				<li><a href="class-App.Model.ActionMessage.html">App\Model\ActionMessage</a></li>
 				<li><a href="class-App.Model.ActionsMapper.html">App\Model\ActionsMapper</a></li>
+				<li><a href="class-App.Model.ActionsMessagesMapper.html">App\Model\ActionsMessagesMapper</a></li>
+				<li><a href="class-App.Model.ActionsMessagesRepository.html">App\Model\ActionsMessagesRepository</a></li>
 				<li><a href="class-App.Model.ActionsRepository.html">App\Model\ActionsRepository</a></li>
 				<li><a href="class-App.Model.CurrenciesMapper.html">App\Model\CurrenciesMapper</a></li>
 				<li><a href="class-App.Model.CurrenciesRepository.html">App\Model\CurrenciesRepository</a></li>
@@ -86,6 +95,7 @@
 				<li><a href="class-App.Model.FriendshipsMapper.html">App\Model\FriendshipsMapper</a></li>
 				<li><a href="class-App.Model.FriendshipsRepository.html">App\Model\FriendshipsRepository</a></li>
 				<li><a href="class-App.Model.Orm.html">App\Model\Orm</a></li>
+				<li><a href="class-App.Model.ReoccurringDebtsModel.html">App\Model\ReoccurringDebtsModel</a></li>
 				<li><a href="class-App.Model.User.html">App\Model\User</a></li>
 				<li><a href="class-App.Model.UserModel.html">App\Model\UserModel</a></li>
 				<li><a href="class-App.Model.UsersMapper.html">App\Model\UsersMapper</a></li>
@@ -137,39 +147,41 @@
 </span><span id="4" class="l"><a href="#4"> 4: </a>
 </span><span id="5" class="l"><a href="#5"> 5: </a><span class="php-keyword1">use</span> Nette\Utils\DateTime;
 </span><span id="6" class="l"><a href="#6"> 6: </a><span class="php-keyword1">use</span> Nextras\Orm\Entity\Entity;
-</span><span id="7" class="l"><a href="#7"> 7: </a>
-</span><span id="8" class="l"><a href="#8"> 8: </a><span class="php-comment">/**
-</span></span><span id="9" class="l"><a href="#9"> 9: </a><span class="php-comment"> * Action
-</span></span><span id="10" class="l"><a href="#10">10: </a><span class="php-comment"> *
-</span></span><span id="11" class="l"><a href="#11">11: </a><span class="php-comment"> * @property int                $id {primary}
-</span></span><span id="12" class="l"><a href="#12">12: </a><span class="php-comment"> * @property string             $type
-</span></span><span id="13" class="l"><a href="#13">13: </a><span class="php-comment"> * @property Debt|NULL          $debt {m:1 Debt::$actions}
-</span></span><span id="14" class="l"><a href="#14">14: </a><span class="php-comment"> * @property User|NULL          $user {m:1 User::$actions}
-</span></span><span id="15" class="l"><a href="#15">15: </a><span class="php-comment"> * @property string|NULL        $note
-</span></span><span id="16" class="l"><a href="#16">16: </a><span class="php-comment"> * @property bool               $public {Default false}
-</span></span><span id="17" class="l"><a href="#17">17: </a><span class="php-comment"> * @property DateTime           $date {Default now}
-</span></span><span id="18" class="l"><a href="#18">18: </a><span class="php-comment"> */</span>
-</span><span id="19" class="l"><a href="#19">19: </a><span class="php-keyword1">class</span> Action <span class="php-keyword1">extends</span> Entity
-</span><span id="20" class="l"><a href="#20">20: </a>{
-</span><span id="21" class="l"><a href="#21">21: </a>    <span class="php-keyword1">const</span> TYPE_DEBT_NEW = <span class="php-quote">'debt_new'</span>;
-</span><span id="22" class="l"><a href="#22">22: </a>    <span class="php-keyword1">const</span> TYPE_DEBT_DELETE = <span class="php-quote">'debt_delete'</span>;
-</span><span id="23" class="l"><a href="#23">23: </a>    <span class="php-keyword1">const</span> TYPE_DEBT_RESTORE = <span class="php-quote">'debt_restore'</span>;
-</span><span id="24" class="l"><a href="#24">24: </a>    <span class="php-keyword1">const</span> TYPE_DEBT_MARK_AS_PAID = <span class="php-quote">'debt_mark_as_paid'</span>;
-</span><span id="25" class="l"><a href="#25">25: </a>    <span class="php-keyword1">const</span> TYPE_DEBT_MARK_AS_UNPAID = <span class="php-quote">'debt_mark_as_unpaid'</span>;
-</span><span id="26" class="l"><a href="#26">26: </a>    <span class="php-keyword1">const</span> TYPE_DEBT_UPDATED = <span class="php-quote">'debt_update'</span>;
-</span><span id="27" class="l"><a href="#27">27: </a>
-</span><span id="28" class="l"><a href="#28">28: </a>    <span class="php-keyword1">const</span> TYPE_ERROR = <span class="php-quote">'error'</span>;
-</span><span id="29" class="l"><a href="#29">29: </a>    <span class="php-keyword1">const</span> TYPE_REGISTERED = <span class="php-quote">'registered'</span>;
-</span><span id="30" class="l"><a href="#30">30: </a>    <span class="php-keyword1">const</span> TYPE_LOGGED = <span class="php-quote">'logged_in'</span>;
-</span><span id="31" class="l"><a href="#31">31: </a>}
-</span><span id="32" class="l"><a href="#32">32: </a></span></code></pre>
+</span><span id="7" class="l"><a href="#7"> 7: </a><span class="php-keyword1">use</span> Nextras\Orm\Relationships\OneHasMany;
+</span><span id="8" class="l"><a href="#8"> 8: </a>
+</span><span id="9" class="l"><a href="#9"> 9: </a><span class="php-comment">/**
+</span></span><span id="10" class="l"><a href="#10">10: </a><span class="php-comment"> * Action
+</span></span><span id="11" class="l"><a href="#11">11: </a><span class="php-comment"> *
+</span></span><span id="12" class="l"><a href="#12">12: </a><span class="php-comment"> * @property int                        $id {primary}
+</span></span><span id="13" class="l"><a href="#13">13: </a><span class="php-comment"> * @property string                     $type
+</span></span><span id="14" class="l"><a href="#14">14: </a><span class="php-comment"> * @property Debt|NULL                  $debt {m:1 Debt::$actions}
+</span></span><span id="15" class="l"><a href="#15">15: </a><span class="php-comment"> * @property User|NULL                  $user {m:1 User::$actions}
+</span></span><span id="16" class="l"><a href="#16">16: </a><span class="php-comment"> * @property string|NULL                $note
+</span></span><span id="17" class="l"><a href="#17">17: </a><span class="php-comment"> * @property bool                       $public {Default false}
+</span></span><span id="18" class="l"><a href="#18">18: </a><span class="php-comment"> * @property DateTime                   $date {Default now}
+</span></span><span id="19" class="l"><a href="#19">19: </a><span class="php-comment"> * @property OneHasMany|ActionMessage[] $actionMessages {1:m ActionMessage::$action}
+</span></span><span id="20" class="l"><a href="#20">20: </a><span class="php-comment"> */</span>
+</span><span id="21" class="l"><a href="#21">21: </a><span class="php-keyword1">class</span> Action <span class="php-keyword1">extends</span> Entity
+</span><span id="22" class="l"><a href="#22">22: </a>{
+</span><span id="23" class="l"><a href="#23">23: </a>    <span class="php-keyword1">const</span> TYPE_DEBT_NEW = <span class="php-quote">'debt_new'</span>;
+</span><span id="24" class="l"><a href="#24">24: </a>    <span class="php-keyword1">const</span> TYPE_DEBT_DELETE = <span class="php-quote">'debt_delete'</span>;
+</span><span id="25" class="l"><a href="#25">25: </a>    <span class="php-keyword1">const</span> TYPE_DEBT_RESTORE = <span class="php-quote">'debt_restore'</span>;
+</span><span id="26" class="l"><a href="#26">26: </a>    <span class="php-keyword1">const</span> TYPE_DEBT_MARK_AS_PAID = <span class="php-quote">'debt_mark_as_paid'</span>;
+</span><span id="27" class="l"><a href="#27">27: </a>    <span class="php-keyword1">const</span> TYPE_DEBT_MARK_AS_UNPAID = <span class="php-quote">'debt_mark_as_unpaid'</span>;
+</span><span id="28" class="l"><a href="#28">28: </a>    <span class="php-keyword1">const</span> TYPE_DEBT_UPDATED = <span class="php-quote">'debt_update'</span>;
+</span><span id="29" class="l"><a href="#29">29: </a>
+</span><span id="30" class="l"><a href="#30">30: </a>    <span class="php-keyword1">const</span> TYPE_ERROR = <span class="php-quote">'error'</span>;
+</span><span id="31" class="l"><a href="#31">31: </a>    <span class="php-keyword1">const</span> TYPE_REGISTERED = <span class="php-quote">'registered'</span>;
+</span><span id="32" class="l"><a href="#32">32: </a>    <span class="php-keyword1">const</span> TYPE_LOGGED = <span class="php-quote">'logged_in'</span>;
+</span><span id="33" class="l"><a href="#33">33: </a>}
+</span><span id="34" class="l"><a href="#34">34: </a></span></code></pre>
 
 	<div id="footer">
 		 API documentation generated by <a href="http://apigen.org">ApiGen</a>
 	</div>
 </div>
 </div>
-<script src="resources/combined.js?4a6c3cb9f2c204948b277799dfff90bae9a710ac"></script>
-<script src="elementlist.js?1456fff78146996f9b8cddd8eaf5e846d8327a62"></script>
+<script src="resources/combined.js?6bd1926fa2f5615279044daa9f970aabd98a26be"></script>
+<script src="elementlist.js?3b646a3f13833dfec092aabd06fa17d5b7aea515"></script>
 </body>
 </html>

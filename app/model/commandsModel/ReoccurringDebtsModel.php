@@ -3,6 +3,10 @@
 namespace App\Model;
 use Nette\Object;
 
+
+/**
+ * Takes care of reoccuring debts
+ */
 class ReoccurringDebtsModel extends Object
 {
 	private $orm;

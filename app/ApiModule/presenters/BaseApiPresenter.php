@@ -28,6 +28,12 @@ class BaseApiPresenter extends Nette\Application\UI\Presenter
 		$this->version = $version;
 	}
 
+	/**
+	 * Sends success response and adds a min version header
+	 *
+	 * @param $responseData Array which is converted to a JSON and send
+	 * @param int $code ex. 200
+	 */
 	protected function sendSuccessResponse($responseData, $code = 200)
 	{
 		$this->getHttpResponse()->setCode($code);
@@ -35,12 +41,19 @@ class BaseApiPresenter extends Nette\Application\UI\Presenter
 		$this->sendJson($responseData);
 	}
 
+	/**
+	 * 	Sends error response
+	 *
+	 * @param $message String containing error message
+	 * @param int $code ex. 400
+	 */
 	protected function sendErrorResponse($message, $code = 400) {
 		// Save error
 		$action = $this->createAction($this->user, null, Action::TYPE_ERROR, $code . ": " . $message, false);
 		$this->orm->actions->persistAndFlush($action);
 
 		$this->getHttpResponse()->setCode($code);
+		$this->getHttpResponse()->addHeader("X-Min-Version", $this->version);
 		$this->sendJson(array('message' => $message));
 	}
 

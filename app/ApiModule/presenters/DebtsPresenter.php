@@ -7,8 +7,11 @@ use App\Model\ActionMessage;
 use App\Model\Debt;
 use Nette\Neon\Exception;
 use Nette\Utils\DateTime;
-use Tracy;
 
+
+/**
+ * Handles debts
+ */
 class DebtsPresenter extends BaseApiPresenter {
 
 	public function startup()

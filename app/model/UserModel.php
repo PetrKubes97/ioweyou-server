@@ -6,6 +6,9 @@ use Kdyby\Facebook\Facebook;
 use Nette\Object;
 use Nette\Utils\Random;
 
+/**
+ * Handles user's authentication and Facebook API
+ */
 class UserModel extends Object
 {
 
