@@ -1,0 +1,46 @@
+parameters:
+    version: 12 # min mobile app version code
+
+application:
+	errorPresenter: Error
+	mapping:
+		*: App\*Module\Presenters\*Presenter
+
+extensions:
+    console: Kdyby\Console\DI\ConsoleExtension
+    migrations: Nextras\Migrations\Bridges\NetteDI\MigrationsExtension
+    dbal: Nextras\Dbal\Bridges\NetteDI\DbalExtension
+    orm: Nextras\Orm\Bridges\NetteDI\OrmExtension
+    facebook: Kdyby\Facebook\DI\FacebookExtension
+    translation: Kdyby\Translation\DI\TranslationExtension
+
+php:
+    date.timezone: UTC
+
+console:
+    url: http://localhost/ioweyou-api/
+
+migrations:
+    dir: %appDir%/../migrations # migrations base directory
+    driver: mysql               # pgsql or mysql
+    dbal: nextras               # nextras, nette, doctrine or dibi
+
+orm:
+    model: App\Model\Orm
+
+session:
+	expiration: 14 days
+
+services:
+    UserModel: App\Model\UserModel
+    ReoccuringDebtsModel: App\Model\ReoccurringDebtsModel
+    - App\ApiModule\Presenters\UserPresenter(%version%)
+    - App\ApiModule\Presenters\ActionsPresenter(%version%)
+    - App\ApiModule\Presenters\CurrenciesPresenter(%version%)
+    - App\ApiModule\Presenters\DebtsPresenter(%version%)
+    router: App\RouterFactory::createRouter
+
+    reoccurringDebtsCommand:
+        class: App\Console\ReoccurringDebtsCommand
+        tags: [kdyby.console.command]
+

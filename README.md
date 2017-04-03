@@ -20,6 +20,13 @@ dbal:
     database: yourdbname
     username: root
     password: root
+
+
+facebook:
+    appId: "your_app_id"
+    appSecret: "your_secret"
+    permissions: [public_profile, email, user_friends] # theese are the default read permissions, you might need to
+    graphVersion: v2.8
 ```
 
 5. Run migrations.
