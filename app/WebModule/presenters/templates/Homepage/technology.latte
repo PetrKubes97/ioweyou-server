@@ -8,40 +8,102 @@
     <a href="{$basePath}/dokumentace_web/index.html" target="_blank">Dokumentace</a>
     <br>
     <br>
+    <h3>Instalace</h3>
+    <ol>
+        <li>Nainstalujte webový server s PHP a MySQL.</li>
+        <li>
+            Stáhněte si zdrojový kód:<br>
+            <code>git clone git@github.com:PetrKubes97/ioweyou-server.git</code>
+        </li>
+        <li>
+            Vytvořte MySQL databázi s kódováním 'utf8mb4_bin'.
+        </li>
+        <li>
+            Vytvořte soubor config.local.neon v app/config s následujícím obsahem:<br>
+            <code>
+                dbal:<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;driver: mysqli<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;host: 127.0.0.1<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;database: yourdbname<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;username: root<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;password: root<br><br>
+
+                facebook:<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;appId: "your_app_id"<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;appSecret: "your_secret"<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;permissions: [public_profile, email, user_friends]<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;graphVersion: v2.8<br>
+            </code>
+        </li>
+        <li>
+            Spusťte migrace.<br>
+            <code>php www/index.php migrations:reset</code>
+        </li>
+        <li>
+            Ujistěte, že složky temp a log mají povolený zápis.<br>
+            <code>chmod -R 777 temp; chmod -R 777 log;</code>
+        </li>
+
+        <li>
+            Nyní byste měli být schopni spustit web na adrese: <code>localhost/ioweyou-server/www</code>.
+        </li>
+    </ol>
+    <h3>Testování API</h3>
 
     <p>
-        Aplikace komunikuje se serverem pomocí REST rozhraní. Fyzický server se nachází v USA je spravován firmou Amazon.
+        Adresa API je <code>http://localhost/ioweyou-api/www/api/</code>. Možné dotazy najdete v souboru <a href="https://github.com/PetrKubes97/ioweyou-server/blob/master/apiary.apib" target="_blank">apiary.apib</a>
+    </p>
+
+    <p>
+        Přístopový token k facebooku pro, který je potřeba k přihlášení můžete získat v <a href="https://developers.facebook.com/tools/explorer/" target="_blank">Facebook
+            Graph API
+            Exploreru</a>. Je nutné zaškrnout pole "user_friends" a "email".
+    </p>
+
+
+    <h3>Technologie</h3>
+    <p>
+        Byl využit programovací jazyk PHP a framework Nette. Samotná aplikace je rozdělena na dva moduly - ApiModule
+        a WebModule. Veškerá komunikace klienta a serveru probíhá v Api modulu. Web modul slouží pouze k zobrazení
+        základní webové stránky a jejímu překladu do jiných jazyků.
     </p>
     <p>
-        Byl využit programovací jazyk PHP a framework Nette. Samotná aplikace je rozdělena na dva moduly - ApiModule a WebModule. Veškerá komunikace klienta a serveru probíhá v Api modulu. Web modul slouží pouze k zobrazení základní webové stránky a jejímu překladu do jiných jazyků.
-    </p>
-    <p>
-        Api modul se skládá ze čtyř presenterů. Úkolem každého presenteru je zpracovat přijatá data, na základě těchto dat provést patřičné dotazy do databáze a výsledek vrátit ve formátu JSON. Každý z těchto presenterů obsahuje jednu nebo více akcí (action), jejich funkce jsou popsány níže:
+        Api modul se skládá ze čtyř presenterů. Úkolem každého presenteru je zpracovat přijatá data, na základě
+        těchto dat provést patřičné dotazy do databáze a výsledek vrátit ve formátu JSON. Každý z těchto presenterů
+        obsahuje jednu nebo více akcí (action), jejich funkce jsou popsány níže:
     </p>
     <ul>
         <li>
-            <a href="{$basePath}/dokumentace_web/class-App.ApiModule.Presenters.ActionsPresenter.html" target="_blank">ActionsPresenter</a> - presenter sloužící ke stahování akcí uživatele
+            <a href="{$basePath}/dokumentace_web/class-App.ApiModule.Presenters.ActionsPresenter.html"
+               target="_blank">ActionsPresenter</a> - presenter sloužící ke stahování akcí uživatele
             <ul>
                 <li>actionDefault - vrátí všechny uživatelovi akce ve formátu</li>
             </ul>
         </li>
         <li>
-            <a href="{$basePath}/dokumentace_web/class-App.ApiModule.Presenters.CurrenciesPresenter.html" target="_blank">CurrenciesPresenter</a> - presenter sloužící ke stahování všech dostupných měn
+            <a href="{$basePath}/dokumentace_web/class-App.ApiModule.Presenters.CurrenciesPresenter.html"
+               target="_blank">CurrenciesPresenter</a> - presenter sloužící ke stahování všech dostupných měn
             <ul>
                 <li>actionDefault - vrátí všechny měny</li>
             </ul>
         </li>
         <li>
-            <a href="{$basePath}/dokumentace_web/class-App.ApiModule.Presenters.DebtsPresenter.html" target="_blank">DebtsPresenter</a> - presenter sloužící k aktualizaci dluhů
+            <a href="{$basePath}/dokumentace_web/class-App.ApiModule.Presenters.DebtsPresenter.html"
+               target="_blank">DebtsPresenter</a> - presenter sloužící k aktualizaci dluhů
             <ul>
                 <li>actionDefault - vrátí všechny uživatelovi dluhy</li>
-                <li>actionUpdate - přijímá JSON s aktuálními dluhy uživatele a vrací aktualizovaný seznam jeho dluhů</li>
+                <li>actionUpdate - přijímá JSON s aktuálními dluhy uživatele a vrací aktualizovaný seznam jeho
+                    dluhů
+                </li>
             </ul>
         </li>
         <li>
-            <a href="{$basePath}/dokumentace_web/class-App.ApiModule.Presenters.UserPresenter.html" target="_blank">UserPresenter</a> - presenter sloužící k přihlašování uživate
+            <a href="{$basePath}/dokumentace_web/class-App.ApiModule.Presenters.UserPresenter.html" target="_blank">UserPresenter</a>
+            - presenter sloužící k přihlašování uživate
             <ul>
-                <li>actionLogin - přijímá JSON s tokenem a id uživatelova Facebookového účtu a vrátí přihlašovací token a id v aplikaci.</li>
+                <li>actionLogin - přijímá JSON s tokenem a id uživatelova Facebookového účtu a vrátí přihlašovací
+                    token a id v aplikaci.
+                </li>
                 <li>actionDefault - vratí informace o uživateli a jeho přátelích</li>
             </ul>
         </li>
@@ -52,16 +114,17 @@
     <ul>
         <li><a href="https://nette.org/">Nette framework včetně Tracy a Latte</a></li>
         <li><a href="https://nextras.org/orm/docs/2.2/">Nextras ORM</a>
-        <ul>
-            <li>
-                ORM je vhodné pro přehlednější a efektivnější práci s databází.
-            </li>
-        </ul>
+            <ul>
+                <li>
+                    ORM je vhodné pro přehlednější a efektivnější práci s databází.
+                </li>
+            </ul>
         </li>
         <li><a href="https://nextras.org/migrations/docs/3.0/">Nextras Migrations</a>
             <ul>
                 <li>
-                    Migrace umožní jednoduché nahrávání změn v databázi na produkční server a navíc je možné veškeré změny vrátit.
+                    Migrace umožní jednoduché nahrávání změn v databázi na produkční server a navíc je možné veškeré
+                    změny vrátit.
                 </li>
             </ul>
         </li>
@@ -82,7 +145,7 @@
         <li><a href="https://github.com/Kdyby/Console">Kdyby Console</a>
             <ul>
                 <li>
-                   Console umožňuje spouštění migrací na serveru.
+                    Console umožňuje spouštění migrací na serveru.
                 </li>
             </ul>
         </li>
@@ -99,45 +162,73 @@
     <a href="https://github.com/PetrKubes97/ioweyou-android" target="_blank">Github</a><br>
     <a href="{$basePath}/dokumentace_android/" target="_blank">Dokumentace</a>
     <br>
-    <br>
+    <h3>Instalace</h3>
 
+    <ol>
+        <li>Stáhněte si github repositář:
+            <code>git clone git@github.com:PetrKubes97/ioweyou-android.git</code>
+        </li>
+        <li>
+            Importujte ho do Android Studia.
+        </li>
+        <li>
+            Pokud chcete používat vlastní Facebook aplikaci, musíte změnit její facebook_app_id a fb_login_protocol_scheme v app/src/main/res/values/strings.
+        </li>
+        <li>
+            Nastavte URL vašeho backendového serveru v app/src/main/java/cz/petrkubes/ioweyou/Tools/Const.java
+        </li>
+        <li>
+            Zkompilujte a spusťte aplikaci.
+        </li>
+    </ol>
+
+
+    <h3>Technologie</h3>
     <p>
         Aplikace pro Android byla napsána pomocí standardních knihoven v programovacím jazyce JAVA.
     </p>
     <p>
-        Bylo třeba naprogramovat uživatelské rozhraní zajišťující přívětivé uživatelské rozhraní, funkčnost aplikace offline a komunikaci se serverem.
+        Bylo třeba naprogramovat uživatelské rozhraní zajišťující přívětivé uživatelské rozhraní, funkčnost aplikace
+        offline a komunikaci se serverem.
     </p>
     <p>
         Jednotlivé třídy jsou rozděleny do následujících kategorií:
     </p>
     <ul>
         <li>
-            <a href="{$basePath}/dokumentace_android/cz/petrkubes/ioweyou/Activities/package-summary.html" target="_blank">Activities</a>
-             &
-            <a href="{$basePath}/dokumentace_android/cz/petrkubes/ioweyou/Adapters/package-summary.html" target="_blank">Adapters</a>
+            <a href="{$basePath}/dokumentace_android/cz/petrkubes/ioweyou/Activities/package-summary.html"
+               target="_blank">Activities</a>
             &
-            <a href="{$basePath}/dokumentace_android/cz/petrkubes/ioweyou/Fragments/package-summary.html" target="_blank">Fragments</a>
+            <a href="{$basePath}/dokumentace_android/cz/petrkubes/ioweyou/Adapters/package-summary.html"
+               target="_blank">Adapters</a>
+            &
+            <a href="{$basePath}/dokumentace_android/cz/petrkubes/ioweyou/Fragments/package-summary.html"
+               target="_blank">Fragments</a>
             <ul>
                 <li>
                     Tyto třídy zajišťují zobrazování uživatelského rozhraní a celkové řízení chodu aplikace.
                 </li>
             </ul>
         </li>
-        <li><a href="{$basePath}/dokumentace_android/cz/petrkubes/ioweyou/Database/DatabaseHandler.html" target="_blank">Database</a>
+        <li><a href="{$basePath}/dokumentace_android/cz/petrkubes/ioweyou/Database/DatabaseHandler.html"
+               target="_blank">Database</a>
             <ul>
                 <li>
-                    Databázová třída obsahuje funkce pro zápis dat do lokální databáze. Tyto funkce jsou volány z aktivit.
+                    Databázová třída obsahuje funkce pro zápis dat do lokální databáze. Tyto funkce jsou volány z
+                    aktivit.
                 </li>
             </ul>
         </li>
         <li><a href="{$basePath}/dokumentace_android/cz/petrkubes/ioweyou/Api/Api.html" target="_blank">Api</a>
             <ul>
                 <li>
-                    Třída Api obstarává všechny dotazy na vzdálený server. Tyto dotazy vykoná v asynchronním vlákně a zavolá callback v aktivitě, ve které je volána.
+                    Třída Api obstarává všechny dotazy na vzdálený server. Tyto dotazy vykoná v asynchronním vlákně
+                    a zavolá callback v aktivitě, ve které je volána.
                 </li>
             </ul>
         </li>
-        <li><a href="{$basePath}/dokumentace_android/cz/petrkubes/ioweyou/Services/UpdateAllService.html" target="_blank">Service</a>
+        <li><a href="{$basePath}/dokumentace_android/cz/petrkubes/ioweyou/Services/UpdateAllService.html"
+               target="_blank">Service</a>
             <ul>
                 <li>
                     Třída, která umožňuje synchronizaci dat i v době, kdy není aplikace používána.
@@ -150,7 +241,8 @@
         Byly použity následující knihovny:
     <p>
     <ul>
-        <li><a href="https://developer.android.com/topic/libraries/support-library/index.html">Android support library</a></li>
+        <li><a href="https://developer.android.com/topic/libraries/support-library/index.html">Android support
+                library</a></li>
         <li><a href="https://developers.facebook.com/docs/android/">Facebook Android SDK</a>
             <ul>
                 <li>
