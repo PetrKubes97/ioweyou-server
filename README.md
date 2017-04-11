@@ -56,6 +56,9 @@ You can get the Facebook Access Token and ID at [Facebook Graph API Explorer](ht
 * [Kdyby Facebook](https://github.com/Kdyby/Facebook)
 * [Kdyby Console](https://github.com/Kdyby/Console)
 * [Kdyby Translation](https://github.com/kdyby/translation)
+* [Bootstrap Framework](http://getbootstrap.com/)
+* [JQuery](https://jquery.com/)
+* [JQuery - AniView](https://github.com/jjcosgrove/jquery-aniview)
 
 ### License
 
